@@ -1,12 +1,12 @@
 import "./App.css";
 import { Header } from "./common/Header/Header";
-import { Register } from "./pages/Register/Register";
+import { Body } from "./pages/Body/Body";
 
 function App() {
   return (
     <>
       <Header />
-      <Register />
+      <Body />
     </>
   );
 }
