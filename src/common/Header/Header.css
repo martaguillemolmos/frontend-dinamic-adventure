@@ -1,5 +1,5 @@
 .headerDesign {
-    height: 10vh;
+    height: 10.5vh;
     width: 100vw;
     display: flex;
     flex-direction: row;
@@ -17,11 +17,19 @@
     align-content: center;
     flex-wrap: nowrap;
     align-items: center;
-    margin-top: 1.8em;
+    margin-top: 5.5em;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.image-logo:hover{
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+
 }
 
 .image-logo img {
-    width: 17em;
+    width: 11em;
     height: auto;
 }
 
