@@ -1,13 +1,12 @@
-import './App.css'
-import { Body } from './pages/Body/Body'
+import "./App.css";
+import { Register } from "./pages/Register/Register";
 
 function App() {
-
   return (
     <>
-     <Body />
+      <Register />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
