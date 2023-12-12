@@ -54,7 +54,7 @@ export const Register = () => {
     if (rdxCredentials?.credentials.token) {
       console.log(rdxCredentials);
       //Si ya contamos con un token, redirigimos al usuario a su perfil.
-      navigate("/profile");
+      navigate("/perfil");
     }
   });
 

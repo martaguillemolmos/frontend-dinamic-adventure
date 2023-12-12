@@ -7,8 +7,16 @@ export const loginUser = async (body) => {
   return await axios.post(`${hostURL}/user`, body);
 };
 
-//Login
+//Crear un nuevo usuario
 export const createUser = async (body) => {
-    return await axios.post(`${hostURL}/user/register`, body);
-  };
-  
+  return await axios.post(`${hostURL}/user/register`, body);
+};
+
+//Perfil: Recuperamos la información del usuario
+export const profileUser = async (token) => {
+  return axios.get(`${hostURL}/user/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

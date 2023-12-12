@@ -1,12 +1,110 @@
-import "./Profile.css"
+import "./Profile.css";
+import { useNavigate } from "react-router-dom";
+import { CustomInput } from "../../common/CustomInput/CustomInput";
+import { useSelector } from "react-redux";
+import { userData } from "../userSlice";
+import { useEffect, useState } from "react";
+import { profileUser } from "../../services/apiCalls";
 
 export const Profile = () => {
-return (
-    <div className="pagesAuth">
-        <div className="container">
-            <div className="left"></div>
-            <div className="center">Profile AQUÍ</div>
-            <div className="right"></div>
+  //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
+  const navigate = useNavigate();
+  // Instanciamos Redux en lectura
+  const rdxToken = useSelector(userData);
+
+  // Creamos un Hook con las propiedades que queremos mostrar en pantalla del perfil
+  const [profile, setProfile] = useState({
+    name: "",
+    surname: "",
+    phone: "",
+    email: "",
+    is_active: true,
+  });
+
+  const functionHandler = (e) => {
+    setProfile((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  useEffect(() => {
+    if (rdxToken.credentials.success === true) {
+      const token = rdxToken.credentials.token;
+
+      profileUser(token)
+        .then((results) => {
+          console.log("aquí results", results);
+          setProfile(results.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      //Si no contamos con un token almacenado en Redux, redirigimos al usuario a inicio.
+      navigate("/");
+    }
+  }, []);
+
+  return (
+    <div className="profileDesign">
+      <div className="container">
+        <div className="left"></div>
+        <div className="contentProfile">
+          <div className="cabecera">
+            <div className="infoCabecera">
+              {profile.name} {profile.surname}
+            </div>
+          </div>
+          <div className="inforProfile">
+            <div className="inforUser">
+              Información básica
+              <CustomInput
+                display={"flex"}
+                design={"inputDesign"}
+                type={"text"}
+                name={"name"}
+                placeholder={""}
+                value={profile.name}
+                maxLength={"25"}
+                functionProp={functionHandler}
+              />
+              <CustomInput
+                design={"inputDesign"}
+                type={"text"}
+                name={"surname"}
+                placeholder={""}
+                maxLength={"25"}
+                value={profile.surname}
+                functionProp={functionHandler}
+              />
+            </div>
+            <div className="inforUser">
+              Información de contacto
+              <CustomInput
+                design={"inputDesign"}
+                type={"email"}
+                name={"email"}
+                placeholder={""}
+                maxLength={"50"}
+                value={profile.email}
+                functionProp={functionHandler}
+              />
+              <CustomInput
+                design={"inputDesign"}
+                type={"tel"}
+                name={"phone"}
+                placeholder={""}
+                min={600000000}
+                max={900000000}
+                value={profile.phone || ""}
+                functionProp={functionHandler}
+              />
+            </div>
+          </div>
         </div>
+        <div className="right"></div>
+      </div>
     </div>
-)}
+  );
+};
