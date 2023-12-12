@@ -48,8 +48,6 @@ export const Profile = () => {
 
   return (
     <div className="profileDesign">
-      <div className="container">
-        <div className="left"></div>
         <div className="contentProfile">
           <div className="cabecera">
             <div className="infoCabecera">
@@ -60,7 +58,7 @@ export const Profile = () => {
             <div className="inforUser">
               Información básica
               <CustomInput
-                display={"flex"}
+                label={"Nombre"}
                 design={"inputDesign"}
                 type={"text"}
                 name={"name"}
@@ -70,6 +68,7 @@ export const Profile = () => {
                 functionProp={functionHandler}
               />
               <CustomInput
+                label={"Apellidos"}
                 design={"inputDesign"}
                 type={"text"}
                 name={"surname"}
@@ -78,10 +77,9 @@ export const Profile = () => {
                 value={profile.surname}
                 functionProp={functionHandler}
               />
-            </div>
-            <div className="inforUser">
               Información de contacto
               <CustomInput
+                label={"Dirección de email"}
                 design={"inputDesign"}
                 type={"email"}
                 name={"email"}
@@ -91,6 +89,7 @@ export const Profile = () => {
                 functionProp={functionHandler}
               />
               <CustomInput
+                label={"Dirección de email"}
                 design={"inputDesign"}
                 type={"tel"}
                 name={"phone"}
@@ -103,8 +102,6 @@ export const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="right"></div>
-      </div>
     </div>
   );
 };
