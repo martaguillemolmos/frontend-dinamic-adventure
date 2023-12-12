@@ -2,8 +2,7 @@ import dayjs from "dayjs";
 
 export const validator = (type, value) => {
     
-    // eslint-disable-next-line no-useless-escape
-    const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const emailRegex = "/^(([^<>()[].,;:s@\"]+(.[^<>()[].,;:s@\"]+)*)|(\".+\"))@(([^<>()[].,;:s@\"]+.)+[^<>()[].,;:s@\"]{2,})$/i";
     
     switch(type){
         //Validación del email
@@ -11,13 +10,15 @@ export const validator = (type, value) => {
         case 'correo':
         case 'mail':
 
-            if ( value !== undefined && value.trim() !== "" && value.length > 50 && emailRegex.test(value)) {
-                return "Formato de email incorrecto. Recuerda: Número máx. de caracteres 50.";
-            } else if (! /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value)) {
-              return "Formato de email incorrecto." 
-            }
-            
-            return "";
+        if (value === undefined || value.trim() === "") {
+            return "El email no puede estar vacío.";
+          } else if (value.length > 50) {
+            return "Número máx. de caracteres 50.";
+          } else if (!emailRegex.test(value)) {
+            return "Formato de email incorrecto.";
+          }
+          return "";
+        
         
         //Validación del name y surname
         case 'name':
