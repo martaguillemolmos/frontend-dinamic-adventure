@@ -1,13 +1,29 @@
 import "./Login.css";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import { validator } from "../../services/userful";
+import { loginUser } from "../../services/apiCalls";
+import { json } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, userData } from "../userSlice";
 
 export const Login = () => {
+    // const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const rdxCredentials = useSelector(userData);
+
   // Declaramos las credenciales que vamos a solicitar para poder realizar el login.
   const [credenciales, setCredenciales] = useState({
     email: "",
     password: "",
   });
+
+  const [credencialesError, setCredencialesError] = useState({
+    emailError: null,
+    passwordError: null,
+  });
+
 
   const functionHandler = (e) => {
     setCredenciales((prevState) => ({
@@ -16,30 +32,90 @@ export const Login = () => {
     }));
   };
 
+  const errorCheck = (e) => {
+    let error = "";
+    error = validator(e.target.name, e.target.value);
+    setCredencialesError((prevState) => ({
+      ...prevState,
+      [e.target.name + "Error"]: error,
+    }));
+  };
+
   useEffect(() => {
-    console.log(credenciales);
-  }, [credenciales]);
+    //Comprobamos si ya hay un token almacenado en Redux
+    console.log("entra aqui");
+    if (rdxCredentials?.credentials.token) {
+      console.log(rdxCredentials);
+    }
+  });
+
+
+
+  //Declaramos la constante logMe para que, en caso de logearnos guarde el token y nos envíe al profile y por el contrario, nos muestre el error que nos impide hacerlo.
+  const logMe = () => {
+    console.log("Email", credenciales.email);
+    console.log("Password", credenciales.password);
+    console.log("errores", credencialesError);
+    if (
+      credenciales.email != "" &&
+      credenciales.password != "" &&
+      credencialesError.emailError == null &&
+      credencialesError.passwordError == null
+    ) {
+        console.log("aqui llega", credenciales)
+        loginUser(credenciales)
+        .then((resultado) => {
+          console.log(resultado, "este es el resultado");
+          dispatch(login({ credentials: resultado.data }));
+          console.log("Mensaje", resultado.data.message);
+        })
+        .catch((error) => {
+          if (error.response.status !== 200) {
+            console.log(error.response.message);
+           return json({
+              show: true,
+              title: `Error ${error.response.status}`,
+              message: `${error.response.data.message}`,
+            });
+          }
+        });
+    }
+  };
 
   return (
     <div className="pagesAuth">
       <CustomInput
+        required
+        className="inputRegister"
+        label={"Dirección de e-mail"}
         design={"inputDesign"}
         type={"email"}
         name={"email"}
         placeholder={""}
-        // value={}
+        value={""}
+        maxLength={"50"}
         functionProp={functionHandler}
-        // onBlur={}
-      />
+        functionBlur={errorCheck}
+        />
       <CustomInput
+      required
         design={"inputDesign"}
         type={"password"}
         name={"password"}
         placeholder={""}
-        // value={}
+        value={""}
+        maxLength={"12"}
         functionProp={functionHandler}
-        // onBlur={}
-      />
+        functionBlur={errorCheck}
+        />
+    <Button
+              variant="contained"
+              className="button"
+              onClick={logMe}
+              style={{ textTransform: "none", fontFamily: "" }}
+            >
+              Iniciar sesión
+            </Button>
     </div>
   );
 };
