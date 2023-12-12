@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 
-export const CustomInput = ({required, label, disabled,display, design, type, pattern, name, placeholder, value, maxLength, functionProp, functionBlur, min, max}) => {
+export const CustomInput = ({required, label, disabled,display, design, type, pattern, name, placeholder, value, maxLength, functionProp, min, max}) => {
     return (
         <div className='customInputDesing'>
         <TextField 
@@ -15,7 +15,7 @@ export const CustomInput = ({required, label, disabled,display, design, type, pa
         placeholder={placeholder}
         value={value || undefined }
         onChange={(e) => functionProp(e)}
-        onBlur={(e)=>functionBlur(e)}
+        // onBlur={(e)=>functionBlur(e)}
         maxLength = {maxLength}
         pattern={pattern}        
         min={min}
