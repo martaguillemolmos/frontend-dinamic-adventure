@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { login, userData } from "../userSlice";
 import { createUser } from "../../services/apiCalls";
+import { Button } from "@mui/material";
 
 export const Register = () => {
   //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
@@ -94,16 +95,12 @@ export const Register = () => {
 
   return (
     <div className="registerDesign">
+      <div className="content">
         <div className="headerLogo">
-        <img
-          src={letterLogo}
-          alt="Logo"
-          style={{ height: "4.1em" }}
-        />
+          <img src={letterLogo} alt="Logo" style={{ height: "4.1em" }} />
         </div>
-        <div className="content">
-            <div className="titleRegister">Crear cuenta</div>
-          <div className="elementsRegister">
+        <div className="titleRegister">Crear cuenta</div>
+        <div className="elementsRegister">
           <CustomInput
             required
             label={"Nombre"}
@@ -165,12 +162,17 @@ export const Register = () => {
             functionProp={functionHandler}
             functionBlur={errorCheck}
           />
-          </div>
-          <div className="buttonCreateUser" onClick={registerUser} path={"/"}>
-              Registarme
-            </div>
-          
         </div>
+        <div className="loginButton">
+          <Button
+            variant="contained"
+            className="button"
+            onClick={registerUser}
+            style={{ textTransform: "none", fontFamily: "" }}>
+            Registarme{" "}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import "./Login.css";
+import letterLogo from "../../img/Letras.png";
+
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
@@ -81,7 +83,17 @@ export const Login = () => {
   };
 
   return (
-    <div className="pagesAuth">
+    <div className="loginDesign">
+      <div className="contentLogin">
+       <div className="headerLogo">
+        <img
+          src={letterLogo}
+          alt="Logo"
+          style={{ height: "4.1em" }}
+        />
+        </div>
+        <div className="titleLogin">Inicia sesión</div>
+        <div className="elementsLogin">
       <CustomInput
         required
         className="inputRegister"
@@ -106,6 +118,8 @@ export const Login = () => {
         functionProp={functionHandler}
         functionBlur={errorCheck}
       />
+      </div>
+      <div className="loginButton">
       <Button
         variant="contained"
         className="button"
@@ -114,6 +128,8 @@ export const Login = () => {
       >
         Iniciar sesión
       </Button>
+      </div>
+    </div>
     </div>
   );
 };
