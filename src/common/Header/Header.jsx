@@ -45,7 +45,7 @@ export const Header = () => {
         ) : (
           <>
             <LinkButton path={"/profile"} title={"Perfil"} />
-             <div className="buttonSession" onClick={logOutMe} path={"/"}>
+            <div className="buttonSession" onClick={logOutMe} path={"/"}>
               Cerrar sesión
             </div>
           </>

@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { validator } from "../../services/userful";
 import { loginUser } from "../../services/apiCalls";
-import { json } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, userData } from "../userSlice";
 
 export const Login = () => {
-    // const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const rdxCredentials = useSelector(userData);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const rdxCredentials = useSelector(userData);
 
   // Declaramos las credenciales que vamos a solicitar para poder realizar el login.
   const [credenciales, setCredenciales] = useState({
@@ -23,7 +23,6 @@ export const Login = () => {
     emailError: null,
     passwordError: null,
   });
-
 
   const functionHandler = (e) => {
     setCredenciales((prevState) => ({
@@ -43,13 +42,12 @@ export const Login = () => {
 
   useEffect(() => {
     //Comprobamos si ya hay un token almacenado en Redux
-    console.log("entra aqui");
     if (rdxCredentials?.credentials.token) {
       console.log(rdxCredentials);
+      //Si ya contamos con un token, redirigimos al usuario a inicio.
+      navigate("/profile");
     }
   });
-
-
 
   //Declaramos la constante logMe para que, en caso de logearnos guarde el token y nos envíe al profile y por el contrario, nos muestre el error que nos impide hacerlo.
   const logMe = () => {
@@ -62,8 +60,8 @@ export const Login = () => {
       credencialesError.emailError == null &&
       credencialesError.passwordError == null
     ) {
-        console.log("aqui llega", credenciales)
-        loginUser(credenciales)
+      console.log("aqui llega", credenciales);
+      loginUser(credenciales)
         .then((resultado) => {
           console.log(resultado, "este es el resultado");
           dispatch(login({ credentials: resultado.data }));
@@ -72,7 +70,7 @@ export const Login = () => {
         .catch((error) => {
           if (error.response.status !== 200) {
             console.log(error.response.message);
-           return json({
+            return json({
               show: true,
               title: `Error ${error.response.status}`,
               message: `${error.response.data.message}`,
@@ -96,9 +94,9 @@ export const Login = () => {
         maxLength={"50"}
         functionProp={functionHandler}
         functionBlur={errorCheck}
-        />
+      />
       <CustomInput
-      required
+        required
         design={"inputDesign"}
         type={"password"}
         name={"password"}
@@ -107,15 +105,15 @@ export const Login = () => {
         maxLength={"12"}
         functionProp={functionHandler}
         functionBlur={errorCheck}
-        />
-    <Button
-              variant="contained"
-              className="button"
-              onClick={logMe}
-              style={{ textTransform: "none", fontFamily: "" }}
-            >
-              Iniciar sesión
-            </Button>
+      />
+      <Button
+        variant="contained"
+        className="button"
+        onClick={logMe}
+        style={{ textTransform: "none", fontFamily: "" }}
+      >
+        Iniciar sesión
+      </Button>
     </div>
   );
 };
