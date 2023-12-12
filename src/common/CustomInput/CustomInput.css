@@ -14,9 +14,13 @@
     border-radius: 0.2em; 
     font-size: 1em; 
     outline: none;
+    background-color: transparent;
   }
   
   .customInputDesign input:disabled {
-    background-color: #f0f0f0;
-    color: #999;
+    background-color: transparent;
+  }
+
+  .customInputDesign input:focus {
+    background-color: transparent; 
   }

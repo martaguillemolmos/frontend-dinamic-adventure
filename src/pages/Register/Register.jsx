@@ -1,7 +1,7 @@
-import { Button } from "@mui/material";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { validator } from "../../services/userful";
 import "./Register.css";
+import letterLogo from "../../img/Letras.png";
 import { json, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -93,14 +93,19 @@ export const Register = () => {
   };
 
   return (
-    <div className="pagesAuth">
-      <div className="container">
-        <div className="left"></div>
-        <div className="center">
-          Register AQUÍ
+    <div className="registerDesign">
+        <div className="headerLogo">
+        <img
+          src={letterLogo}
+          alt="Logo"
+          style={{ height: "4.1em" }}
+        />
+        </div>
+        <div className="content">
+            <div className="titleRegister">Crear cuenta</div>
+          <div className="elementsRegister">
           <CustomInput
             required
-            className="inputRegister"
             label={"Nombre"}
             design={"inputDesign"}
             type={"text"}
@@ -160,12 +165,12 @@ export const Register = () => {
             functionProp={functionHandler}
             functionBlur={errorCheck}
           />
-          <Button variant="contained" className="button" onClick={registerUser}>
-            Crea tu cuenta
-          </Button>
+          </div>
+          <div className="buttonCreateUser" onClick={registerUser} path={"/"}>
+              Registarme
+            </div>
+          
         </div>
-        <div className="right"></div>
-      </div>
     </div>
   );
 };
