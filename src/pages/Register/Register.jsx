@@ -3,9 +3,9 @@ import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { validator } from "../../services/userful";
 import "./Register.css";
 import { json, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { login } from "../userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { login, userData } from "../userSlice";
 import { createUser } from "../../services/apiCalls";
 
 export const Register = () => {
@@ -14,6 +14,8 @@ export const Register = () => {
 
   //Declaramos esta constante, que nos permitirá leer el contenido.
   const dispatch = useDispatch();
+
+  const rdxCredentials = useSelector(userData);
 
   const [registerData, setRegisterData] = useState({
     name: "",
@@ -47,6 +49,15 @@ export const Register = () => {
     }));
   };
 
+  useEffect(() => {
+    //Comprobamos si ya hay un token almacenado en Redux
+    if (rdxCredentials?.credentials.token) {
+      console.log(rdxCredentials);
+      //Si ya contamos con un token, redirigimos al usuario a su perfil.
+      navigate("/profile");
+    }
+  });
+
   //Registrar nuevos usuarios.
   const registerUser = () => {
     const dataErrorValues = Object.values(registerDataError);
@@ -61,8 +72,6 @@ export const Register = () => {
       console.log("¿y aqui?", data);
       createUser(data)
         .then((resultado) => {
-          console.log("guardamos token", resultado);
-          //Guardanos el token
           dispatch(login({ credentials: resultado.data }));
           setTimeout(() => {
             navigate("/");
@@ -79,7 +88,7 @@ export const Register = () => {
           }
         });
     } else {
-      console.log("Hay un problema");
+      console.log("Habido un problema.");
     }
   };
 
