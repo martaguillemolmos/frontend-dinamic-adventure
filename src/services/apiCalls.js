@@ -38,3 +38,12 @@ export const updatePassword = (token, body) => {
     },
   });
 };
+
+//Inactivar la cuenta
+export const deactivateAccount = (token, body) => {
+  return axios.put(`${hostURL}/user/account`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

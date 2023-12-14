@@ -1,17 +1,24 @@
 import "./Profile.css";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
-import { useSelector } from "react-redux";
-import { userData } from "../userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, userData } from "../userSlice";
 import { useEffect, useState } from "react";
-import { profileUser, updateUser } from "../../services/apiCalls";
+import {
+  deactivateAccount,
+  profileUser,
+  updateUser,
+} from "../../services/apiCalls";
 import { Button } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 
 export const Profile = () => {
   //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
   const navigate = useNavigate();
   // Instanciamos Redux en lectura
   const rdxToken = useSelector(userData);
+  console.log(rdxToken, "dime que tienes tokennn")
+  const dispatch = useDispatch();
 
   // Creamos un Hook con las propiedades que queremos mostrar en pantalla del perfil
   const [profile, setProfile] = useState({
@@ -23,6 +30,8 @@ export const Profile = () => {
   });
 
   const [isEnabled, setIsEnabled] = useState(true);
+
+
   const [originalProfile, setOriginalProfile] = useState(false);
 
   const functionHandler = (e) => {
@@ -32,9 +41,23 @@ export const Profile = () => {
     }));
   };
 
+  const profileChange = () => {
+    return (
+      profile.name !== originalProfile.name ||
+      profile.surname !== originalProfile.surname ||
+      profile.phone !== originalProfile.phone ||
+      profile.email !== originalProfile.email
+    );
+  };
+
   useEffect(() => {
-    if (rdxToken.credentials.success === true) {
+    if (rdxToken.credentials !== "") {
       const token = rdxToken.credentials.token;
+      const decoredToken = jwtDecode(token);
+
+      if(decoredToken.is_active !== true){
+        navigate("/")
+      }
 
       profileUser(token)
         .then((results) => {
@@ -54,9 +77,10 @@ export const Profile = () => {
   const sendData = async () => {
     if (profileChange()) {
       await updateUser(rdxToken.credentials.token, profile)
-        .then((response) => {
-          console.log(response, "esto es la response");
-          console.log(
+        .then(() => {
+          dispatch(logout({ credentials: "" }));
+          navigate("/");
+          return json(
             `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`
           );
         })
@@ -78,15 +102,26 @@ export const Profile = () => {
     setIsEnabled(true);
   };
 
-  const profileChange = () => {
-    return (
-      profile.name !== originalProfile.name ||
-      profile.surname !== originalProfile.surname ||
-      profile.phone !== originalProfile.phone ||
-      profile.email !== originalProfile.email
-    );
+  const sendAccount = async () => {
+    if (profile.is_active === true) {
+      try {
+        await deactivateAccount(rdxToken.credentials.token, {
+          "is_active": "false",
+         })
+          dispatch(logout({ credentials: "" }));
+          navigate("/");
+         console.log(
+          `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`
+        );
+      } catch (error) {
+        console.log(
+          "Aquí quiero recuperar el error de la base de datos.",
+          error
+        );
+      }
+      
+    } 
   };
-
   return (
     <div className="profileDesign">
       <div className="contentProfile">
@@ -171,8 +206,20 @@ export const Profile = () => {
         <div className="passwordButton" onClick={() => navigate("/password")}>
           Modificar contraseña
         </div>
+        <div className="accountChange">
+          Inactivar la cuenta
+          <Button
+            variant="contained"
+            className="button"
+            onClick={() => {
+              sendAccount();
+            }}
+            style={{ textTransform: "none", fontFamily: "" }}
+          >
+            Deshabilita tu cuenta
+          </Button>
+        </div>
       </div>
     </div>
-
   );
 };
