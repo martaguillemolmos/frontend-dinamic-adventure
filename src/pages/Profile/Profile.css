@@ -25,3 +25,11 @@
     gap: 1em;
 }
 
+.contentProfile{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    gap: 1em;
+}

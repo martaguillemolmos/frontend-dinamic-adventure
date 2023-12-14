@@ -94,6 +94,8 @@ export const Login = () => {
         </div>
         <div className="titleLogin">Inicia sesión</div>
         <div className="elementsLogin">
+
+          
       <CustomInput
         required
         className="inputRegister"

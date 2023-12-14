@@ -20,3 +20,12 @@ export const profileUser = async (token) => {
     },
   });
 };
+
+//Actualizar perfil
+export const updateUser = async (token, body) => {
+  return axios.put(`${hostURL}/user`, body,  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
