@@ -166,6 +166,13 @@ export const Profile = () => {
           </Button>
         )}
       </div>
+      <div className="passwordContent">
+        Contraseña
+        <div className="passwordButton" onClick={() => navigate("/password")}>
+          Modificar contraseña
+        </div>
+      </div>
     </div>
+
   );
 };

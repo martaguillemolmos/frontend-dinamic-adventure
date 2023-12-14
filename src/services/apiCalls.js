@@ -29,3 +29,12 @@ export const updateUser = async (token, body) => {
     },
   });
 };
+
+//Actualizar la contraseña
+export const updatePassword = (token, body) => {
+  return axios.patch (`${hostURL}/user/password`, body, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+  })
+}
