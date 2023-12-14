@@ -23,7 +23,7 @@ export const profileUser = async (token) => {
 
 //Actualizar perfil
 export const updateUser = async (token, body) => {
-  return axios.put(`${hostURL}/user`, body,  {
+  return axios.put(`${hostURL}/user`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -32,9 +32,9 @@ export const updateUser = async (token, body) => {
 
 //Actualizar la contraseña
 export const updatePassword = (token, body) => {
-  return axios.patch (`${hostURL}/user/password`, body, {
-      headers: {
-          'Authorization': `Bearer ${token}`
-      }
-  })
-}
+  return axios.patch(`${hostURL}/user/password`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
