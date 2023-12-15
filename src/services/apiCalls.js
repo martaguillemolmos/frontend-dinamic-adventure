@@ -48,3 +48,8 @@ export const deactivateAccount = (token, body) => {
   });
 };
 
+// Todas las actividades
+export const getAllActivities = async () => {
+  // Conectamos la API a la base de datos
+  return await axios.get (`${hostURL}/activity/all`);
+}
