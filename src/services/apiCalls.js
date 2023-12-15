@@ -53,3 +53,9 @@ export const getAllActivities = async () => {
   // Conectamos la API a la base de datos
   return await axios.get (`${hostURL}/activity/all`);
 }
+
+// Todas las actividades
+export const getActivityByType = async (type) => {
+  // Conectamos la API a la base de datos
+  return await axios.get (`${hostURL}/activity/${type}`);
+}
