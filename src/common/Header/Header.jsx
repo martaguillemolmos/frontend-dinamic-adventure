@@ -25,11 +25,11 @@ export const Header = () => {
       </div>
       <div className="elements-nav">
         <LinkButton
-          path={"/actividad-acuatica"}
+          path={"/actividad_acuatica"}
           title={"Actividades acuáticas"}
         />
         <LinkButton
-          path={"/actividad-terrestre"}
+          path={"/actividad_terrestre"}
           title={"Actividades terrestres"}
         />
         <LinkButton path={"/contacto"} title={"Contacto"} />

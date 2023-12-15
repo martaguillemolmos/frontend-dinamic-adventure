@@ -3,7 +3,7 @@ import "./Aquatic Activity.css"
 import { getActivityByType } from "../../services/apiCalls";
 import { CustomActivity } from "../../common/CustomActivity/CustomActivity";
 
-export const Aquatic_Activity = () => {
+export const Aquatic_Activities = () => {
     const [typeActivities, setTypeActivities] = useState([]);
 
   useEffect(() => {
