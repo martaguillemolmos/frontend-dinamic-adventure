@@ -1,0 +1,48 @@
+
+.activity {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    width: 25em;
+    height: 32em;
+    background-color: red;
+    border: 0.13em solid white;
+    border-radius: 1em;
+  }
+  
+  .activity img {
+    width: 100%;
+    height: 50%;
+  }
+  
+  .activity h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .activity p {
+    font-size: 1em; 
+  }
+  
+  .button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 0.625em 1.25em; 
+    cursor: pointer;
+  }
+  
+  .activity .price {
+    background-color: orange;
+    color: white;
+    padding: 0.625em;
+    height: 1.25em;
+    width: 2em;
+  }
+  .activity .icons img {
+    width: 1.875em; 
+    height: 1.875em; 
+}

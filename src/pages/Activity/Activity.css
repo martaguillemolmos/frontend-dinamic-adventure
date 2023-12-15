@@ -14,3 +14,13 @@
     background-position: left bottom;
     background-repeat: no-repeat;
 }
+
+.activityCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: stretch;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 5em;
+}
