@@ -7,6 +7,7 @@ import { Profile } from '../Profile/Profile'
 import { Aquatic_Activity } from '../Aquatic Activity/Aquatic Activity'
 import { Land_Activity } from '../Land Activity/Land Activity'
 import { Password } from '../Password/Password'
+import { Activity } from '../Activity/Activity'
 
 
 export const Body = () => {
@@ -15,6 +16,7 @@ export const Body = () => {
         <Routes>
         <Route path='*' element={<Navigate to='/' />}/>
         <Route path='/' element={<Home />}/> 
+        <Route path='/actividad' element={<Activity />}/> 
         <Route path='/contacto' element={<Contact />}/> 
         <Route path='/registro' element={<Register />}/> 
         <Route path='/login' element={<Login />}/> 
@@ -22,7 +24,7 @@ export const Body = () => {
         <Route path='/password' element={<Password />}/>
         <Route path='/actividad-acuatica' element={<Aquatic_Activity />}/> 
         <Route path='/actividad-terrestre' element={<Land_Activity />}/> 
- 
+
         </Routes>
         </>
     )

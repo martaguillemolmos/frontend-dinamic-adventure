@@ -47,3 +47,4 @@ export const deactivateAccount = (token, body) => {
     },
   });
 };
+
