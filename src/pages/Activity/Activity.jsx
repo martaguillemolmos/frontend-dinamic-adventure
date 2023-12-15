@@ -10,6 +10,7 @@ export const Activity = () => {
     if (allActivities.length === 0) {
       getAllActivities()
         .then((results) => {
+            console.log(results, "soy results")
           if (Array.isArray(results.data.data)) {
             setAllActivities(results.data.data);
           } else {
