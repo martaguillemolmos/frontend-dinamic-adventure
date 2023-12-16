@@ -124,7 +124,7 @@ export const Login = () => {
       <div className="loginButton">
       <Button
         variant="contained"
-        className="button"
+        className="buttonSend"
         onClick={logMe}
         style={{ textTransform: "none", fontFamily: "" }}
       >

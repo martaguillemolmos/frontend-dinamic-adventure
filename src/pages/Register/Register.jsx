@@ -166,7 +166,7 @@ export const Register = () => {
         <div className="loginButton">
           <Button
             variant="contained"
-            className="button"
+            className="buttonSend"
             onClick={registerUser}
             style={{ textTransform: "none", fontFamily: "" }}>
             Registarme{" "}
