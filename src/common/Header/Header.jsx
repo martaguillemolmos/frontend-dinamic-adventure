@@ -40,7 +40,6 @@ export const Header = () => {
         {/* No tienes token almacenado en Redux*/}
         {rdxToken.credentials == "" ? (
           <>
-            <LinkButton path={"/registro"} title={"Registarse"} />
             <div className="buttonSession" onClick={() => navigate("/login")}>
               Inicia sesión
             </div>
