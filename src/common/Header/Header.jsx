@@ -32,9 +32,9 @@ export const Header = () => {
           path={"/actividad_terrestre"}
           title={"Actividades terrestres"}
         />
-        <div className="buttonSession" onClick={() => navigate("/actividad")}>
-          RESERVA
-        </div>
+            <div className="buttonSession" onClick={() => navigate("/actividad")}>
+            RESERVA
+            </div>
         <LinkButton path={"/contacto"} title={"Contacto"} />
         {/* Vistas si tienes o no token almacenado en Redux*/}
         {/* No tienes token almacenado en Redux*/}

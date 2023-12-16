@@ -21,7 +21,6 @@
     flex-direction: column;
     flex-wrap: nowrap;
     align-content: center;
-    justify-content: space-evenly;
     border: 2px solid rgb(255 255 255 / 55%);
     background-color: rgbargb(255 255 255 / 70%);
     border-radius: 1.1em;
@@ -30,6 +29,8 @@
     height: 35em;
     width: 29em;
     align-items: center;
+    justify-content: center;
+    gap: 1.3em;
 }
 
 .loginButton{
@@ -56,4 +57,16 @@
 .titleLogin {
     font-size: 1.8em;
     margin-bottom: 0.3em;
+}
+
+.registerAccount{
+    display: flex;
+    height: 5em;
+    width: 21em;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: stretch;
+    gap:0.8em;
 }

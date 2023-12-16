@@ -3,7 +3,7 @@ import letterLogo from "../../img/Letras.png";
 
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import { validator } from "../../services/userful";
 import { loginUser } from "../../services/apiCalls";
 import { json, useNavigate } from "react-router-dom";
@@ -82,56 +82,70 @@ export const Login = () => {
     }
   };
 
+  //Declaramos esta constante, para que, en caso de pulsar sobre el botón que contiene "Crea tu cuenta", nos rediriga a registro.
+  const registerMe = () => {
+    setTimeout(() => {
+      navigate("/registro");
+    }, 300);
+  };
+
   return (
     <div className="loginDesign">
       <div className="contentLogin">
-       <div className="headerLogo">
-        <img
-          src={letterLogo}
-          alt="Logo"
-          style={{ height: "4.1em" }}
-        />
+        <div className="headerLogo">
+          <img src={letterLogo} alt="Logo" style={{ height: "4.1em" }} />
         </div>
         <div className="titleLogin">Inicia sesión</div>
         <div className="elementsLogin">
+          <CustomInput
+            required
+            className="inputRegister"
+            label={"Dirección de e-mail"}
+            design={"inputDesign"}
+            type={"email"}
+            name={"email"}
+            placeholder={""}
+            value={""}
+            maxLength={"50"}
+            functionProp={functionHandler}
+            functionBlur={errorCheck}
+          />
+          <CustomInput
+            required
+            design={"inputDesign"}
+            type={"password"}
+            name={"password"}
+            placeholder={""}
+            value={""}
+            maxLength={"12"}
+            functionProp={functionHandler}
+            functionBlur={errorCheck}
+          />
+        </div>
+        <div className="loginButton">
+          <Button
+            variant="contained"
+            className="buttonSend"
+            onClick={logMe}
+            style={{ textTransform: "none", fontFamily: "" }}
+          >
+            Iniciar sesión
+          </Button>
+        </div>
+        <div className="registerAccount">
+          <Divider>¿Eres nuevo?</Divider>
+        
 
-          
-      <CustomInput
-        required
-        className="inputRegister"
-        label={"Dirección de e-mail"}
-        design={"inputDesign"}
-        type={"email"}
-        name={"email"}
-        placeholder={""}
-        value={""}
-        maxLength={"50"}
-        functionProp={functionHandler}
-        functionBlur={errorCheck}
-      />
-      <CustomInput
-        required
-        design={"inputDesign"}
-        type={"password"}
-        name={"password"}
-        placeholder={""}
-        value={""}
-        maxLength={"12"}
-        functionProp={functionHandler}
-        functionBlur={errorCheck}
-      />
+          <Button
+            variant="contained"
+            className="buttonSend"
+            onClick={registerMe}
+            style={{ textTransform: "none", fontFamily: "" }}
+          >
+            Crea tu cuenta
+          </Button>
+          </div>
       </div>
-      <div className="loginButton">
-      <Button
-        variant="contained"
-        className="buttonSend"
-        onClick={logMe}
-        style={{ textTransform: "none", fontFamily: "" }}
-      >
-        Iniciar sesión
-      </Button>
-      </div>
-    </div>
     </div>
   );
 };

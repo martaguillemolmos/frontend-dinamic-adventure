@@ -35,8 +35,8 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
       console.log("No se encontró token");
     }
 
-   
   }, [rdxToken.credentials, location.pathname]);
+
 
   return (
     <div className="activity" key={id}>

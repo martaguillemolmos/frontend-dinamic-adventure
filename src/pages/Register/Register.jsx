@@ -163,7 +163,7 @@ export const Register = () => {
             functionBlur={errorCheck}
           />
         </div>
-        <div className="loginButton">
+        <div className="registerButton">
           <Button
             variant="contained"
             className="buttonSend"
