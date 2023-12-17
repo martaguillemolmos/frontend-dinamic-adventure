@@ -40,8 +40,6 @@ export const Profile = () => {
 
   const [isEnabled, setIsEnabled] = useState(true);
 
-  
-
   const [originalProfile, setOriginalProfile] = useState(false);
 
   const functionHandler = (e) => {
@@ -58,84 +56,6 @@ export const Profile = () => {
     }));
   };
 
-  const profileChange = () => {
-    return (
-      profile.name !== originalProfile.name ||
-      profile.surname !== originalProfile.surname ||
-      profile.phone !== originalProfile.phone ||
-      profile.email !== originalProfile.email
-    );
-  };
-  
-  const [tabValue, setTabValue] = useState("null");
-
-  const customTabs = [
-    { label: "Perfil", value: "null" },
-    { label: "Cuenta y seguridad", value: "cuenta" },
-  ];
-
-  const handlerTab = ( newValue) => {
-    setTabValue(newValue);
-    if (newValue === "null") {
-      return;
-    } else {
-      newValue === "cuenta";
-      return;
-    }
-  };
-
-  const passwordPattern = "^[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜÑ]+$";
-
-  useEffect(() => {
-    if (rdxToken.credentials !== "") {
-      const token = rdxToken.credentials.token;
-      const decoredToken = jwtDecode(token);
-      profileUser(token)
-        .then((results) => {
-          results.data.data.created_at = dateFormat(results.data.data.created_at);
-          setProfile(results.data.data);
-          setOriginalProfile(results.data.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      if (decoredToken.is_active !== true) {
-        navigate("/");
-      }
-    } else {
-      //Si no contamos con un token almacenado en Redux, redirigimos al usuario a inicio.
-      navigate("/");
-    }
-  }, [rdxToken]);
-
-  //Actualizar los datos de la cuenta
-  const sendData = async () => {
-    if (profileChange()) {
-      await updateUser(rdxToken.credentials.token, profile)
-        .then(() => {
-          return json(
-            `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`
-          );
-        })
-        .catch((error) => {
-          console.log(
-            "Aquí quiero recuperar el error de la base de datos.",
-            error
-          );
-        });
-      setTimeout(() => {
-        setIsEnabled(true);
-      }, 1000);
-    } else {
-      console.log(
-        `${profile.name}, no se han actualizado los campos porque no se ha modificado ningún campo.`
-      );
-      profileChange(false);
-    }
-    setIsEnabled(true);
-  };
-
-  //Modificar la contraseña
   const Update = () => {
     if (
       newPassword.password !== "" &&
@@ -162,9 +82,86 @@ export const Profile = () => {
         });
     }
   };
+  console.log(newPassword);
 
-  //Inactivar la cuenta
-  const deleteAccount = async () => {
+  const profileChange = () => {
+    return (
+      profile.name !== originalProfile.name ||
+      profile.surname !== originalProfile.surname ||
+      profile.phone !== originalProfile.phone ||
+      profile.email !== originalProfile.email
+    );
+  };
+
+  const [tabValue, setTabValue] = useState("null");
+
+  const customTabs = [
+    { label: "Perfil", value: "null" },
+    { label: "Cuenta y seguridad", value: "cuenta" },
+  ];
+
+  const handlerTab = (event, newValue) => {
+    setTabValue(newValue);
+    if (newValue === "null") {
+      return;
+    } else {
+      newValue === "cuenta";
+      return;
+    }
+  };
+
+  const passwordPattern = "^[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜÑ]+$";
+
+  useEffect(() => {
+    if (rdxToken.credentials !== "") {
+      const token = rdxToken.credentials.token;
+      const decoredToken = jwtDecode(token);
+      profileUser(token)
+        .then((results) => {
+          console.log("aquí results", results);
+          results.data.data.created_at = dateFormat(results.data.data.created_at);
+          setProfile(results.data.data);
+          setOriginalProfile(results.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      if (decoredToken.is_active !== true) {
+        navigate("/");
+      }
+    } else {
+      //Si no contamos con un token almacenado en Redux, redirigimos al usuario a inicio.
+      navigate("/");
+    }
+  }, [rdxToken]);
+
+  const sendData = async () => {
+    if (profileChange()) {
+      await updateUser(rdxToken.credentials.token, profile)
+        .then(() => {
+          return json(
+            `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`
+          );
+        })
+        .catch((error) => {
+          console.log(
+            "Aquí quiero recuperar el error de la base de datos.",
+            error
+          );
+        });
+      setTimeout(() => {
+        setIsEnabled(true);
+      }, 1000);
+    } else {
+      console.log(
+        `${profile.name}, no se han actualizado los campos porque no se ha modificado ningún campo.`
+      );
+      profileChange(false);
+    }
+    setIsEnabled(true);
+  };
+
+  const sendAccount = async () => {
     if (profile.is_active === true) {
       try {
         await deactivateAccount(rdxToken.credentials.token, {
@@ -183,7 +180,6 @@ export const Profile = () => {
       }
     }
   };
-
   return (
     <div className="profileDesign">
       <div className="contentProfile">
@@ -191,7 +187,7 @@ export const Profile = () => {
           <div className="infoCabecera">
             <div className="nameUser">
               {" "}
-              <strong>{profile.name} {profile.surname}</strong>
+              {profile.name} {profile.surname}
             </div>
             <div className="roleUser">
               <strong>{profile.role}</strong>: {profile.email}
@@ -323,7 +319,7 @@ export const Profile = () => {
                   variant="contained"
                   className="button"
                   onClick={() => {
-                    deleteAccount();
+                    sendAccount();
                   }}
                   style={{ textTransform: "none", fontFamily: "" }}
                 >
