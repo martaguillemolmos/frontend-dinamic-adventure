@@ -6,7 +6,6 @@ import { Login } from '../Login/Login'
 import { Profile } from '../Profile/Profile'
 import { Aquatic_Activities } from '../Aquatic Activity/Aquatic Activity'
 import { Land_Activity } from '../Land Activity/Land Activity'
-import { Password } from '../Password/Password'
 import { Activity } from '../Activity/Activity'
 
 
@@ -21,7 +20,6 @@ export const Body = () => {
         <Route path='/registro' element={<Register />}/> 
         <Route path='/login' element={<Login />}/> 
         <Route path='/perfil' element={<Profile />}/>
-        <Route path='/password' element={<Password />}/>
         <Route path='/actividad_acuatica' element={<Aquatic_Activities />}/> 
         <Route path='/actividad_terrestre' element={<Land_Activity />}/> 
 

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import {
   deactivateAccount,
   profileUser,
+  updatePassword,
   updateUser,
 } from "../../services/apiCalls";
 import { Button } from "@mui/material";
@@ -30,6 +31,11 @@ export const Profile = () => {
     is_active: true,
   });
 
+  const [newPassword, setNewPassword] = useState({
+    passwordOld: "",
+    password: "",
+  });
+
   const [isEnabled, setIsEnabled] = useState(true);
 
   const [originalProfile, setOriginalProfile] = useState(false);
@@ -40,6 +46,41 @@ export const Profile = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
+  const functionHandlerPassword = (e) => {
+    setNewPassword((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const Update = () => {
+    if (
+      newPassword.password !== "" &&
+      newPassword.passwordOld !== "" &&
+      newPassword.password !== newPassword.passwordOld
+    ) {
+      const token = rdxToken.credentials.token;
+      console.log(token);
+      updatePassword(token, newPassword)
+        .then(() => {
+          //Añadir control Snackbar
+          dispatch(logout({ credentials: "" }));
+          navigate("/");
+        })
+        .catch((error) => {
+          if (error.response.status !== 200) {
+            console.log(error.response);
+            return json({
+              show: true,
+              title: `Error ${error.response.status}`,
+              message: `${error.response.data}`,
+            });
+          }
+        });
+    }
+  };
+  console.log(newPassword);
 
   const profileChange = () => {
     return (
@@ -62,24 +103,26 @@ export const Profile = () => {
     if (newValue === "null") {
       return;
     } else {
-      (newValue === "cuenta")
+      newValue === "cuenta";
       return;
     }
   };
+
+  const passwordPattern = "^[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜÑ]+$";
 
   useEffect(() => {
     if (rdxToken.credentials !== "") {
       const token = rdxToken.credentials.token;
       const decoredToken = jwtDecode(token);
       profileUser(token)
-      .then((results) => {
-        console.log("aquí results", results);
-        setProfile(results.data.data);
-        setOriginalProfile(results.data.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((results) => {
+          console.log("aquí results", results);
+          setProfile(results.data.data);
+          setOriginalProfile(results.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       if (decoredToken.is_active !== true) {
         navigate("/");
       }
@@ -235,12 +278,35 @@ export const Profile = () => {
           {tabValue === "cuenta" && (
             <div className="inforUser">
               Contraseña
-              <div
-                className="passwordButton"
-                onClick={() => navigate("/password")}
+              <CustomInput
+                label={"Contraseña actual"}
+                design={"inputDesign"}
+                type={"password"}
+                name={"passwordOld"}
+                placeholder={""}
+                value={""}
+                maxLength={"12"}
+                functionProp={functionHandlerPassword}
+              />
+              <CustomInput
+                label={"Nueva contraseña"}
+                design={"inputDesign"}
+                type={"password"}
+                name={"password"}
+                pattern={passwordPattern}
+                placeholder={""}
+                value={""}
+                maxLength={"12"}
+                functionProp={functionHandlerPassword}
+              />
+              <Button
+                variant="contained"
+                className="button"
+                onClick={Update}
+                style={{ textTransform: "none", fontFamily: "" }}
               >
-                Modificar contraseña
-              </div>
+                Cambiar contraseña
+              </Button>
               <div className="accountChange">
                 Inactivar la cuenta
                 <Button
