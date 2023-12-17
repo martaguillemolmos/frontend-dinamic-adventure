@@ -277,7 +277,8 @@ export const Profile = () => {
           )}
           {tabValue === "cuenta" && (
             <div className="inforUser">
-              Contraseña
+              <div className="titleProfile">Contraseña</div>
+              <div className="passwordContent">
               <CustomInput
                 label={"Contraseña actual"}
                 design={"inputDesign"}
@@ -299,6 +300,7 @@ export const Profile = () => {
                 maxLength={"12"}
                 functionProp={functionHandlerPassword}
               />
+              </div>
               <Button
                 variant="contained"
                 className="button"
@@ -307,8 +309,9 @@ export const Profile = () => {
               >
                 Cambiar contraseña
               </Button>
+
+              <div className="titleProfile">Cuenta</div>
               <div className="accountChange">
-                Inactivar la cuenta
                 <Button
                   variant="contained"
                   className="button"

@@ -52,3 +52,13 @@
     align-items: center;
     gap: 5em;
 }
+
+.passwordContent{
+    gap: 5em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}

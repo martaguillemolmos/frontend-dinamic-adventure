@@ -41,7 +41,7 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
   return (
     <div className="activity" key={id}>
       <div className="imgActivity">
-        <img src={image} alt="Imagen" />
+        <img src={`data:image/jpeg;base64,${image}`} alt="Imagen" />
       </div>
       <div className="contentActivity">
         <div className="headerActivity">
