@@ -7,3 +7,9 @@ export const arrayBufferToBase64 =  ( buffer ) => {
     }
     return binary;
   }
+
+  export const dateFormat = (fechaString) => {
+    const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
+    const fecha = new Date(fechaString);
+    return fecha.toLocaleDateString('es-ES', opciones);
+  };
