@@ -11,13 +11,14 @@ import {
 } from "../../services/apiCalls";
 import { Button } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
+import { TabBar } from "../../common/CustomTabs/CustomTabs";
 
 export const Profile = () => {
   //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
   const navigate = useNavigate();
   // Instanciamos Redux en lectura
   const rdxToken = useSelector(userData);
-  console.log(rdxToken, "dime que tienes tokennn")
+  console.log(rdxToken, "dime que tienes tokennn");
   const dispatch = useDispatch();
 
   // Creamos un Hook con las propiedades que queremos mostrar en pantalla del perfil
@@ -30,7 +31,6 @@ export const Profile = () => {
   });
 
   const [isEnabled, setIsEnabled] = useState(true);
-
 
   const [originalProfile, setOriginalProfile] = useState(false);
 
@@ -50,15 +50,17 @@ export const Profile = () => {
     );
   };
 
-  useEffect(() => {
-    if (rdxToken.credentials !== "") {
+  const [tabValue, setTabValue] = useState("null");
+
+  const customTabs = [
+    { label: "Datos del Perfil", value: "null" },
+    { label: "Datos de la cuenta y seguridad", value: "cuenta" },
+  ];
+
+  const handlerTab = (event, newValue) => {
+    setTabValue(newValue);
+    if (newValue === "null") {
       const token = rdxToken.credentials.token;
-      const decoredToken = jwtDecode(token);
-
-      if(decoredToken.is_active !== true){
-        navigate("/")
-      }
-
       profileUser(token)
         .then((results) => {
           console.log("aquí results", results);
@@ -68,6 +70,20 @@ export const Profile = () => {
         .catch((error) => {
           console.error(error);
         });
+      return;
+    } else {
+      return json("Marta");
+    }
+  };
+
+  useEffect(() => {
+    if (rdxToken.credentials !== "") {
+      const token = rdxToken.credentials.token;
+      const decoredToken = jwtDecode(token);
+
+      if (decoredToken.is_active !== true) {
+        navigate("/");
+      }
     } else {
       //Si no contamos con un token almacenado en Redux, redirigimos al usuario a inicio.
       navigate("/");
@@ -106,11 +122,11 @@ export const Profile = () => {
     if (profile.is_active === true) {
       try {
         await deactivateAccount(rdxToken.credentials.token, {
-          "is_active": "false",
-         })
-          dispatch(logout({ credentials: "" }));
-          navigate("/");
-         console.log(
+          is_active: "false",
+        });
+        dispatch(logout({ credentials: "" }));
+        navigate("/");
+        console.log(
           `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`
         );
       } catch (error) {
@@ -119,117 +135,131 @@ export const Profile = () => {
           error
         );
       }
-      
-    } 
+    }
   };
   return (
     <div className="profileDesign">
       <div className="contentProfile">
         <div className="summaryProfile">
           <div className="infoCabecera">
-            <div className="nameUser"> {profile.name} {profile.surname}</div>
-            <div className="roleUser">{profile.role}: {profile.email}</div>
-           <div className="avatarUser">Avatar</div>
-           <div className="userSince">Miembro desde: {profile.created_at}</div>
-          </div>
-        </div>
-        <div className="inforProfile">
-          <div className="inforUser">
-            <div className="titleProfile">Información básica</div>
-            <div className="fieldsProfile">
-            <CustomInput
-              disabled={isEnabled}
-              label={"Nombre"}
-              design={"inputDesign"}
-              type={"text"}
-              name={"name"}
-              placeholder={""}
-              value={profile.name}
-              maxLength={"25"}
-              functionProp={functionHandler}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <CustomInput
-              disabled={isEnabled}
-              label={"Apellidos"}
-              design={"inputDesign"}
-              type={"text"}
-              name={"surname"}
-              placeholder={""}
-              maxLength={"25"}
-              value={profile.surname}
-              functionProp={functionHandler}
-            />
+            <div className="nameUser">
+              {" "}
+              {profile.name} {profile.surname}
             </div>
-            <div className="titleProfile">Información de contacto</div>
-            <div className="fieldsProfile">
-            <CustomInput
-              disabled={isEnabled}
-              label={"Dirección de email"}
-              design={"inputDesign"}
-              type={"email"}
-              name={"email"}
-              placeholder={""}
-              maxLength={"50"}
-              value={profile.email}
-              functionProp={functionHandler}
-            />
-            <CustomInput
-              disabled={isEnabled}
-              label={"Dirección de email"}
-              design={"inputDesign"}
-              type={"tel"}
-              name={"phone"}
-              placeholder={""}
-              min={600000000}
-              max={900000000}
-              value={profile.phone || ""}
-              functionProp={functionHandler}
-            />
+            <div className="roleUser">
+              {profile.role}: {profile.email}
+            </div>
+            <div className="avatarUser">Avatar</div>
+            <div className="userSince">Miembro desde: {profile.created_at}</div>
           </div>
-        {isEnabled ? (
-          <Button
-            variant="contained"
-            className="button"
-            onClick={() => setIsEnabled(!isEnabled)}
-            style={{ textTransform: "none", fontFamily: "" }}
-          >
-            Edita tus datos
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            className="button"
-            onClick={() => sendData()}
-            style={{ textTransform: "none", fontFamily: "" }}
-          >
-            Enviar cambios
-          </Button>
-        )}
-      <div className="passwordContent">
-        Contraseña
-        <div className="passwordButton" onClick={() => navigate("/password")}>
-          Modificar contraseña
         </div>
-        <div className="accountChange">
-          Inactivar la cuenta
-          <Button
-            variant="contained"
-            className="button"
-            onClick={() => {
-              sendAccount();
-            }}
-            style={{ textTransform: "none", fontFamily: "" }}
-          >
-            Deshabilita tu cuenta
-          </Button>
+      
+        <div className="inforProfile">
+        <TabBar tabs={customTabs} value={tabValue} handler={handlerTab} />
+          {tabValue === "null" && (
+            <div className="inforUser">
+              <div className="titleProfile">Información básica</div>
+              <div className="fieldsProfile">
+                <CustomInput
+                  disabled={isEnabled}
+                  label={"Nombre"}
+                  design={"inputDesign"}
+                  type={"text"}
+                  name={"name"}
+                  placeholder={""}
+                  value={profile.name}
+                  maxLength={"25"}
+                  functionProp={functionHandler}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <CustomInput
+                  disabled={isEnabled}
+                  label={"Apellidos"}
+                  design={"inputDesign"}
+                  type={"text"}
+                  name={"surname"}
+                  placeholder={""}
+                  maxLength={"25"}
+                  value={profile.surname}
+                  functionProp={functionHandler}
+                />
+              </div>
+              <div className="titleProfile">Información de contacto</div>
+              <div className="fieldsProfile">
+                <CustomInput
+                  disabled={isEnabled}
+                  label={"Dirección de email"}
+                  design={"inputDesign"}
+                  type={"email"}
+                  name={"email"}
+                  placeholder={""}
+                  maxLength={"50"}
+                  value={profile.email}
+                  functionProp={functionHandler}
+                />
+                <CustomInput
+                  disabled={isEnabled}
+                  label={"Dirección de email"}
+                  design={"inputDesign"}
+                  type={"tel"}
+                  name={"phone"}
+                  placeholder={""}
+                  min={600000000}
+                  max={900000000}
+                  value={profile.phone || ""}
+                  functionProp={functionHandler}
+                />
+              </div>
+              {isEnabled ? (
+                <Button
+                  variant="contained"
+                  className="button"
+                  onClick={() => setIsEnabled(!isEnabled)}
+                  style={{ textTransform: "none", fontFamily: "" }}
+                >
+                  Edita tus datos
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  className="button"
+                  onClick={() => sendData()}
+                  style={{ textTransform: "none", fontFamily: "" }}
+                >
+                  Enviar cambios
+                </Button>
+              )}
+            </div>
+          )}
+          {tabValue === "cuenta" && (
+            <div className="passwordContent">
+            Contraseña
+            <div
+              className="passwordButton"
+              onClick={() => navigate("/password")}
+            >
+              Modificar contraseña
+            </div>
+            <div className="accountChange">
+              Inactivar la cuenta
+              <Button
+                variant="contained"
+                className="button"
+                onClick={() => {
+                  sendAccount();
+                }}
+                style={{ textTransform: "none", fontFamily: "" }}
+              >
+                Deshabilita tu cuenta
+              </Button>
+            </div>
+          </div>
+          )}
+          
         </div>
       </div>
-      </div>
-      </div>
-    </div>
     </div>
   );
 };
