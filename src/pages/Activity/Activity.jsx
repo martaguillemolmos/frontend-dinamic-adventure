@@ -15,7 +15,6 @@ export const Activity = () => {
         .then((results) => {
             console.log(results, "soy results")
           if (Array.isArray(results.data.data)) {
-
             const parseImage = results.data.data.map((activity) =>{
               return {
                 imageBase64: arrayBufferToBase64(activity.image.data),
