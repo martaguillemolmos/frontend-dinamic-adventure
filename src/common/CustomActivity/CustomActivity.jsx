@@ -18,6 +18,7 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
 
 
   useEffect(() => {
+    console.log(image)
     if (location.pathname === "/actividad") {
         // Si estamos en la página de actividad, configuramos como reservable
         setIsReservable(true);
