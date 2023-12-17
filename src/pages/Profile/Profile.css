@@ -23,6 +23,12 @@
     align-content: flex-start;
     align-items: flex-start;
     gap: 1em;
+    margin-top: 2em;
+}
+
+.inforProfile{
+    height: 35em;
+    width: 32em;
 }
 
 .contentProfile{

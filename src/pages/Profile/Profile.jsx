@@ -53,26 +53,17 @@ export const Profile = () => {
   const [tabValue, setTabValue] = useState("null");
 
   const customTabs = [
-    { label: "Datos del Perfil", value: "null" },
-    { label: "Datos de la cuenta y seguridad", value: "cuenta" },
+    { label: "Perfil", value: "null" },
+    { label: "Cuenta y seguridad", value: "cuenta" },
   ];
 
   const handlerTab = (event, newValue) => {
     setTabValue(newValue);
     if (newValue === "null") {
-      const token = rdxToken.credentials.token;
-      profileUser(token)
-        .then((results) => {
-          console.log("aquí results", results);
-          setProfile(results.data.data);
-          setOriginalProfile(results.data.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
       return;
     } else {
-      return json("Marta");
+      (newValue === "cuenta")
+      return;
     }
   };
 
@@ -80,7 +71,15 @@ export const Profile = () => {
     if (rdxToken.credentials !== "") {
       const token = rdxToken.credentials.token;
       const decoredToken = jwtDecode(token);
-
+      profileUser(token)
+      .then((results) => {
+        console.log("aquí results", results);
+        setProfile(results.data.data);
+        setOriginalProfile(results.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
       if (decoredToken.is_active !== true) {
         navigate("/");
       }
@@ -153,9 +152,9 @@ export const Profile = () => {
             <div className="userSince">Miembro desde: {profile.created_at}</div>
           </div>
         </div>
-      
+
         <div className="inforProfile">
-        <TabBar tabs={customTabs} value={tabValue} handler={handlerTab} />
+          <TabBar tabs={customTabs} value={tabValue} handler={handlerTab} />
           {tabValue === "null" && (
             <div className="inforUser">
               <div className="titleProfile">Información básica</div>
@@ -234,30 +233,29 @@ export const Profile = () => {
             </div>
           )}
           {tabValue === "cuenta" && (
-            <div className="passwordContent">
-            Contraseña
-            <div
-              className="passwordButton"
-              onClick={() => navigate("/password")}
-            >
-              Modificar contraseña
-            </div>
-            <div className="accountChange">
-              Inactivar la cuenta
-              <Button
-                variant="contained"
-                className="button"
-                onClick={() => {
-                  sendAccount();
-                }}
-                style={{ textTransform: "none", fontFamily: "" }}
+            <div className="inforUser">
+              Contraseña
+              <div
+                className="passwordButton"
+                onClick={() => navigate("/password")}
               >
-                Deshabilita tu cuenta
-              </Button>
+                Modificar contraseña
+              </div>
+              <div className="accountChange">
+                Inactivar la cuenta
+                <Button
+                  variant="contained"
+                  className="button"
+                  onClick={() => {
+                    sendAccount();
+                  }}
+                  style={{ textTransform: "none", fontFamily: "" }}
+                >
+                  Deshabilita tu cuenta
+                </Button>
+              </div>
             </div>
-          </div>
           )}
-          
         </div>
       </div>
     </div>
