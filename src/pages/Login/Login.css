@@ -46,12 +46,13 @@
 
 .elementsLogin{
     display: flex;
+    width: 17em;
     flex-direction: column;
     flex-wrap: nowrap;
     align-content: center;
-    justify-content: center;
-    align-items: center;
-    gap: 2em;
+    justify-content: space-between;
+    gap: 1.2em;
+    align-items: stretch;
 }
 
 .titleLogin {

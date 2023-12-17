@@ -125,17 +125,21 @@ export const Profile = () => {
   return (
     <div className="profileDesign">
       <div className="contentProfile">
-        <div className="cabecera">
+        <div className="summaryProfile">
           <div className="infoCabecera">
-            {profile.name} {profile.surname}
+            <div className="nameUser"> {profile.name} {profile.surname}</div>
+            <div className="roleUser">{profile.role}: {profile.email}</div>
+           <div className="avatarUser">Avatar</div>
+           <div className="userSince">Miembro desde: {profile.created_at}</div>
           </div>
         </div>
         <div className="inforProfile">
           <div className="inforUser">
-            Información básica
+            <div className="titleProfile">Información básica</div>
+            <div className="fieldsProfile">
             <CustomInput
               disabled={isEnabled}
-              // label={"Nombre"}
+              label={"Nombre"}
               design={"inputDesign"}
               type={"text"}
               name={"name"}
@@ -143,10 +147,13 @@ export const Profile = () => {
               value={profile.name}
               maxLength={"25"}
               functionProp={functionHandler}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <CustomInput
               disabled={isEnabled}
-              // label={"Apellidos"}
+              label={"Apellidos"}
               design={"inputDesign"}
               type={"text"}
               name={"surname"}
@@ -155,10 +162,12 @@ export const Profile = () => {
               value={profile.surname}
               functionProp={functionHandler}
             />
-            Información de contacto
+            </div>
+            <div className="titleProfile">Información de contacto</div>
+            <div className="fieldsProfile">
             <CustomInput
               disabled={isEnabled}
-              // label={"Dirección de email"}
+              label={"Dirección de email"}
               design={"inputDesign"}
               type={"email"}
               name={"email"}
@@ -169,7 +178,7 @@ export const Profile = () => {
             />
             <CustomInput
               disabled={isEnabled}
-              // label={"Dirección de email"}
+              label={"Dirección de email"}
               design={"inputDesign"}
               type={"tel"}
               name={"phone"}
@@ -180,7 +189,6 @@ export const Profile = () => {
               functionProp={functionHandler}
             />
           </div>
-        </div>
         {isEnabled ? (
           <Button
             variant="contained"
@@ -200,7 +208,6 @@ export const Profile = () => {
             Enviar cambios
           </Button>
         )}
-      </div>
       <div className="passwordContent">
         Contraseña
         <div className="passwordButton" onClick={() => navigate("/password")}>
@@ -220,6 +227,9 @@ export const Profile = () => {
           </Button>
         </div>
       </div>
+      </div>
+      </div>
+    </div>
     </div>
   );
 };

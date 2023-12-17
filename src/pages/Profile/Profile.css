@@ -27,13 +27,22 @@
 
 .contentProfile{
     display: flex;
-    flex-direction: column;
     flex-wrap: nowrap;
     align-content: center;
     justify-content: center;
-    gap: 1em;
+    align-items: flex-start;
+    gap: 10em;
 }
 
 .passwordButton{
     cursor: pointer;
+}
+.fieldsProfile{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 5em;
 }

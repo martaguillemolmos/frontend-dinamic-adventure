@@ -107,6 +107,7 @@ export const Login = () => {
             placeholder={""}
             value={""}
             maxLength={"50"}
+            fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
           />
@@ -118,6 +119,7 @@ export const Login = () => {
             placeholder={""}
             value={""}
             maxLength={"12"}
+            fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
           />

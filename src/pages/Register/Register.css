@@ -17,7 +17,7 @@
 }
 
 .content {
-    height: 42em;
+    height: 47em;
     width: 29em;
     display: flex;
     flex-direction: column;
@@ -34,12 +34,13 @@
 }
 
 .elementsRegister {
+    width: 17em;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     align-content: center;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     gap: 1em;
 }
 

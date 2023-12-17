@@ -20,6 +20,11 @@ export const CustomInput = ({required, label, disabled,display, design, type, pa
         pattern={pattern}        
         min={min}
         max={max}
+        helperText="Full width!"
+        fullWidth
+        InputLabelProps={{
+            shrink: true,
+          }}
          />
         </div>
     )
