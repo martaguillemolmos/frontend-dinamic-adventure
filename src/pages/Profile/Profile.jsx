@@ -13,6 +13,7 @@ import {
 import { Button } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { TabBar } from "../../common/CustomTabs/CustomTabs";
+import { LetterAvatars } from "../../common/Avatar/Avatar";
 
 export const Profile = () => {
   //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
@@ -37,6 +38,8 @@ export const Profile = () => {
   });
 
   const [isEnabled, setIsEnabled] = useState(true);
+
+  const inicial = rdxToken.credentials.name ? rdxToken.credentials.name.charAt(0) : '';
 
   const [originalProfile, setOriginalProfile] = useState(false);
 
@@ -191,7 +194,9 @@ export const Profile = () => {
             <div className="roleUser">
               {profile.role}: {profile.email}
             </div>
-            <div className="avatarUser">Avatar</div>
+            <div className="avatarUser">
+            <LetterAvatars initial={inicial} />
+            </div>
             <div className="userSince">Miembro desde: {profile.created_at}</div>
           </div>
         </div>
@@ -277,7 +282,7 @@ export const Profile = () => {
           )}
           {tabValue === "cuenta" && (
             <div className="inforUser">
-              <div className="titleProfile">Contraseña</div>
+              <div className="titleProfile">Modificar contraseña</div>
               <div className="passwordContent">
               <CustomInput
                 label={"Contraseña actual"}
