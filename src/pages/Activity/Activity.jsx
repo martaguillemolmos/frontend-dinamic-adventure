@@ -32,9 +32,9 @@ export const Activity = () => {
 
   const checkAvailability = async () => {
     try {
-      if (!rdxToken.credentials) {
-        console.log("Token no válido");
-        return;
+      console.log(rdxToken)
+      if (rdxToken.credentials == "") {
+        navigate("/login");
       }
 
       const token = rdxToken.credentials.token;
@@ -43,7 +43,6 @@ export const Activity = () => {
       if (!decoredToken.is_active) {
         console.log("Usuario inactivo, redirigiendo a /login");
         navigate("/login");
-        return;
       }
 
       if (!date.date) {

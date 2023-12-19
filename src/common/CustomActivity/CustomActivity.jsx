@@ -37,6 +37,13 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
 
   }, [rdxToken.credentials, location.pathname]);
 
+  const sendActivity = async () => {
+    try {
+      navigate("/");
+    } catch (error) {
+      console.log("Aquí quiero recuperar el error de la base de datos.", error);
+    }
+  };
 
   return (
     <div className="activity" key={id}>
@@ -69,8 +76,8 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
       {!isReservable ? (
         <button className="buttonActivity">MÁS INFORMACIÓN</button>
       ) : rdxToken.credentials !== "" && is_active ?  (
-         availability <12 ? (
-        <button className="buttonActivity">RESERVAR</button>) 
+        !availability || availability <12 ? (
+        <button className="buttonActivity" onClick={() => {sendActivity()}} >RESERVAR</button>) 
         : (
         <button className="buttonActivity">FECHA NO DISPONIBLE</button>)
         
