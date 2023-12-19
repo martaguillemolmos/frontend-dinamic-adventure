@@ -1,0 +1,118 @@
+
+.cardpendingColor {
+    background-color: #ffc107;
+    height: 15em;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 1em;
+    transition: transform 0.3s ease;
+  }
+  .cardpendingColor:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+  .cardapprovedColor {
+    background-color: #28a745;
+    height: 15em;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 1em;
+  }
+  
+  .cardcancelledColor {
+    background-color: #dc3545;
+    height: 15em;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 1em;
+  }
+  
+  .cardcompletedColor {
+    background-color: #007bff;
+    height: 15em;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 1em;
+  }
+  
+  .carddefaultColor {
+    background-color: #f8f8f8;
+    height: 15em;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 1em;
+  }
+  
+  .cardHeader {
+    text-align: right;
+  }
+  
+  .cardInfo {
+    margin-bottom: 8px;
+  }
+  
+  .infoLabel {
+    font-weight: bold;
+    margin-right: 8px;
+    color: #333;
+  }
+  
+  .infoValue {
+    color: #555;
+  }
+  
+  .idAppointment{
+    display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      gap: 3em;
+  }
+  

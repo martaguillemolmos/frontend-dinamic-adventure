@@ -8,6 +8,7 @@ import { Aquatic_Activities } from '../Aquatic Activity/Aquatic Activity'
 import { Land_Activity } from '../Land Activity/Land Activity'
 import { Activity } from '../Activity/Activity'
 import { ActivityById } from '../ActivityById/ActivityById'
+import { Appointment } from '../Appointment/Appointment'
 
 
 export const Body = () => {
@@ -21,9 +22,10 @@ export const Body = () => {
         <Route path='/registro' element={<Register />}/> 
         <Route path='/login' element={<Login />}/> 
         <Route path='/perfil' element={<Profile />}/>
-        <Route path='/actividades' element={<ActivityById />}/>
+        <Route path='/actividad/id' element={<ActivityById />}/>
         <Route path='/actividad_acuatica' element={<Aquatic_Activities />}/> 
         <Route path='/actividad_terrestre' element={<Land_Activity />}/> 
+        <Route path='/reservas' element={<Appointment />}/>
 
         </Routes>
         </>

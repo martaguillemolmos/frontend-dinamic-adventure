@@ -32,20 +32,29 @@ export const Header = () => {
           path={"/actividad_terrestre"}
           title={"Actividades terrestres"}
         />
-            <div className="buttonSession" onClick={() => navigate("/actividad")}>
-            RESERVA
-            </div>
-        <LinkButton path={"/contacto"} title={"Contacto"} />
         {/* Vistas si tienes o no token almacenado en Redux*/}
         {/* No tienes token almacenado en Redux*/}
         {rdxToken.credentials == "" ? (
           <>
+           <div className="buttonSession"
+              onClick={() => navigate("/actividad")}
+            >
+              RESERVA
+            </div>
+            <LinkButton path={"/contacto"} title={"Contacto"} />
             <div className="buttonSession" onClick={() => navigate("/login")}>
               Inicia sesión
             </div>
+           
           </>
         ) : (
           <>
+            <div
+              className="buttonSession"
+              onClick={() => navigate("/reservas")}
+            >
+              RESERVA
+            </div>
             <LinkButton path={"/perfil"} title={"Perfil"} />
             <div className="buttonSession" onClick={logOutMe} path={"/"}>
               Cerrar sesión
