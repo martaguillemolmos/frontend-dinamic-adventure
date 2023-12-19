@@ -14,7 +14,7 @@ export const createUser = async (body) => {
 
 //Perfil: Recuperamos la información del usuario
 export const profileUser = async (token) => {
-  return axios.get(`${hostURL}/user/profile`, {
+  return await axios.get(`${hostURL}/user/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -23,7 +23,7 @@ export const profileUser = async (token) => {
 
 //Actualizar perfil
 export const updateUser = async (token, body) => {
-  return axios.put(`${hostURL}/user`, body, {
+  return await axios.put(`${hostURL}/user`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -31,8 +31,8 @@ export const updateUser = async (token, body) => {
 };
 
 //Actualizar la contraseña
-export const updatePassword = (token, body) => {
-  return axios.patch(`${hostURL}/user/password`, body, {
+export const updatePassword = async (token, body) => {
+  return await axios.patch(`${hostURL}/user/password`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -40,8 +40,8 @@ export const updatePassword = (token, body) => {
 };
 
 //Inactivar la cuenta
-export const deactivateAccount = (token, body) => {
-  return axios.put(`${hostURL}/user/account`, body, {
+export const deactivateAccount = async (token, body) => {
+  return  await axios.put(`${hostURL}/user/account`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -60,8 +60,10 @@ export const getActivityByType = async (type) => {
   return await axios.get (`${hostURL}/activity/${type}`);
 }
 
-export const disponibilityDate = ( body) => {
-  return axios.post(`${hostURL}/appointment/disponibility-activity`, body, {
-
+export const disponibilityDate = async ( body, token) => {
+  return await axios.post(`${hostURL}/appointment/disponibility-activity`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 };

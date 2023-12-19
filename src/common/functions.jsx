@@ -1,3 +1,4 @@
+
 export const arrayBufferToBase64 =  ( buffer ) => {
     var binary = '';
     var bytes = new Uint8Array( buffer );
@@ -13,3 +14,4 @@ export const arrayBufferToBase64 =  ( buffer ) => {
     const fecha = new Date(fechaString);
     return fecha.toLocaleDateString('es-ES', opciones);
   };
+

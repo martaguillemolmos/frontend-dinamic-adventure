@@ -4,26 +4,24 @@ import { disponibilityDate, getAllActivities } from "../../services/apiCalls";
 import { CustomActivity } from "../../common/CustomActivity/CustomActivity";
 import { arrayBufferToBase64 } from "../../common/functions";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
+import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { userData } from "../userSlice";
-import { Button } from "@mui/material";
-// import { jwtDecode } from "jwt-decode";
-import dayjs from "dayjs";
 
 export const Activity = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // Instanciamos Redux en lectura
   const rdxToken = useSelector(userData);
-  console.log(rdxToken, "dime que tienes tokennn");
+  
   const [allActivities, setAllActivities] = useState([]);
 
   //Recuperamos la fecha
   const [date, setDate] = useState({
     date: "",
   });
-
-  console.log(date, "esta es la date.");
 
   const functionHandler = (e) => {
     setDate((prevState) => ({
@@ -34,40 +32,48 @@ export const Activity = () => {
 
   const checkAvailability = async () => {
     try {
-      // console.log(rdxToken, "rdx");
-      // if (rdxToken.credentials !== "") {
-      //   const token = rdxToken.credentials.token;
-      //   console.log(token, "yo soy el token");
-      //   const decoredToken = jwtDecode(token);
-      //   if (!decoredToken.is_active) {
-      //     console.log("Usuario inactivo, redirigiendo a /login");
-      //     navigate("/login");
-      //     return;
-      //   }
+      if (!rdxToken.credentials) {
+        console.log("Token no válido");
+        return;
+      }
 
-        if (date.date !== "") {
-          // Formatear la fecha
-         
-          const formatDate = dayjs(date.date).toISOString();
-          console.log(formatDate, "format")
-          const body = {
-            date: formatDate
+      const token = rdxToken.credentials.token;
+      const decoredToken = jwtDecode(token);
+
+      if (!decoredToken.is_active) {
+        console.log("Usuario inactivo, redirigiendo a /login");
+        navigate("/login");
+        return;
+      }
+
+      if (!date.date) {
+        console.log("Fecha vacía");
+        return;
+      }
+
+      const formatDate = dayjs(date.date).toISOString();
+      const body = { date: formatDate };
+
+      const results = await disponibilityDate(body, token);
+      const participants = results.data.data;
+
+      if (participants.length > 0) {
+        const updatedActivities = allActivities.map((activity) => {
+          const participantInfo = participants.find(
+            (participant) => participant.id_activity === activity.id
+          );
+
+          return {
+            ...activity,
+            availability: participantInfo ? participantInfo.allParticipants : 0,
           };
-          console.log(body, "soy el body")
-          // Enviar la fecha formateada al backend
-
-          // console.log(token, body, "cucu")
-          const response = await disponibilityDate(body);
-          console.log(response, "soy la respuesta del backend");
-        } else {
-          console.log("Fecha vacía");
-        }
-      // } else {
-      //   console.log("Token no válido");
-      // }
+        });
+        setAllActivities(updatedActivities);
+      } else {
+        console.log("Toda la disponibilidad");
+      }
     } catch (error) {
-      console.error("Error al comprobar la disponibilidad:", error);
-      // Manejar el error de manera adecuada (mostrar mensaje al usuario, etc.)
+      console.error("Error al comprobar la disponibilidad", error);
     }
   };
 
@@ -86,7 +92,6 @@ export const Activity = () => {
             setAllActivities(parseImage);
           } else {
             console.error(
-              "La respuesta de la API no tiene el formato esperado"
             );
           }
         })
@@ -126,6 +131,7 @@ export const Activity = () => {
                 title={results.title}
                 description={results.description}
                 price={results.price}
+                availability={results.availability}
               />
             );
           })}

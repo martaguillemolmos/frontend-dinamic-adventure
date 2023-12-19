@@ -63,7 +63,7 @@ export const Profile = () => {
       newPassword.password !== newPassword.passwordOld
     ) {
       const token = rdxToken.credentials.token;
-      console.log(token);
+      console.log(token, "soy el token");
       updatePassword(token, newPassword)
         .then(() => {
           //Añadir control Snackbar

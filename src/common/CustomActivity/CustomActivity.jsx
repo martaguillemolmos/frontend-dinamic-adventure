@@ -10,7 +10,7 @@ import photo from "../../img/photo.png";
 import child from "../../img/child.png";
 import { useNavigate } from "react-router-dom";
 
-export const CustomActivity = ({ id, title, image, description, price, intensity, minium_age }) => {
+export const CustomActivity = ({ id, title, image, description, price, intensity, minium_age, availability }) => {
   const rdxToken = useSelector(userData);
   const [is_active, setIsActive] = useState(false);
   const [isReservable, setIsReservable] = useState(false);
@@ -18,7 +18,6 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
 
 
   useEffect(() => {
-    console.log(image)
     if (location.pathname === "/actividad") {
         // Si estamos en la página de actividad, configuramos como reservable
         setIsReservable(true);
@@ -70,7 +69,11 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
       {!isReservable ? (
         <button className="buttonActivity">MÁS INFORMACIÓN</button>
       ) : rdxToken.credentials !== "" && is_active ?  (
-        <button className="buttonActivity">RESERVAR</button>
+         availability <12 ? (
+        <button className="buttonActivity">RESERVAR</button>) 
+        : (
+        <button className="buttonActivity">FECHA NO DISPONIBLE</button>)
+        
       ): (
         <button className="buttonActivity" onClick={() => navigate("/login")}>RESERVAR</button>
       )}
