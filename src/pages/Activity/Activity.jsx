@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Activity.css";
-import { disponibilityDate, getAllActivities } from "../../services/apiCalls";
+import { disponibilityDate, getActivityById, getAllActivities } from "../../services/apiCalls";
 import { CustomActivity } from "../../common/CustomActivity/CustomActivity";
 import { arrayBufferToBase64 } from "../../common/functions";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
@@ -78,10 +78,22 @@ export const Activity = () => {
 
   const handleReserve = (activityId) => {
     try {
-      console.log(date.date, "fecha seleccionada");      
-      console.log(activityId, "soy el id");
+      
+      console.log(date, "fecha seleccionada");      
+      //Hemos recuperado el id de la actividad que hemos seleccionado.
+      const id = activityId
+      getActivityById(id)
+      .then((results) => {
+        if (results) {
+          console.log(results)
+        } else {
+          console.error(
+            "La respuesta de la API no tiene el formato esperado:"
+          );
+        }
+      })
 
-      navigate(`/${activityId}`);
+      navigate(`/actividad/${activityId}`);
     } catch (error) {
       console.error("Aquí quiero recuperar el error de la base de datos.", error);
     }

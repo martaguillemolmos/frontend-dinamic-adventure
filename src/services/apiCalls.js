@@ -60,6 +60,12 @@ export const getActivityByType = async (type) => {
   return await axios.get (`${hostURL}/activity/${type}`);
 }
 
+// Todas una actividad por el Id
+export const getActivityById = async (id) => {
+  // Conectamos la API a la base de datos
+  return await axios.get (`${hostURL}/activity/${id}`);
+}
+
 export const disponibilityDate = async ( body, token) => {
   return await axios.post(`${hostURL}/appointment/disponibility-activity`, body, {
     headers: {
@@ -67,3 +73,4 @@ export const disponibilityDate = async ( body, token) => {
     },
   });
 };
+
