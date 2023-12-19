@@ -54,8 +54,14 @@ export const getAllActivities = async () => {
   return await axios.get (`${hostURL}/activity/all`);
 }
 
-// Todas las actividades
+// Todas las actividades por el type
 export const getActivityByType = async (type) => {
   // Conectamos la API a la base de datos
   return await axios.get (`${hostURL}/activity/${type}`);
 }
+
+export const disponibilityDate = ( body) => {
+  return axios.post(`${hostURL}/appointment/disponibility-activity`, body, {
+
+  });
+};
