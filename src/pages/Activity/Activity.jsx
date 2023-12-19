@@ -76,6 +76,17 @@ export const Activity = () => {
     }
   };
 
+  const handleReserve = (activityId) => {
+    try {
+      console.log(date.date, "fecha seleccionada");      
+      console.log(activityId, "soy el id");
+
+      navigate(`/${activityId}`);
+    } catch (error) {
+      console.error("Aquí quiero recuperar el error de la base de datos.", error);
+    }
+  };
+
   const disponibiltyActivity = async () => {
     if (allActivities.length === 0) {
       getAllActivities()
@@ -109,7 +120,7 @@ export const Activity = () => {
         type={"datetime-local"}
         name={"date"}
         placeholder={""}
-        value={""}
+        value={date.date}
         functionProp={functionHandler}
       />
       <Button
@@ -131,6 +142,8 @@ export const Activity = () => {
                 description={results.description}
                 price={results.price}
                 availability={results.availability}
+                handleReserve={handleReserve}
+                id={results.id}
               />
             );
           })}
