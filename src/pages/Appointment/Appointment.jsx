@@ -33,17 +33,25 @@ export const Appointment = () => {
   ];
 
   const handlerTab1 = (event, newValue) => {
-    console.log(newValue, "soy value???")
+    console.log(newValue, "soy value???");
     setTabValue(newValue);
-   
-    if (newValue === 'null') {
-      setAppointments(allAppointments);
-      return
-    } 
-      const filterAppointments = allAppointments.filter(appointment => appointment.status_appointment === newValue);
-      console.log(newValue, "soy new")
-      setAppointments(filterAppointments);
-    
+
+    if (newValue === "null") {
+      const orderAppointment = allAppointments.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+      setAppointments(orderAppointment);
+      return;
+    }
+    const filterAppointments = allAppointments.filter(
+      (appointment) => appointment.status_appointment === newValue
+    );
+    console.log(newValue, "soy new");
+    const orderAppointment = filterAppointments.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+    console.log(orderAppointment, "soy orderApp");
+    setAppointments(orderAppointment);
   };
 
   useEffect(() => {
@@ -94,29 +102,29 @@ export const Appointment = () => {
           </Button>
         </div>
         <>
-        <TabBar tabs={customTabs1} value={tabValue1} handler={handlerTab1} />
-        <div className="appointmentsDesign">
-          {appointments.length > 0 ? (
-            <div className="appointmentsRoster">
-              {appointments.map((appointment) => {
-                return (
-                  <CardAppointments
-                    key={appointment.id}
-                    id={appointment.id}
-                    activity_name={appointment.activity_name}
-                    date={appointment.date}
-                    participants={appointment.participants}
-                    price={appointment.price}
-                    status_appointment={appointment.status_appointment}
-                    is_active={appointment.is_active}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            <div>{msgError}</div>
-          )}
-        </div>
+          <TabBar tabs={customTabs1} value={tabValue1} handler={handlerTab1} />
+          <div className="appointmentsDesign">
+            {appointments.length > 0 ? (
+              <div className="appointmentsRoster">
+                {appointments.map((appointment) => {
+                  return (
+                    <CardAppointments
+                      key={appointment.id}
+                      id={appointment.id}
+                      activity_name={appointment.activity_name}
+                      date={appointment.date}
+                      participants={appointment.participants}
+                      price={appointment.price}
+                      status_appointment={appointment.status_appointment}
+                      is_active={appointment.is_active}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <div>{msgError}</div>
+            )}
+          </div>
         </>
       </div>
     </div>
