@@ -22,7 +22,7 @@ export const Body = () => {
         <Route path='/registro' element={<Register />}/> 
         <Route path='/login' element={<Login />}/> 
         <Route path='/perfil' element={<Profile />}/>
-        <Route path='/actividad/id' element={<ActivityById />}/>
+        <Route path='/infor_actividad' element={<ActivityById />}/>
         <Route path='/actividad_acuatica' element={<Aquatic_Activities />}/> 
         <Route path='/actividad_terrestre' element={<Land_Activity />}/> 
         <Route path='/reservas' element={<Appointment />}/>

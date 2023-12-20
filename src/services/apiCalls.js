@@ -2,6 +2,7 @@ import axios from "axios";
 
 const hostURL = "http://localhost:4000";
 
+
 //Login
 export const loginUser = async (body) => {
   return await axios.post(`${hostURL}/user`, body);
@@ -70,6 +71,7 @@ export const disponibilityDate = async ( body, token) => {
 
 // Todas una actividad por el Id
 export const getActivityById = async (id) => {
+  console.log(id, "soy el id")
   // Conectamos la API a la base de datos
   return await axios.put (`${hostURL}/activity/${id}`);
 }
@@ -81,3 +83,12 @@ export const getActivityById = async (id) => {
 //     // },
 //   );
 // };
+
+//Perfil: Recuperamos la información del usuario
+export const getAppointmentByUser = async (token) => {
+  return await axios.get(`${hostURL}/appointment`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

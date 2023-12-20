@@ -1,6 +1,11 @@
 import './CardAppointments.css'; // Asegúrate de tener un archivo CSS asociado
 
 const CardAppointments = ({
+  id,
+  activity_name,
+  date,
+  participants,
+  price,
   status_appointment,
   is_active,
 }) => {
@@ -25,7 +30,12 @@ const CardAppointments = ({
   }
   return (
     <div className={`card${getStatusColor()}`}>
-        
+        <div className="infoValue">{id}</div>
+        <div className="infoValue">{activity_name}</div>
+        <div className="infoValue">{date}</div>
+        <div className="infoValue">{participants}</div>
+        <div className="infoValue">{price}</div>
+        <div className="infoValue">Total : {price}*{participants} €</div>
     </div>
   );
 };

@@ -80,15 +80,9 @@ export const Activity = () => {
     try {
       console.log(activityId, "soy el activityId")
       if(activityId !== isNaN){
-        const id = activityId
-        console.log(id)
-        navigate(`/actividad/id`);
+        navigate(`/infor_actividad`, { state: { activityId, date: date.date } });
+
       } 
-      //Hemos recuperado el id de la actividad que hemos seleccionado.
-      if (date.date !== ""){
-        console.log(date, "fecha seleccionada"); 
-        
-      }
   
     } catch (error) {
       console.error("Aquí quiero recuperar el error de la base de datos.", error);
