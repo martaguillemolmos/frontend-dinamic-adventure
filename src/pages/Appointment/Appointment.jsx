@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { getAppointmentByUser } from "../../services/apiCalls";
 import { TabBar } from "../../common/CustomTabs/CustomTabs";
 import CardAppointments from "../../common/CardAppointments/CardAppointments";
+import Modal from "../../common/Modal/Modal";
 
 export const Appointment = () => {
   const navigate = useNavigate();
@@ -23,6 +24,19 @@ export const Appointment = () => {
   const [appointments, setAppointments] = useState([]);
   const [msgError, setMsgError] = useState("");
   const [allAppointments, setAllAppointments] = useState([]);
+
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = (appointment) => {
+    setSelectedAppointment(appointment);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedAppointment(null);
+    setIsModalOpen(false);
+  };
 
   const customTabs1 = [
     { label: "Todos", value: "null" },
@@ -118,6 +132,7 @@ export const Appointment = () => {
                       price={appointment.price}
                       status_appointment={appointment.status_appointment}
                       is_active={appointment.is_active}
+                      handleOpenModal={handleOpenModal}
                     />
                   );
                 })}
@@ -128,6 +143,7 @@ export const Appointment = () => {
           </div>
         </>
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} appointment={selectedAppointment} />
     </div>
   );
 };

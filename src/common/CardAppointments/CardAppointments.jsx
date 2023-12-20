@@ -8,6 +8,7 @@ const CardAppointments = ({
   price,
   status_appointment,
   is_active,
+  handleOpenModal 
 }) => {
   // Lógica para determinar el color según el estado de la cita
   const getStatusColor = () => {
@@ -28,8 +29,22 @@ const CardAppointments = ({
   if (!is_active) {
     return null;
   }
+
+  const handleCardClick = () => {
+    handleOpenModal({
+      id,
+      activity_name,
+      date,
+      participants,
+      price,
+      status_appointment,
+      is_active
+    });
+  };
+
+
   return (
-    <div className={`card${getStatusColor()}`}>
+    <div className={`card${getStatusColor()}`} onClick={handleCardClick}>
         <div className="infoValue">{id}</div>
         <div className="infoValue">{activity_name}</div>
         <div className="infoValue">{date}</div>
