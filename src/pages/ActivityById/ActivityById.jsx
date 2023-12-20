@@ -13,6 +13,7 @@ export const ActivityById =  () => {
   useEffect(() => {
     const fetchActivityDetails = async () => {
       try {
+        console.log(activityDetails, "soy activityDetails")
         if (activityId) {
           console.log(activityId, "soy activityID");
         }
@@ -23,6 +24,7 @@ export const ActivityById =  () => {
 
         const response = await getActivityById(activityId);
         const data = response.data;
+        console.log(response, "soy activityDetails")
 
         if (data) {
           setActivityDetails(data);
@@ -42,9 +44,15 @@ export const ActivityById =  () => {
       <div className="center">
         {activityDetails ? (
           <>
-            <h1>{activityDetails.data.title}</h1>
-            <p>{activityDetails.data.description}</p>
-
+            <h1>{activityDetails.data.activity.title}</h1>
+            <p>{activityDetails.data.activity.description}</p>
+            
+            {/* Corregir la condición aquí */}
+            {activityDetails.data.activityDetails.length === 0 ? (
+              <h1>Ponte en contacto con nosotros para más información</h1>
+            ) : (
+              <p>Hola, soy details, encantada</p>
+            )}
           </>
         ) : (
           <p>Cargando detalles de la actividad...</p>
