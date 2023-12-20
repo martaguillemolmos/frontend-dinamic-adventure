@@ -76,17 +76,17 @@ export const getActivityById = async (id) => {
   return await axios.put (`${hostURL}/activity/${id}`);
 }
 
-// export const getActivityById = async ( body) => {
-//   return await axios.put(`${hostURL}/activity/byId`, body, 
-//     // headers: {
-//     //   Authorization: `Bearer ${token}`,
-//     // },
-//   );
-// };
 
-//Perfil: Recuperamos la información del usuario
 export const getAppointmentByUser = async (token) => {
   return await axios.get(`${hostURL}/appointment`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createAppointment = async ( body, token) => {
+  return await axios.post(`${hostURL}/appointment`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
