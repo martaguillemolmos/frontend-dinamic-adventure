@@ -37,21 +37,21 @@ export const Appointment = () => {
     setTabValue(newValue);
 
     if (newValue === "null") {
-      const orderAppointment = allAppointments.sort(
+      const orderAllAppointments = allAppointments.sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
-      setAppointments(orderAppointment);
+      setAppointments(orderAllAppointments);
       return;
     }
     const filterAppointments = allAppointments.filter(
       (appointment) => appointment.status_appointment === newValue
     );
     console.log(newValue, "soy new");
-    const orderAppointment = filterAppointments.sort(
+    const orderFilterAppointment = filterAppointments.sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
-    console.log(orderAppointment, "soy orderApp");
-    setAppointments(orderAppointment);
+    console.log(orderFilterAppointment, "soy orderApp");
+    setAppointments(orderFilterAppointment);
   };
 
   useEffect(() => {
@@ -62,9 +62,10 @@ export const Appointment = () => {
         getAppointmentByUser(token)
           .then((results) => {
             if (Array.isArray(results.data)) {
-              console.log(results.data);
-              setAllAppointments(results.data);
-              setAppointments(results.data);
+              const allAppointments = results.data;
+              const orderAppointment = allAppointments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+              setAllAppointments(orderAppointment);
+              setAppointments(orderAppointment);
             } else {
               console.log("No tienes citas agendadas");
             }
