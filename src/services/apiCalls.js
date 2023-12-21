@@ -92,3 +92,11 @@ export const createAppointment = async ( body, token) => {
     },
   });
 };
+
+export const updateAppointment = async ( body, token) => {
+  return await axios.put(`${hostURL}/appointment`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
