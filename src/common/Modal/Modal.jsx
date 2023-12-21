@@ -79,7 +79,11 @@ const Modal = ({ isOpen, onClose, appointment }) => {
     };
   
     const modifyAppointment = () => {
-      if (status_appointment === "pending") {
+        const dateAppointment = dayjs(date);
+        const dateNow = dayjs();
+        const diferenciaDias = dateAppointment.diff(dateNow, 'days');
+        console.log("datenow", dateNow)
+      if (status_appointment === "pending" || (status_appointment == "approved" && diferenciaDias >= 10) ) {
         return (
           <div className="buttonAppointments">
             <button
@@ -108,17 +112,6 @@ const Modal = ({ isOpen, onClose, appointment }) => {
              Modificar reserva
             </Button>
             )}
-          </div>
-        );
-      } else if (status_appointment === "approved") {
-        return (
-          <div className="buttonAppointments">
-            <button
-              className="cancel-Appointment"
-              onClick={() => cancelAppointment(id)}
-            >
-              Cancelar Reserva
-            </button>
           </div>
         );
       } else {
