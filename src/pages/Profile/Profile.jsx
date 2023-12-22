@@ -1,5 +1,7 @@
 import "./Profile.css";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import { json, useNavigate } from "react-router-dom";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
@@ -97,7 +99,7 @@ export const Profile = () => {
   const [tabValue, setTabValue] = useState("null");
 
   const customTabs = [
-    { label: "Perfil", value: "null"},    
+    { icon: <AccountCircleIcon /> , label: "Perfil", value: "null"},    
     { icon: < VpnKeyIcon/>, label: "Seguridad", value: "cuenta" },
   ];
 
