@@ -4,11 +4,15 @@ import { LinkButton } from "../LinkButton/LinkButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, userData } from "../../pages/userSlice";
+import { jwtDecode } from "jwt-decode";
 
 export const Header = () => {
   const navigate = useNavigate();
   const rdxToken = useSelector(userData);
-  // console.log("este token es lo mejor", rdxToken);
+  console.log("este token es lo mejor", rdxToken);
+  const token = rdxToken.credentials.token;
+  const decoredToken = jwtDecode(token);
+  console.log(decoredToken.role, "soy decoredToken")
 
   const dispatch = useDispatch();
 
@@ -49,11 +53,21 @@ export const Header = () => {
           </>
         ) : (
           <>
+               <>
+            {decoredToken.role == "super_admin" ? (
+               <div
+               className="buttonSession"
+               onClick={() => navigate("/reservas")}
+             >
+               USUARIOS
+             </div>           
+            ) : null}
+          </>
             <div
               className="buttonSession"
               onClick={() => navigate("/reservas")}
             >
-              RESERVA
+              RESERVAS
             </div>
             <LinkButton path={"/perfil"} title={"Perfil"} />
             <div className="buttonSession" onClick={logOutMe} path={"/"}>
