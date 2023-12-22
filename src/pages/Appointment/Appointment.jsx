@@ -5,7 +5,10 @@ import { userData } from "../userSlice";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
-import { getAppointmentByUser } from "../../services/apiCalls";
+import {
+  getAllApointments,
+  getAppointmentByUser,
+} from "../../services/apiCalls";
 import { TabBar } from "../../common/CustomTabs/CustomTabs";
 import CardAppointments from "../../common/CardAppointments/CardAppointments";
 import Modal from "../../common/Modal/Modal";
@@ -24,6 +27,8 @@ export const Appointment = () => {
   const [appointments, setAppointments] = useState([]);
   const [msgError, setMsgError] = useState("");
   const [allAppointments, setAllAppointments] = useState([]);
+  const [uniqueActivities, setUniqueActivities] = useState([]);
+  const [selectedActivity, setSelectedActivity] = useState(null);
 
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,38 +74,52 @@ export const Appointment = () => {
   };
 
   useEffect(() => {
-    if (rdxToken.credentials !== "") {
-      const token = rdxToken.credentials.token;
-      const decoredToken = jwtDecode(token);
-      if (decoredToken !== "super_admin") {
-        getAppointmentByUser(token)
-          .then((results) => {
-            if (Array.isArray(results.data)) {
-              const allAppointments = results.data;
-              const orderAppointment = allAppointments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-              setAllAppointments(orderAppointment);
-              setAppointments(orderAppointment);
-            } else {
-              console.log("No tienes citas agendadas");
-            }
-          })
-          .catch((error) => {
-            if (error.response && error.response.data) {
-              // Si tenemos un mensaje en response.data, lo mostramos
-              console.log(error.response.data);
-            } else {
-              // Si no tenemos un mensaje en response.data
-              console.log("Hubo un error al cargar las citas.");
-            }
-          });
-      } else {
-        navigate("/login");
+    const infoAppointment = async () => {
+      try {
+        if (rdxToken.credentials !== "") {
+          const token = rdxToken.credentials.token;
+          const decoredToken = jwtDecode(token);
+
+          let appointmentsByRole;
+          if (decoredToken.role == "super_admin") {
+            const appointmentSuper = await getAllApointments(token);
+            appointmentsByRole = appointmentSuper.data;
+            console.log("soy appo de super", appointmentSuper.data);
+          } else {
+            appointmentsByRole = await getAppointmentByUser(token);
+            console.log("soy appo de NO super", appointmentsByRole);
+          }
+
+          if (Array.isArray(appointmentsByRole.data)) {
+            const allAppointments = appointmentsByRole.data;
+            const orderAppointment = allAppointments.sort(
+              (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+            );
+            setAllAppointments(orderAppointment);
+            setAppointments(orderAppointment);
+
+            const uniqueActivityNames = [
+              ...new Set(
+                allAppointments.map((appointment) => appointment.activity_name)
+              ),
+            ];
+            setUniqueActivities(uniqueActivityNames);
+          } else {
+            console.log("No tienes citas agendadas");
+          }
+        } else {
+          navigate("/");
+        }
+      } catch (error) {
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+        } else {
+          console.log("Hubo un error al cargar las citas.", error);
+        }
       }
-    } else {
-      console.log("redirigir");
-      // Si no contamos con un token, redirigimos al usuario a login.
-      navigate("/");
-    }
+    };
+
+    infoAppointment();
   }, [rdxToken]);
 
   return (
@@ -115,6 +134,23 @@ export const Appointment = () => {
           >
             Nueva Reserva
           </Button>
+        </div>
+        <div className="appointmentsDesign">
+          <div className="dropdown-container">
+            {uniqueActivities.length > 0 && (
+              <select
+                value={selectedActivity || ""}
+                onChange={(e) => setSelectedActivity(e.target.value || null)}
+              >
+                <option value="">Selecciona una actividad</option>
+                {uniqueActivities.map((activity) => (
+                  <option key={activity} value={activity}>
+                    {activity}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
         </div>
         <>
           <TabBar tabs={customTabs1} value={tabValue1} handler={handlerTab1} />
@@ -143,7 +179,11 @@ export const Appointment = () => {
           </div>
         </>
       </div>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} appointment={selectedAppointment} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        appointment={selectedAppointment}
+      />
     </div>
   );
 };

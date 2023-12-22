@@ -100,3 +100,11 @@ export const updateAppointment = async ( body, token) => {
     },
   });
 };
+
+export const getAllApointments = async (token) => {
+  return await axios.get(`${hostURL}/appointment/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

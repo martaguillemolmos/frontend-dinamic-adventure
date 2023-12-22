@@ -21,7 +21,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
       participants,
     });
     
-    const [isEnabled, setIsEnabled] = useState(true);
+    const [isEnabled, setIsEnabled] = useState(false);
   
     const functionHandler = (e) => {
       setAppointmentData((prevState) => ({
@@ -31,6 +31,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
     };
 
     useEffect(() => {
+        console.log(appointment);
         setAppointmentData({
           date : date ? dayjs(date).format("YYYY-MM-DDTHH:mm") : "",
           participants,
@@ -68,13 +69,13 @@ const Modal = ({ isOpen, onClose, appointment }) => {
           token
         );
         if (newAppointment) {
-          navigate("/reservas");
+          navigate("/");
           console.log("se ha creado la cita");
         }
       } catch (error) {
         console.error("Error al comprobar la disponibilidad", error);
       } finally {
-        setIsEnabled(true);
+        setIsEnabled(false);
       }
     };
   
@@ -149,20 +150,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
               </div>
               <div className="modal-content">
                 <p>ID: {id}</p>
-                <CustomInput
-                  disabled={""}
-                  label={"Actividad"}
-                  design={"inputDesign"}
-                  type={"text"}
-                  name={"id_activity"}
-                  placeholder={""}
-                  value={activity_name}
-                  maxLength={"25"}
-                  functionProp={functionHandler}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
+                <h2>Actividad seleccionada: {activity_name}</h2>
                 <CustomInput
                   disabled={!isEnabled}
                   label={"Fecha"}
