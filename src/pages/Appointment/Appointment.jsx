@@ -62,6 +62,7 @@ export const Appointment = () => {
       setAppointments(orderAllAppointments);
       return;
     }
+
     const filterAppointments = allAppointments.filter(
       (appointment) => appointment.status_appointment === newValue
     );
@@ -71,6 +72,22 @@ export const Appointment = () => {
     );
     console.log(orderFilterAppointment, "soy orderApp");
     setAppointments(orderFilterAppointment);
+  };
+
+  const filterAppointmentsByActivity = (activity) => {
+    if (!activity) {
+      setAppointments(allAppointments);
+      return;
+    }
+    const filteredAppointments = allAppointments.filter(
+      (appointment) => appointment.activity_name === activity
+    );
+
+    const orderedAppointments = filteredAppointments.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    setAppointments(orderedAppointments);
   };
 
   useEffect(() => {
@@ -92,6 +109,7 @@ export const Appointment = () => {
 
           if (Array.isArray(appointmentsByRole.data)) {
             const allAppointments = appointmentsByRole.data;
+
             const orderAppointment = allAppointments.sort(
               (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
             );
@@ -140,7 +158,10 @@ export const Appointment = () => {
             {uniqueActivities.length > 0 && (
               <select
                 value={selectedActivity || ""}
-                onChange={(e) => setSelectedActivity(e.target.value || null)}
+                onChange={(e) => {
+                  setSelectedActivity(e.target.value || null);
+                  filterAppointmentsByActivity(e.target.value);
+                }}
               >
                 <option value="">Selecciona una actividad</option>
                 {uniqueActivities.map((activity) => (
