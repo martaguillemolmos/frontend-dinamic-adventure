@@ -57,7 +57,7 @@ export const Header = () => {
             {decoredToken.role == "super_admin" ? (
                <div
                className="buttonSession"
-               onClick={() => navigate("/reservas")}
+               onClick={() => navigate("/usuarios")}
              >
                USUARIOS
              </div>           

@@ -1,4 +1,4 @@
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, Navigate} from 'react-router-dom'
 import { Home } from '../Home/Home'
 import { Register } from '../Register/Register'
 import { Contact } from '../Contact/Contact'
@@ -9,13 +9,14 @@ import { Land_Activity } from '../Land Activity/Land Activity'
 import { Activity } from '../Activity/Activity'
 import { ActivityById } from '../ActivityById/ActivityById'
 import { Appointment } from '../Appointment/Appointment'
+import { Users } from '../Users/Users'
 
 
 export const Body = () => {
     return (
         <>
         <Routes>
-        {/* <Route path='*' element={<Navigate to='/' />}/> */}
+        <Route path='*' element={<Navigate to='/' />}/>
         <Route path='/' element={<Home />}/> 
         <Route path='/actividad' element={<Activity />}/> 
         <Route path='/contacto' element={<Contact />}/> 
@@ -26,6 +27,7 @@ export const Body = () => {
         <Route path='/actividad_acuatica' element={<Aquatic_Activities />}/> 
         <Route path='/actividad_terrestre' element={<Land_Activity />}/> 
         <Route path='/reservas' element={<Appointment />}/>
+        <Route path='/usuarios' element={<Users />}/>
 
         </Routes>
         </>
