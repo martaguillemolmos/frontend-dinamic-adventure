@@ -38,9 +38,6 @@ export const CustomAlert = ({ type, content, showAlert }) => {
             transition: "transform 500ms, opacity 500ms", }}
           >
             <Alert severity={alertSeverity(type)}>
-              <AlertTitle>
-                {type.charAt(0).toUpperCase() + type.slice(1)}
-              </AlertTitle>
               {content}
             </Alert>
           </Zoom>
