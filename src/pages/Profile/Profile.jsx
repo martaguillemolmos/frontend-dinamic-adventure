@@ -1,4 +1,5 @@
 import "./Profile.css";
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { json, useNavigate } from "react-router-dom";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
@@ -96,8 +97,8 @@ export const Profile = () => {
   const [tabValue, setTabValue] = useState("null");
 
   const customTabs = [
-    { label: "Perfil", value: "null" },
-    { label: "Cuenta y seguridad", value: "cuenta" },
+    { label: "Perfil", value: "null"},    
+    { icon: < VpnKeyIcon/>, label: "Seguridad", value: "cuenta" },
   ];
 
   const handlerTab = (event, newValue) => {
@@ -188,8 +189,8 @@ export const Profile = () => {
         <div className="summaryProfile">
           <div className="infoCabecera">
             <div className="nameUser">
-              {" "}
-              {profile.name} {profile.surname}
+              <p className="nameProfile">
+              <strong>{profile.name} {profile.surname}</strong></p>
             </div>
             <div className="roleUser">
               <strong>{profile.role}</strong>: {profile.email}

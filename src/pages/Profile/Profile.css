@@ -39,6 +39,9 @@
     align-items: flex-start;
     gap: 10em;
 }
+.nameProfile{
+    font-size: 1.8em
+}
 
 .passwordButton{
     cursor: pointer;
