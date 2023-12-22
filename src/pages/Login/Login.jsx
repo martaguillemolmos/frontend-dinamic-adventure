@@ -48,6 +48,7 @@ export const Login = () => {
 
   const alertClasses = alert.show ? "alert show" : "alert";
 
+
   const functionHandler = (e) => {
     setCredenciales((prevState) => ({
       ...prevState,
@@ -70,11 +71,13 @@ export const Login = () => {
       //Si ya contamos con un token, redirigimos al usuario a inicio.
       navigate("/perfil")
     }
+
   });
 
   //Declaramos la constante logMe para que, en caso de logearnos guarde el token y nos envíe al profile y por el contrario, nos muestre el error que nos impide hacerlo.
   const logMe = () => {
-    if ( credenciales.email != "" && credenciales.password != "" && credencialesError.emailError == null && credencialesError.passwordError == null) {
+    console.log("errores", credencialesError)
+    if (credenciales.email != "" && credenciales.password != "" && credencialesError.emailError == "" && credencialesError.passwordError == "") {
       loginUser(credenciales)
         .then((resultado) => {
           //Si nos logeamos, aparecerá el mensaje
@@ -91,7 +94,7 @@ export const Login = () => {
         })
         .catch((error) => {
           if (error.response.status !== 200) {
-            console.log(error.response.message);
+            console.log(error, "este es el error");
             setTimeout(
               alertHandler({
                 show: true,
@@ -102,7 +105,15 @@ export const Login = () => {
             setTimeout(handleAlertClose, 2000);
           }
         });
-    }
+    } 
+    setTimeout(
+      alertHandler({
+        show: true,
+        title: `warning`,
+        message: "Introduce el usuario y contraseña, valida los campos.",
+      },
+    ), 100),       
+    setTimeout(handleAlertClose, 2000);
   };
 
   //Declaramos esta constante, para que, en caso de pulsar sobre el botón que contiene "Crea tu cuenta", nos rediriga a registro.
@@ -141,6 +152,8 @@ export const Login = () => {
           />
           <CustomInput
             required
+            className="inputRegister"
+            label={"Contraseña"}
             design={"inputDesign"}
             type={"password"}
             name={"password"}

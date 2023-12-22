@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 
-export const CustomInput = ({required, label, textError,functionBlur, disabled,display, design, type, pattern, name, placeholder, value, maxLength, functionProp, min, max}) => {
+export const CustomInput = ({required, label, error,  helperText,functionBlur, disabled,display, design, type, pattern, name, placeholder, value, maxLength, functionProp, min, max}) => {
     return (
         <div className='customInputDesing'>
         <TextField 
@@ -20,11 +20,12 @@ export const CustomInput = ({required, label, textError,functionBlur, disabled,d
         pattern={pattern}        
         min={min}
         max={max}
-        helperText={textError}
+        helperText={helperText}
         fullWidth
         InputLabelProps={{
             shrink: true,
           }}
+        error={!!helperText}
          />
         </div>
     )
