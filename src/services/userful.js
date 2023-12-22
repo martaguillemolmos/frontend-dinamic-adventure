@@ -30,8 +30,8 @@ export const validator = (type, value) => {
         // Validación del teléfono
         case 'phone':
         case 'telefono':
-            if (value !== undefined || (value > 999999999 && value < 600000000)) {
-                error = "Formato de teléfono incorrecto.";
+           if (!/^\d+$/.test(value) || value == undefined || value < 600000000 || value > 900000000) {
+                error = "Número de teléfono incorrecto.";
             }
             break;
 
