@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import { Button, Divider } from "@mui/material";
 import { validator } from "../../services/userful";
 import { loginUser } from "../../services/apiCalls";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, userData } from "../userSlice";
+import { CustomAlert } from "../../common/Alert/Alert";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -26,6 +27,27 @@ export const Login = () => {
     passwordError: null,
   });
 
+  //Alert
+  const [alert, setAlert] = useState({
+    show: false,
+    title: "",
+    message: "",
+  });
+
+  const alertHandler = (e) => {
+    setAlert(e);
+  };
+
+  const handleAlertClose = () => {
+    setAlert({
+      show: false,
+      title: "",
+      message: "",
+    });
+  };
+
+  const alertClasses = alert.show ? "alert show" : "alert";
+
   const functionHandler = (e) => {
     setCredenciales((prevState) => ({
       ...prevState,
@@ -42,41 +64,42 @@ export const Login = () => {
     }));
   };
 
+
   useEffect(() => {
-    //Comprobamos si ya hay un token almacenado en Redux
     if (rdxCredentials?.credentials.token) {
-      console.log(rdxCredentials);
       //Si ya contamos con un token, redirigimos al usuario a inicio.
-      navigate("/perfil");
+      navigate("/perfil")
     }
   });
 
   //Declaramos la constante logMe para que, en caso de logearnos guarde el token y nos envíe al profile y por el contrario, nos muestre el error que nos impide hacerlo.
   const logMe = () => {
-    console.log("Email", credenciales.email);
-    console.log("Password", credenciales.password);
-    console.log("errores", credencialesError);
-    if (
-      credenciales.email != "" &&
-      credenciales.password != "" &&
-      credencialesError.emailError == null &&
-      credencialesError.passwordError == null
-    ) {
-      console.log("aqui llega", credenciales);
+    if ( credenciales.email != "" && credenciales.password != "" && credencialesError.emailError == null && credencialesError.passwordError == null) {
       loginUser(credenciales)
         .then((resultado) => {
-          console.log(resultado, "este es el resultado");
-          dispatch(login({ credentials: resultado.data }));
-          console.log("Mensaje", resultado.data.message);
+          //Si nos logeamos, aparecerá el mensaje
+          alertHandler({
+                show: true,
+                title: `success`,
+                message: `${resultado.data.message}`,
+              },
+            )
+          setTimeout(() => {
+            dispatch(login({ credentials: resultado.data }));
+            navigate("/perfil");
+          }, 2000);
         })
         .catch((error) => {
           if (error.response.status !== 200) {
             console.log(error.response.message);
-            return json({
-              show: true,
-              title: `Error ${error.response.status}`,
-              message: `${error.response.data.message}`,
-            });
+            setTimeout(
+              alertHandler({
+                show: true,
+                title: `error`,
+                message: `${error.response.data.message}`,
+              },
+            ), 100),       
+            setTimeout(handleAlertClose, 2000);
           }
         });
     }
@@ -84,13 +107,17 @@ export const Login = () => {
 
   //Declaramos esta constante, para que, en caso de pulsar sobre el botón que contiene "Crea tu cuenta", nos rediriga a registro.
   const registerMe = () => {
-    setTimeout(() => {
       navigate("/registro");
-    }, 300);
   };
 
   return (
     <div className="loginDesign">
+      <CustomAlert
+      className ={alertClasses}
+        type={alert.title}
+        content={alert.message}
+        showAlert={alert.show}
+      />
       <div className="contentLogin">
         <div className="headerLogo">
           <img src={letterLogo} alt="Logo" style={{ height: "4.1em" }} />
@@ -110,6 +137,7 @@ export const Login = () => {
             fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
+            helperText={credencialesError.emailError}
           />
           <CustomInput
             required
@@ -122,6 +150,7 @@ export const Login = () => {
             fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
+            helperText={credencialesError.passwordError}
           />
         </div>
         <div className="loginButton">
@@ -136,7 +165,6 @@ export const Login = () => {
         </div>
         <div className="registerAccount">
           <Divider>¿Eres nuevo?</Divider>
-        
 
           <Button
             variant="contained"
@@ -146,7 +174,7 @@ export const Login = () => {
           >
             Crea tu cuenta
           </Button>
-          </div>
+        </div>
       </div>
     </div>
   );
