@@ -31,6 +31,15 @@ export const updateUser = async (token, body) => {
   });
 };
 
+//Recuperar todos los usuarios
+export const getAllUsers = async (token) => {
+  return await axios.get(`${hostURL}/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 //Actualizar la contraseña
 export const updatePassword = async (token, body) => {
   return await axios.patch(`${hostURL}/user/password`, body, {
@@ -43,6 +52,15 @@ export const updatePassword = async (token, body) => {
 //Inactivar la cuenta
 export const deactivateAccount = async (token, body) => {
   return  await axios.put(`${hostURL}/user/account`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+// Acceder al perfil del usuario
+export const loginSuper = async (token, body) => {
+  return  await axios.post(`${hostURL}/user/login`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
