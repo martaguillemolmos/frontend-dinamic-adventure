@@ -96,18 +96,29 @@ export const Appointment = () => {
         if (rdxToken.credentials !== "") {
           const token = rdxToken.credentials.token;
           const decoredToken = jwtDecode(token);
-
+          console.log(decoredToken, "soy el token")
           let appointmentsByRole;
+          console.log("Valor inicial de appointmentsByRole:", appointmentsByRole);
           if (decoredToken.role == "super_admin") {
+            console.log("soy superAdmin")
+            if(decoredToken.user_token == ""){
             const appointmentSuper = await getAllApointments(token);
             appointmentsByRole = appointmentSuper.data;
             console.log("soy appo de super", appointmentSuper.data);
+            } else {
+              console.log("no tengo el role de usuario vacio")
+            const appointmentSuper = await getAppointmentByUser(token);
+            console.log(appointmentSuper, "es esta la cita")
+            appointmentsByRole = appointmentSuper;
+            console.log(appointmentsByRole, "continuo teniendo aqui la cita")
+            }         
           } else {
             appointmentsByRole = await getAppointmentByUser(token);
             console.log("soy appo de NO super", appointmentsByRole);
           }
 
           if (Array.isArray(appointmentsByRole.data)) {
+            console.log("aqui entra, paso 1")
             const allAppointments = appointmentsByRole.data;
 
             const orderAppointment = allAppointments.sort(

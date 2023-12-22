@@ -15,7 +15,6 @@ export const Users = () => {
   const dispatch = useDispatch();
 
   const handleUserClick = (userId) => {
-    // Lógica para realizar la acción de loginSuper con el ID del usuario
     const token = rdxToken.credentials.token;
     const body = {"id_user": userId}
     loginSuper(token,  body)
@@ -41,10 +40,8 @@ export const Users = () => {
           })
           .catch((error) => {
             if (error.response && error.response.data) {
-              // Si tenemos un mensaje en response.data, lo mostramos
               setMsgError(error.response.data);
             } else {
-              // Si no tenemos un mensaje en response.data
               setMsgError("Hubo un error al cargar las citas.");
             }
           });
