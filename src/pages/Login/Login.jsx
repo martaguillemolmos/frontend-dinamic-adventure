@@ -48,7 +48,6 @@ export const Login = () => {
 
   const alertClasses = alert.show ? "alert show" : "alert";
 
-
   const functionHandler = (e) => {
     setCredenciales((prevState) => ({
       ...prevState,
@@ -56,6 +55,7 @@ export const Login = () => {
     }));
   };
 
+  //Validación de errores
   const errorCheck = (e) => {
     let error = "";
     error = validator(e.target.name, e.target.value);
@@ -65,66 +65,70 @@ export const Login = () => {
     }));
   };
 
-
   useEffect(() => {
     if (rdxCredentials?.credentials.token) {
-      //Si ya contamos con un token, redirigimos al usuario a inicio.
-      navigate("/perfil")
+      //Si ya contamos con un token, redirigimos al usuario al perfil.
+      navigate("/perfil");
     }
-
   });
 
-  //Declaramos la constante logMe para que, en caso de logearnos guarde el token y nos envíe al profile y por el contrario, nos muestre el error que nos impide hacerlo.
+  //Declaramos la constante logMe para que, en caso de logearnos guarde el token y nos envíe a reservas y por el contrario, nos muestre el error que nos impide hacerlo.
   const logMe = () => {
-    console.log("errores", credencialesError)
-    if (credenciales.email != "" && credenciales.password != "" && credencialesError.emailError == "" && credencialesError.passwordError == "") {
+    if (
+      credenciales.email != "" &&
+      credenciales.password != "" &&
+      credencialesError.emailError == "" &&
+      credencialesError.passwordError == ""
+    ) {
       loginUser(credenciales)
         .then((resultado) => {
-          //Si nos logeamos, aparecerá el mensaje
+          //Mensaje de bienvenida
           alertHandler({
-                show: true,
-                title: `success`,
-                message: `${resultado.data.message}`,
-              },
-            )
+            show: true,
+            title: `success`,
+            message: `${resultado.data.message}`,
+          });
           setTimeout(() => {
             dispatch(login({ credentials: resultado.data }));
-            navigate("/perfil");
+            navigate("/reservas");
           }, 2000);
         })
         .catch((error) => {
+          //Mensaje de error, backend
           if (error.response.status !== 200) {
-            console.log(error, "este es el error");
             setTimeout(
               alertHandler({
                 show: true,
                 title: `error`,
                 message: `${error.response.data.message}`,
-              },
-            ), 100),       
-            setTimeout(handleAlertClose, 2000);
+              }),
+              100
+            ),
+              setTimeout(handleAlertClose, 2000);
           }
         });
-    } 
+    }
+    //Mensaje de error, validaciones frontend
     setTimeout(
       alertHandler({
         show: true,
         title: `warning`,
         message: "Introduce el usuario y contraseña, valida los campos.",
-      },
-    ), 100),       
-    setTimeout(handleAlertClose, 2000);
+      }),
+      100
+    ),
+      setTimeout(handleAlertClose, 2000);
   };
 
   //Declaramos esta constante, para que, en caso de pulsar sobre el botón que contiene "Crea tu cuenta", nos rediriga a registro.
   const registerMe = () => {
-      navigate("/registro");
+    navigate("/registro");
   };
 
   return (
     <div className="loginDesign">
       <CustomAlert
-      className ={alertClasses}
+        className={alertClasses}
         type={alert.title}
         content={alert.message}
         showAlert={alert.show}

@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 
-export const CustomInput = ({required, label, error,  helperText,functionBlur, disabled,display, design, type, pattern, name, placeholder, value, maxLength, functionProp, min, max}) => {
+export const CustomInput = ({required, label,  helperText,functionBlur, disabled,display, design, type, pattern, name, placeholder, value, maxLength, functionProp, min, max}) => {
     return (
         <div className='customInputDesing'>
         <TextField 
