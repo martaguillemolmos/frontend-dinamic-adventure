@@ -22,7 +22,7 @@ export const validator = (type, value) => {
         // Validación del name y surname
         case 'name':
         case 'surname':
-            if (value !== undefined && value.trim() !== "" && value.length > 50) {
+            if (value == undefined || value.trim() == "" || (value.length < 4 || value.length > 50)) {
                 error = "Número máx. de caracteres 50.";
             }
             break;
@@ -30,7 +30,7 @@ export const validator = (type, value) => {
         // Validación del teléfono
         case 'phone':
         case 'telefono':
-            if (value !== undefined && (value > 999999999 || value < 600000000)) {
+            if (value !== undefined || (value > 999999999 && value < 600000000)) {
                 error = "Formato de teléfono incorrecto.";
             }
             break;
@@ -39,7 +39,7 @@ export const validator = (type, value) => {
         case 'password':
         case 'passwordOld':
         case 'contraseña':
-            if (value !== undefined && value.trim() !== "" && (value.length < 6 || value.length > 12)) {
+            if (value == undefined || value.trim() == "" || (value.length < 6 || value.length > 12)) {
                 error = "La contraseña debe contener de 6 a 12 caracteres";
             }
             break;

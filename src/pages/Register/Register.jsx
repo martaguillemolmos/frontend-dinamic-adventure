@@ -8,16 +8,14 @@ import { useEffect, useState } from "react";
 import { login, userData } from "../userSlice";
 import { createUser } from "../../services/apiCalls";
 import { Button } from "@mui/material";
+import { CustomAlert } from "../../common/Alert/Alert";
 
 export const Register = () => {
-  //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
   const navigate = useNavigate();
-
-  //Declaramos esta constante, que nos permitirá leer el contenido.
   const dispatch = useDispatch();
-
   const rdxCredentials = useSelector(userData);
 
+  // Declaramos los datos que vamos a solicitar para poder realizar el register.
   const [registerData, setRegisterData] = useState({
     name: "",
     surname: "",
@@ -41,6 +39,7 @@ export const Register = () => {
     }));
   };
 
+  //Validacion de errores
   const errorCheck = (e) => {
     let error = "";
     error = validator(e.target.name, e.target.value);
@@ -51,50 +50,78 @@ export const Register = () => {
   };
 
   useEffect(() => {
-    //Comprobamos si ya hay un token almacenado en Redux
     if (rdxCredentials?.credentials.token) {
-      console.log(rdxCredentials);
-      //Si ya contamos con un token, redirigimos al usuario a su perfil.
       navigate("/perfil");
     }
   });
 
+   //Alert
+   const [alert, setAlert] = useState({
+    show: false,
+    title: "",
+    message: "",
+  });
+
+  const alertHandler = (e) => {
+    setAlert(e);
+  };
+
+  const handleAlertClose = () => {
+    setAlert({
+      show: false,
+      title: "",
+      message: "",
+    });
+  };
+
+  const alertClasses = alert.show ? "alert show" : "alert";
+
   //Registrar nuevos usuarios.
   const registerUser = () => {
     const dataErrorValues = Object.values(registerDataError);
-    console.log("dataerrpr", dataErrorValues);
     if (dataErrorValues.some((value) => value == "")) {
-      console.log("datos", registerData);
-      console.log("dataerror", registerDataError);
       const data = {
         ...registerData,
         phone: parseInt(registerData.phone),
       };
-      console.log("¿y aqui?", data);
       createUser(data)
         .then((resultado) => {
           dispatch(login({ credentials: resultado.data }));
           setTimeout(() => {
-            navigate("/");
-          }, 100);
+            navigate("/perfil");
+          }, 2000);
         })
         .catch((error) => {
           if (error.response.status !== 200) {
-            console.log(error.response);
-            return json({
+              alertHandler({
               show: true,
-              title: `Error ${error.response.status}`,
-              message: `${error.response.data}`,
-            });
+              title: `error`,
+              message: `Usuario no registrado, valida los campos.`,
+            }),
+            setTimeout(handleAlertClose, 3000);
           }
         });
-    } else {
-      console.log("Habido un problema.");
-    }
+    } 
+    //Mensaje de error, validaciones frontend
+    setTimeout(
+      alertHandler({
+        show: true,
+        title: `warning`,
+        message: "Usuario no registrado, valida los campos.",
+      }),
+      100
+    ),
+      setTimeout(handleAlertClose, 2000);
   };
 
   return (
     <div className="registerDesign">
+      <CustomAlert
+        className={alertClasses}
+        type={alert.title}
+        content={alert.message}
+        showAlert={alert.show}
+      />
       <div className="content">
         <div className="headerLogo">
           <img src={letterLogo} alt="Logo" style={{ height: "4.1em" }} />
@@ -110,8 +137,10 @@ export const Register = () => {
             placeholder={""}
             value={""}
             maxLength={"50"}
+            fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
+            helperText={registerDataError.nameError}
           />
           <CustomInput
             requiered
@@ -122,8 +151,10 @@ export const Register = () => {
             placeholder={""}
             value={""}
             maxLength={"50"}
+            fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
+            helperText={registerDataError.surnameError}
           />
           <CustomInput
             required
@@ -135,8 +166,10 @@ export const Register = () => {
             min={600000000}
             max={900000000}
             value={""}
+            fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
+            helperText={registerDataError.phoneError}
           />
           <CustomInput
             required
@@ -147,8 +180,10 @@ export const Register = () => {
             placeholder={""}
             value={""}
             maxLength={"100"}
+            fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
+            helperText={registerDataError.emailError}
           />
           <CustomInput
             required
@@ -159,8 +194,10 @@ export const Register = () => {
             placeholder={""}
             value={""}
             maxLength={"12"}
+            fullWidth
             functionProp={functionHandler}
             functionBlur={errorCheck}
+            helperText={registerDataError.passwordError}
           />
         </div>
         <div className="registerButton">
@@ -169,7 +206,7 @@ export const Register = () => {
             className="buttonSend"
             onClick={registerUser}
             style={{ textTransform: "none", fontFamily: "" }}>
-            Registarme{" "}
+            Registarme
           </Button>
         </div>
       </div>

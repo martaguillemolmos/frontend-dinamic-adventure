@@ -104,7 +104,7 @@ export const Login = () => {
               }),
               100
             ),
-              setTimeout(handleAlertClose, 2000);
+              setTimeout(handleAlertClose, 3000);
           }
         });
     }
