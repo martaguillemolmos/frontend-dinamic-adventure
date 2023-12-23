@@ -12,6 +12,8 @@ import {
 import { TabBar } from "../../common/CustomTabs/CustomTabs";
 import CardAppointments from "../../common/CardAppointments/CardAppointments";
 import Modal from "../../common/Modal/Modal";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 export const Appointment = () => {
   const navigate = useNavigate();
@@ -30,6 +32,25 @@ export const Appointment = () => {
   const [uniqueActivities, setUniqueActivities] = useState([]);
   const [selectedActivity, setSelectedActivity] = useState(null);
 
+  //Paginación
+  //Paginación, aquí lo que hacemos es seguir el elemento para saber cual tengo que mostrar
+  const [currentPage, setCurrentPage] = useState(1);
+  const citasPorPagina = 6;
+
+  // Calcular el índice del primer y último appointment 
+  const lastAppointment = currentPage * citasPorPagina;
+  const firstAppointment = lastAppointment - citasPorPagina;
+  const citasActuales = appointments.slice(
+    firstAppointment,
+    lastAppointment
+  );
+
+  
+  // Función para manejar el cambio de página
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,6 +63,7 @@ export const Appointment = () => {
     setSelectedAppointment(null);
     setIsModalOpen(false);
   };
+
 
   const customTabs1 = [
     { label: "Todos", value: "null" },
@@ -165,7 +187,6 @@ export const Appointment = () => {
               className="buttonSend"
               onClick={newAppointment}
               style={{ textTransform: "none", fontFamily: "" }}
-
             >
               Nueva Reserva
             </Button>
@@ -175,31 +196,35 @@ export const Appointment = () => {
           <div className="select-activity">
             <div className="titleSelectorActivity">Filtra por actividad:</div>
             <div className="selectorActivity">
-            {uniqueActivities.length > 0 && (
-              <select
-                value={selectedActivity || ""}
-                onChange={(e) => {
-                  setSelectedActivity(e.target.value || null);
-                  filterAppointmentsByActivity(e.target.value);
-                }}
-              >
-                <option value="">Selecciona una actividad</option>
-                {uniqueActivities.map((activity) => (
-                  <option key={activity} value={activity}>
-                    {activity}
-                  </option>
-                ))}
-              </select>
-            )}
+              {uniqueActivities.length > 0 && (
+                <select
+                  value={selectedActivity || ""}
+                  onChange={(e) => {
+                    setSelectedActivity(e.target.value || null);
+                    filterAppointmentsByActivity(e.target.value);
+                  }}
+                >
+                  <option value="">Selecciona una actividad</option>
+                  {uniqueActivities.map((activity) => (
+                    <option key={activity} value={activity}>
+                      {activity}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
           </div>
-        <>
-        <div className="tabAppointment">
-          <TabBar tabs={customTabs1} value={tabValue1} handler={handlerTab1} />
-          </div>
-            {appointments.length > 0 ? (
+          <>
+            <div className="tabAppointment">
+              <TabBar
+                tabs={customTabs1}
+                value={tabValue1}
+                handler={handlerTab1}
+              />
+            </div>
+            {citasActuales.length > 0 ? (
               <div className="appointment-filtered">
-                {appointments.map((appointment) => {
+                {citasActuales.map((appointment) => {
                   return (
                     <CardAppointments
                       key={appointment.id}
@@ -215,10 +240,21 @@ export const Appointment = () => {
                   );
                 })}
               </div>
+              
             ) : (
               <div>{msgError}</div>
-            )}    
-        </>
+            )}
+            
+          </>
+        </div>
+        <div className="hola">
+        <Stack spacing={2} className="pagination">
+              <Pagination
+                count={Math.ceil(appointments.length / citasPorPagina)}
+                page={currentPage}
+                onChange={handlePageChange}
+              />
+            </Stack>
         </div>
       </div>
       <Modal

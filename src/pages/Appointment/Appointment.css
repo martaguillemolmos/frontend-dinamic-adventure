@@ -60,7 +60,6 @@ flex-direction: row;
     width: 40em;
     display: flex;
     gap: 2em;
-    background: white;
 }
 
 .appointment-filtered{
