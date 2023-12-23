@@ -152,12 +152,15 @@ export const Appointment = () => {
             setAllAppointments(orderAppointment);
             setAppointments(orderAppointment);
 
-            const uniqueActivityNames = [
-              ...new Set(
-                allAppointments.map((appointment) => appointment.activity_name)
-              ),
-            ];
-            setUniqueActivities(uniqueActivityNames);
+            if (selectedActivity) {
+              // Si hay una actividad seleccionada, filtrar y paginar por esa actividad
+              filterAppointmentsByActivity(selectedActivity);
+            } else {
+              // Si no hay actividad seleccionada, paginar las citas actuales
+              const citasActuales = allAppointments.slice(firstAppointment, lastAppointment);
+              setAppointments(citasActuales);
+            }
+            
           } else {
             console.log("No tienes citas agendadas");
           }
@@ -174,6 +177,8 @@ export const Appointment = () => {
     };
     setTabValue("null");
     infoAppointment();
+    console.log("Selected Activity:", selectedActivity);
+    console.log("Appointments:", appointments);
   }, [rdxToken, selectedActivity]);
 
   return (
