@@ -37,15 +37,11 @@ export const Appointment = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const citasPorPagina = 6;
 
-  // Calcular el índice del primer y último appointment 
+  // Calcular el índice del primer y último appointment
   const lastAppointment = currentPage * citasPorPagina;
   const firstAppointment = lastAppointment - citasPorPagina;
-  const citasActuales = appointments.slice(
-    firstAppointment,
-    lastAppointment
-  );
+  const citasActuales = appointments.slice(firstAppointment, lastAppointment);
 
-  
   // Función para manejar el cambio de página
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -63,7 +59,6 @@ export const Appointment = () => {
     setSelectedAppointment(null);
     setIsModalOpen(false);
   };
-
 
   const customTabs1 = [
     { label: "Todos", value: "null" },
@@ -152,15 +147,27 @@ export const Appointment = () => {
             setAllAppointments(orderAppointment);
             setAppointments(orderAppointment);
 
+            // Obtener los nombres únicos de las actividades
+            const uniqueActivityNames = [
+              ...new Set(
+                allAppointments.map((appointment) => appointment.activity_name)
+              ),
+            ];
+
+            // Actualizar el estado de uniqueActivities 
+            setUniqueActivities(uniqueActivityNames);
             if (selectedActivity) {
               // Si hay una actividad seleccionada, filtrar y paginar por esa actividad
               filterAppointmentsByActivity(selectedActivity);
+
             } else {
               // Si no hay actividad seleccionada, paginar las citas actuales
-              const citasActuales = allAppointments.slice(firstAppointment, lastAppointment);
+              const citasActuales = allAppointments.slice(
+                firstAppointment,
+                lastAppointment
+              );
               setAppointments(citasActuales);
             }
-            
           } else {
             console.log("No tienes citas agendadas");
           }
@@ -245,21 +252,19 @@ export const Appointment = () => {
                   );
                 })}
               </div>
-              
             ) : (
               <div>{msgError}</div>
             )}
-            
           </>
         </div>
-        <div className="hola">
-        <Stack spacing={2} className="pagination">
-              <Pagination
-                count={Math.ceil(appointments.length / citasPorPagina)}
-                page={currentPage}
-                onChange={handlePageChange}
-              />
-            </Stack>
+        <div className="paginationAppointments">
+          <Stack spacing={2} className="pagination">
+            <Pagination
+              count={Math.ceil(appointments.length / citasPorPagina)}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </Stack>
         </div>
       </div>
       <Modal
