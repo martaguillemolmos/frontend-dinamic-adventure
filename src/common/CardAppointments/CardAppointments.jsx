@@ -44,7 +44,7 @@ const CardAppointments = ({
 
 
   return (
-    <div className={`card${getStatusColor()}`} onClick={handleCardClick}>
+    <div className="cardAppointment" id={`card${getStatusColor()}`} onClick={handleCardClick}>
         <div className="infoValue">{id}</div>
         <div className="infoValue">{activity_name}</div>
         <div className="infoValue">{date}</div>

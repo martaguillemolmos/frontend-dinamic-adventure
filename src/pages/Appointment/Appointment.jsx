@@ -155,8 +155,8 @@ export const Appointment = () => {
   }, [rdxToken]);
 
   return (
-    <div className="pagesAuth">
-      <div className="container">
+    <div className="AppointmentDesign">
+      <div className="containerAppointment">
         <div className="newAppointmentButton">
           {rdxToken.credentials.token &&
           jwtDecode(rdxToken.credentials.token).user_token == "" ? (
@@ -170,8 +170,10 @@ export const Appointment = () => {
             </Button>
           ) : null}
         </div>
-        <div className="appointmentsDesign">
-          <div className="dropdown-container">
+        <div className="inforAppointment">
+          <div className="select-activity">
+            <div className="titleSelectorActivity">Filtra por actividad:</div>
+            <div className="selectorActivity">
             {uniqueActivities.length > 0 && (
               <select
                 value={selectedActivity || ""}
@@ -188,13 +190,12 @@ export const Appointment = () => {
                 ))}
               </select>
             )}
+            </div>
           </div>
-        </div>
         <>
           <TabBar tabs={customTabs1} value={tabValue1} handler={handlerTab1} />
-          <div className="appointmentsDesign">
             {appointments.length > 0 ? (
-              <div className="appointmentsRoster">
+              <div className="appointment-filtered">
                 {appointments.map((appointment) => {
                   return (
                     <CardAppointments
@@ -213,9 +214,9 @@ export const Appointment = () => {
               </div>
             ) : (
               <div>{msgError}</div>
-            )}
-          </div>
+            )}    
         </>
+        </div>
       </div>
       <Modal
         isOpen={isModalOpen}
