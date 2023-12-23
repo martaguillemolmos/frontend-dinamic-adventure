@@ -18,6 +18,7 @@ import { jwtDecode } from "jwt-decode";
 import { TabBar } from "../../common/CustomTabs/CustomTabs";
 import LetterAvatars from "../../common/Avatar/LetterAvatars";
 import { dateFormat } from "../../common/functions";
+import { validator } from "../../services/userful";
 
 export const Profile = () => {
   //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
@@ -36,11 +37,41 @@ export const Profile = () => {
     is_active: true,
   });
 
+  const [profileError, setProfileError] = useState({
+    nameError: "",
+    surnameError: "",
+    phoneError: "",
+    emailError: "",
+    is_activeError: "",
+  });
+
   const [newPassword, setNewPassword] = useState({
     passwordOld: "",
     password: "",
   });
 
+  const [newPasswordError, setNewPasswordError] = useState({
+    passwordOldError: "",
+    passwordError: "",
+  });
+
+  const errorProfile = (e) => {
+    let error = "";
+    error = validator(e.target.name, e.target.value);
+    setProfileError((prevState) => ({
+      ...prevState,
+      [e.target.name + "Error"]: error,
+    }));
+  };
+
+  const errorPassword = (e) => {
+    let error = "";
+    error = validator(e.target.name, e.target.value);
+    setNewPasswordError((prevState) => ({
+      ...prevState,
+      [e.target.name + "Error"]: error,
+    }));
+  };
   const [isEnabled, setIsEnabled] = useState(true);
 
   const [originalProfile, setOriginalProfile] = useState(false);
@@ -220,9 +251,8 @@ export const Profile = () => {
                   value={profile.name}
                   maxLength={"25"}
                   functionProp={functionHandler}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  functionBlur={errorProfile}
+                  helperText={profileError.nameError}
                 />
                 <CustomInput
                   disabled={isEnabled}
@@ -234,6 +264,8 @@ export const Profile = () => {
                   maxLength={"25"}
                   value={profile.surname}
                   functionProp={functionHandler}
+                  functionBlur={errorProfile}
+                  helperText={profileError.surnameError}
                 />
               </div>
               <div className="titleProfile">Información de contacto</div>
@@ -248,6 +280,8 @@ export const Profile = () => {
                   maxLength={"50"}
                   value={profile.email}
                   functionProp={functionHandler}
+                  functionBlur={errorProfile}
+                  helperText={profileError.emailError}
                 />
                 <CustomInput
                   disabled={isEnabled}
@@ -260,6 +294,8 @@ export const Profile = () => {
                   max={900000000}
                   value={profile.phone || ""}
                   functionProp={functionHandler}
+                  functionBlur={errorProfile}
+                  helperText={profileError.emailError}
                 />
               </div>
               {isEnabled ? (
@@ -296,6 +332,8 @@ export const Profile = () => {
                 value={""}
                 maxLength={"12"}
                 functionProp={functionHandlerPassword}
+                functionBlur={errorPassword}
+                helperText={newPasswordError.passwordOldError}
               />
               <CustomInput
                 label={"Nueva contraseña"}
@@ -307,6 +345,8 @@ export const Profile = () => {
                 value={""}
                 maxLength={"12"}
                 functionProp={functionHandlerPassword}
+                functionBlur={errorPassword}
+                helperText={newPasswordError.passwordError}
               />
               </div>
               <Button

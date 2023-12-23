@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { userData } from "../userSlice";
 import dayjs from "dayjs";
+import { validator } from "../../services/userful";
 
 export const ActivityById = () => {
   const navigate = useNavigate();
@@ -19,7 +20,9 @@ export const ActivityById = () => {
   const [selectedDate, setSelectedDate] = useState(date ? date : "");
   const [participants, setParticipants] = useState("");
   const [acceptRequirements, setAcceptRequirements] = useState(false);
-
+  const [dateError, setDateError] = useState("");
+  const [participantsError, setParticipantsError] = useState("");
+  
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
   };
@@ -30,6 +33,22 @@ export const ActivityById = () => {
 
   const handleAcceptRequirementsChange = (e) => {
     setAcceptRequirements(e.target.checked);
+  };
+
+  const handleBlur = (e) => {
+    switch (e.target.name) {
+      case "date":
+        // Lógica para validar la fecha y establecer el error correspondiente
+        setDateError(validator(selectedDate));
+        break;
+      case "participants":
+        // Lógica para validar el número de participantes y establecer el error correspondiente
+        setParticipantsError(validator(participants));
+        break;
+      // Agrega más casos según sea necesario
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
@@ -114,6 +133,8 @@ export const ActivityById = () => {
             name={"date"}
             value={selectedDate}
             functionProp={handleDateChange}
+            onBlur={handleBlur}
+            helperText={dateError}
           />
 
           <CustomInput
@@ -124,8 +145,10 @@ export const ActivityById = () => {
             name={"participants"}
             value={participants}
             min={1}
-            max={30}
+            max={12}
             functionProp={handleParticipantsChange}
+            onBlur={handleBlur}
+            helperText={participantsError}
           />
 
           <CustomInput
