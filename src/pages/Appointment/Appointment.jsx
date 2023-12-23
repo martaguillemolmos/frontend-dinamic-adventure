@@ -150,9 +150,9 @@ export const Appointment = () => {
         }
       }
     };
-
+    setTabValue("null");
     infoAppointment();
-  }, [rdxToken]);
+  }, [rdxToken, selectedActivity]);
 
   return (
     <div className="AppointmentDesign">
@@ -165,6 +165,7 @@ export const Appointment = () => {
               className="buttonSend"
               onClick={newAppointment}
               style={{ textTransform: "none", fontFamily: "" }}
+
             >
               Nueva Reserva
             </Button>
@@ -193,7 +194,9 @@ export const Appointment = () => {
             </div>
           </div>
         <>
+        <div className="tabAppointment">
           <TabBar tabs={customTabs1} value={tabValue1} handler={handlerTab1} />
+          </div>
             {appointments.length > 0 ? (
               <div className="appointment-filtered">
                 {appointments.map((appointment) => {
