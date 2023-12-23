@@ -4,7 +4,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgb(157 152 152 / 70%)
+    ;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,8 +14,8 @@
   
   .modal-container {
     background: white;
-    width: 40em;
-    height: 40em;
+    width: 25em;
+    height: 30em;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
@@ -30,4 +31,49 @@
     border: none;
     font-size: 1.5em;
     cursor: pointer;
+  }
+
+  .identification{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1em;
+  }
+
+  .activitySelect{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .inputsModal{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+  }
+  
+  .modalPrice{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+  }
+
+  .buttonModal{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: space-around;
+    justify-content: space-around;
   }

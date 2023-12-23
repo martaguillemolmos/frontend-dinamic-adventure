@@ -12,6 +12,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
     const rdxToken = useSelector(userData);
 
     const navigate = useNavigate();
+    const [total, setTotal] = useState(0);
   
     const { id, activity_name, date, participants, price, status_appointment } =
       appointment || {};
@@ -36,7 +37,12 @@ const Modal = ({ isOpen, onClose, appointment }) => {
           date : date ? dayjs(date).format("YYYY-MM-DDTHH:mm") : "",
           participants,
         });
-      }, [appointment]);
+        const calculateTotal = () => {
+          setTotal(appointmentData.participants * price);
+        };
+    
+        calculateTotal();
+      }, [appointment, appointmentData.participants]);
       console.log(setAppointmentData, "soy appointments data")
   
         const enableEditing = () => {
@@ -86,7 +92,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
         console.log("datenow", dateNow)
       if (status_appointment === "pending" || (status_appointment == "approved" && diferenciaDias >= 10) ) {
         return (
-          <div className="buttonAppointments">
+          <div className="buttonModal">
             <button
               className="cancel-Appointment"
               onClick={() => cancelAppointment(id)}
@@ -143,14 +149,27 @@ const Modal = ({ isOpen, onClose, appointment }) => {
           <div className="modal-overlay">
             <div className="modal-container">
               <div className="modal-header">
-                <h2>Detalles de la Cita</h2>
+                <h3>Detalles de la Cita</h3>
                 <button className="modal-close" onClick={onClose}>
                   X
                 </button>
               </div>
               <div className="modal-content">
-                <p>ID: {id}</p>
-                <h2>Actividad seleccionada: {activity_name}</h2>
+                <div className="identification">
+                  <div className="title-identification">
+                    <h4>Identificador de reserva</h4>
+                  </div>
+                  <div className="infor-identification">
+                  <p>#{id}</p>
+                  </div>
+                
+
+                </div>
+                <div className="activitySelect">
+                <h4>Actividad seleccionada: {activity_name}</h4>
+                </div>
+                
+                <div className="inputsModal">
                 <CustomInput
                   disabled={!isEnabled}
                   label={"Fecha"}
@@ -178,7 +197,8 @@ const Modal = ({ isOpen, onClose, appointment }) => {
                     shrink: true,
                   }}
                 />
-                <p>Precio: {price}</p>
+                </div>
+                <div className="modalPrice"><h4>Total: {total} €</h4></div>
               </div>
               {modifyAppointment()}
             </div>
