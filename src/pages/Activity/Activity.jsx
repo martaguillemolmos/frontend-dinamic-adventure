@@ -10,6 +10,7 @@ import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { userData } from "../userSlice";
+import { validator } from "../../services/userful";
 
 export const Activity = () => {
   const navigate = useNavigate();
@@ -22,6 +23,21 @@ export const Activity = () => {
   const [date, setDate] = useState({
     date: "",
   });
+
+  //Validación de errores
+  const [dateError, setDateError] = useState({
+    dateError: "",
+  });
+
+  const errorCheck = (e) => {
+    let error = "";
+    error = validator(e.target.name, e.target.value);
+    setDateError((prevState) => ({
+      ...prevState,
+      [e.target.name + "Error"]: error,
+    }));
+  };
+
 
   const functionHandler = (e) => {
     setDate((prevState) => ({
@@ -117,6 +133,7 @@ export const Activity = () => {
 
   return (
     <div className="activityDesign">
+      <div className="selectDay">
       <CustomInput
         design={"inputDesign"}
         type={"datetime-local"}
@@ -124,6 +141,8 @@ export const Activity = () => {
         placeholder={""}
         value={date.date}
         functionProp={functionHandler}
+        functionBlur={errorCheck}
+        helperText={dateError.dateError}
       />
       <Button
         variant="contained"
@@ -133,6 +152,7 @@ export const Activity = () => {
       >
         Comprobar disponibilidad
       </Button>
+      </div>
       {allActivities.length > 0 ? (
         <div className="activityCard">
           {allActivities.map((results) => {

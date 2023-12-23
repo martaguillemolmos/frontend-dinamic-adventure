@@ -55,7 +55,7 @@ export const Login = () => {
     }));
   };
 
-  //Validación de
+  //Validación de errores
   const errorCheck = (e) => {
     let error = "";
     error = validator(e.target.name, e.target.value);

@@ -57,13 +57,13 @@ export const CustomActivity = ({ id, title, image, description, price, intensity
             <img src={lowIntensity} alt="Low Intensity" />
           )}
         {minium_age <= "9" ? (
-          <img src={child} alt="`Child" />
+          <img src={child} alt="Photo" />
           ) : (
                 null
             )}
   
           <img src={photo} alt="Photo" />
-          <p>{price}</p>
+          <h3 className="priceCustomActivity">{price} €</h3>
         </div>
       </div>
       {!isReservable ? (
