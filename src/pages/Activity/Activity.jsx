@@ -65,9 +65,11 @@ export const Activity = () => {
         console.log("Fecha vacía");
         return;
       }
-
+ 
       const formatDate = dayjs(date.date).toISOString();
+
       const body = { date: formatDate };
+      console.log(body, "soy el body")
 
       const results = await disponibilityDate(body, token);
       const participants = results.data.data;
@@ -96,7 +98,7 @@ export const Activity = () => {
     try {
       console.log(activityId, "soy el activityId")
       if(activityId !== isNaN){
-        navigate(`/infor_actividad`, { state: { activityId, date: date.date } });
+        navigate(`/infor_actividad`, { state: { activityId, date: date.date }});
 
       } 
   

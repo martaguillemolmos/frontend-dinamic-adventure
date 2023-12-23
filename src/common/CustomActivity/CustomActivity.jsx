@@ -25,7 +25,7 @@ export const CustomActivity = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname === "/actividad") {
+    if (location.pathname === "/actividad" || location.pathname === "/actividad_acuatica") {
       // Si estamos en la página de actividad, configuramos como reservable
       setIsReservable(true);
     } else {
@@ -41,6 +41,7 @@ export const CustomActivity = ({
       console.log("No se encontró token");
     }
   }, [rdxToken.credentials, location.pathname]);
+
 
   return (
     <div className="activity" key={id}>
@@ -69,7 +70,9 @@ export const CustomActivity = ({
         </div>
       </div>
       {!isReservable ? (
-        <button className="buttonActivity" onClick={() => handleReserve(id)}>MÁS INFORMACIÓN</button>
+            <button className="buttonActivity" onClick={() => handleReserve(id)}>
+            MÁS INFORMACIÓN
+          </button>
       ) : rdxToken.credentials !== "" && is_active ? (
         !availability || availability < 12 ? (
           <button className="buttonActivity" onClick={() => handleReserve(id)}>

@@ -3,9 +3,11 @@ import "./Land Activity.css"
 import { getActivityByType } from "../../services/apiCalls";
 import { CustomActivity } from "../../common/CustomActivity/CustomActivity";
 import { arrayBufferToBase64 } from "../../common/functions";
+import { useNavigate } from "react-router";
 
 export const Land_Activity = () => {
-    
+    const navigate = useNavigate();
+
     const [typeActivities, setTypeActivities] = useState([]);
 
   useEffect(() => {
@@ -30,6 +32,21 @@ export const Land_Activity = () => {
         .catch((error) => console.log(error));
     }
   }, [typeActivities]);
+
+  
+  const handleReserve = (activityId) => {
+    try {
+      console.log(activityId, "soy el activityId")
+      if(activityId !== isNaN){
+        navigate(`/infor_actividad`, { state: { activityId}});
+
+      } 
+  
+    } catch (error) {
+      console.error("Aquí quiero recuperar el error de la base de datos.", error);
+    }
+  };
+
 return (
     <div className="activityDesign">
     {typeActivities.length > 0 ? (
@@ -42,6 +59,8 @@ return (
               title={results.title}
               description={results.description}
               price={results.price}
+              handleReserve={handleReserve}
+              id={results.id}
             />
           );
         })}
