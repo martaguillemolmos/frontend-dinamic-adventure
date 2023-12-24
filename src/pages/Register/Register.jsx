@@ -58,9 +58,10 @@ export const Register = () => {
 
   useEffect(() => {
     if (rdxCredentials?.credentials.token) {
+      console.log("Token:", rdxCredentials.credentials.token);
       navigate("/perfil");
     }
-  });
+  }, [rdxCredentials?.credentials.token]);
 
   useEffect(() => {
     updateErrorState();

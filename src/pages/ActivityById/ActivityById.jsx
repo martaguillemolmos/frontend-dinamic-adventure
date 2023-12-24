@@ -52,6 +52,7 @@ export const ActivityById = () => {
     }));
   };
 
+
   useEffect(() => {
     const fetchActivityDetails = async () => {
       try {
@@ -84,10 +85,9 @@ export const ActivityById = () => {
   const checkAvailability = async () => {
     try {
  
-      // Formatea la fecha
-      const formatDate = dayjs(date).toISOString();
+     
+      const formatDate = dayjs(date.date).toISOString();
 
-      // Crea el cuerpo de la solicitud
       const body = {
         activity: activityId,
         participants: dateAppointments.participants,
@@ -136,25 +136,14 @@ export const ActivityById = () => {
           functionBlur={errorCheck}
           helperText={dateAppointmentsError.participantsError}
         />
-      
-        <CustomInput
-          required
-          label={"Condiciones"}
-          design={"inputDesign"}
-          type={"checkbox"}
-          name={"accept_requirements"}
-          checked={""}
-          functionProp={functionHandler}
-          functionBlur={errorCheck}
-          helperText={dateAppointmentsError.accept_requirementsError}
-        />
+          ** Al realizar la reserva, aceptas los términos y condiciones.
           <Button
             variant="contained"
             className="buttonSend"
             onClick={checkAvailability}
             style={{ textTransform: "none", fontFamily: "" }}
           >
-            Comprobar disponibilidad
+            Reservar
           </Button>
         </div>
       ): (
