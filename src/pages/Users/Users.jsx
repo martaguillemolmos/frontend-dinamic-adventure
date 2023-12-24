@@ -57,7 +57,7 @@ export const Users = () => {
   return (
     <div className="usersDesign">
       {users.length > 0 ? (
-        <div className="usersRoster">
+        <div className="containerUsers">
           {users.map((user) => (
             <CardUser
               key={user.id}

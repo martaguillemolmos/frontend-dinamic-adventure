@@ -229,7 +229,7 @@ export const Profile = () => {
               <strong>{profile.role}</strong>: {profile.email}
             </div>
             <div className="avatarUser">
-            <LetterAvatars initial={profile.name.charAt(0)} />
+            <LetterAvatars className="letterInProfile" initial={profile.name.charAt(0)} />
             </div>
             <div className="userSince">Miembro desde: <strong>{profile.created_at}</strong></div>
           </div>
