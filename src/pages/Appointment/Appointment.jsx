@@ -87,7 +87,6 @@ export const Appointment = () => {
     const orderFilterAppointment = filterAppointments.sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
-    console.log(orderFilterAppointment, "soy orderApp");
     setAppointments(orderFilterAppointment);
   };
 
@@ -186,7 +185,7 @@ export const Appointment = () => {
     infoAppointment();
     console.log("Selected Activity:", selectedActivity);
     console.log("Appointments:", appointments);
-  }, [rdxToken, selectedActivity]);
+  }, [rdxToken, selectedActivity, isModalOpen]);
 
   return (
     <div className="AppointmentDesign">
@@ -257,15 +256,18 @@ export const Appointment = () => {
             )}
           </>
         </div>
-        <div className="paginationAppointments">
-          <Stack spacing={2} className="pagination">
-            <Pagination
-              count={Math.ceil(appointments.length / citasPorPagina)}
-              page={currentPage}
-              onChange={handlePageChange}
-            />
-          </Stack>
-        </div>
+        {citasActuales.length !== 0 ? (
+           <div className="paginationAppointments">
+           <Stack spacing={2} className="pagination">
+             <Pagination
+               count={Math.ceil(appointments.length / citasPorPagina)}
+               page={currentPage}
+               onChange={handlePageChange}
+             />
+           </Stack>
+         </div>
+        ): null}
+       
       </div>
       <Modal
         isOpen={isModalOpen}

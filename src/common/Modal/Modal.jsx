@@ -21,6 +21,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
     const [appointmentData, setAppointmentData] = useState({
       date: "",
       participants: "",
+      price: 0
     });
 
     //Validación de errores
@@ -52,9 +53,11 @@ const Modal = ({ isOpen, onClose, appointment }) => {
         setAppointmentData({
           date : date ? dayjs(date).format("YYYY-MM-DDTHH:mm") : "",
           participants,
+          price
         });
         const calculateTotal = () => {
-          setTotal(appointmentData.participants * price);
+
+          setTotal(participants * price);
         };
     
         calculateTotal();
@@ -209,7 +212,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
                   helperText={appointmentDataError.participantsError}
                 />
                 </div>
-                <div className="modalPrice"><h4>Total: {total} €</h4></div>
+                <div className="modalPrice"><h4>Precio/participante: {total} €</h4></div>
               </div>
               {modifyAppointment()}
             </div>

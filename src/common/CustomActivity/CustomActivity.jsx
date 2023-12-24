@@ -34,6 +34,7 @@ export const CustomActivity = ({
 
     if (rdxToken.credentials !== "") {
       const token = rdxToken.credentials?.token;
+      console.log(token)
       const decoredToken = jwtDecode(token);
       const activeStatus = decoredToken.is_active;
       setIsActive(activeStatus);

@@ -4,13 +4,10 @@ import { LinkButton } from "../LinkButton/LinkButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, userData } from "../../pages/userSlice";
-import { jwtDecode } from "jwt-decode";
 
 export const Header = () => {
   const navigate = useNavigate();
   const rdxToken = useSelector(userData);
-  let token;
-  
   const dispatch = useDispatch();
 
   const logOutMe = () => {
@@ -18,11 +15,6 @@ export const Header = () => {
     navigate("/");
   };
 
-
-    if(rdxToken.credentials !== ""){
-      token = jwtDecode(rdxToken.credentials.token)
-    }
-  
 
   return (
     <div className="headerDesign">
@@ -56,10 +48,7 @@ export const Header = () => {
           </>
         ) : (
           <>
-          {token.role == "super_admin" ? (
-            <LinkButton path={"/usuarios"} title={"Clientes"} />
-        
-          ): null}
+
             <div
               className="buttonSession"
               onClick={() => navigate("/reservas")}

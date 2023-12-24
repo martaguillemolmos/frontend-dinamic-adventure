@@ -27,7 +27,7 @@ export const Profile = () => {
   const rdxToken = useSelector(userData);
   console.log(rdxToken, "dime que tienes tokennn");
   const dispatch = useDispatch();
-
+  
   // Creamos un Hook con las propiedades que queremos mostrar en pantalla del perfil
   const [profile, setProfile] = useState({
     name: "",
@@ -231,6 +231,20 @@ export const Profile = () => {
             <div className="avatarUser">
             <LetterAvatars className="letterInProfile" initial={profile.name.charAt(0)} />
             </div>
+            
+            {rdxToken.credentials.token &&
+            ( jwtDecode(rdxToken.credentials.token).role == "super_admin") ? (
+              <div>
+              <Button
+              variant="contained"
+              className="button"
+              onClick={() => navigate ("/usuarios")}
+              style={{ textTransform: "none", fontFamily: "" }}
+            >
+              Panel de administración
+            </Button>
+              </div>
+            ) : null }
             <div className="userSince">Miembro desde: <strong>{profile.created_at}</strong></div>
           </div>
         </div>

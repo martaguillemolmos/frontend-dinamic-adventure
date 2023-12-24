@@ -84,10 +84,8 @@ export const ActivityById = () => {
 
   const checkAvailability = async () => {
     try {
- 
-     
-      const formatDate = dayjs(date.date).toISOString();
-
+       const formatDate = dayjs(dateAppointments.date).toISOString();
+      console.log(formatDate, "soy formate")
       const body = {
         activity: activityId,
         participants: dateAppointments.participants,
