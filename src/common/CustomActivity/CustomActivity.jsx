@@ -25,7 +25,7 @@ export const CustomActivity = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname === "/actividad" || location.pathname === "/actividad_acuatica") {
+    if (location.pathname === "/actividad") {
       // Si estamos en la página de actividad, configuramos como reservable
       setIsReservable(true);
     } else {
