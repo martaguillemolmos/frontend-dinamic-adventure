@@ -19,7 +19,7 @@ export const Header = () => {
   return (
     <div className="headerDesign">
       {/* Vistas públicas */}
-      <div className="image-logo" onClick={() => navigate("/")}>
+      <div className="image-logo" onClick={() => navigate("/login")}>
         <img src={logoImage} alt="Logo" />
       </div>
       <div className="elements-nav">
@@ -40,7 +40,6 @@ export const Header = () => {
             >
               RESERVA
             </div>
-            <LinkButton path={"/contacto"} title={"Contacto"} />
             <div className="buttonSession" onClick={() => navigate("/login")}>
               Inicia sesión
             </div>
