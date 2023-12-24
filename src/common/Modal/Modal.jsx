@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { validator } from "../../services/userful";
 
 const Modal = ({ isOpen, onClose, appointment }) => {
     const rdxToken = useSelector(userData);
@@ -18,9 +19,24 @@ const Modal = ({ isOpen, onClose, appointment }) => {
       appointment || {};
   
     const [appointmentData, setAppointmentData] = useState({
-      date,
-      participants,
+      date: "",
+      participants: "",
     });
+
+    //Validación de errores
+    const [appointmentDataError, setAppointmentDataError] = useState({
+      dateError: "",
+      participantsError: "",
+    });
+    
+    const errorCheck = (e) => {
+      let error = "";
+      error = validator(e.target.name, e.target.value);
+      setAppointmentDataError((prevState) => ({
+        ...prevState,
+        [e.target.name + "Error"]: error,
+      }));
+    };
     
     const [isEnabled, setIsEnabled] = useState(false);
   
@@ -42,12 +58,9 @@ const Modal = ({ isOpen, onClose, appointment }) => {
         };
     
         calculateTotal();
-      }, [appointment, appointmentData.participants]);
+      }, [appointment]);
       console.log(setAppointmentData, "soy appointments data")
   
-        const enableEditing = () => {
-      setIsEnabled(!isEnabled);
-    };
   
     const sendData = async () => {
       try {
@@ -113,7 +126,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
                         <Button
               variant="contained"
               className="button"
-              onClick={enableEditing}
+              onClick={() => setIsEnabled(!isEnabled)}
               style={{ textTransform: "none", fontFamily: "" }}
             >
              Modificar reserva
@@ -171,7 +184,7 @@ const Modal = ({ isOpen, onClose, appointment }) => {
                 
                 <div className="inputsModal">
                 <CustomInput
-                  disabled={!isEnabled}
+                  disabled={isEnabled}
                   label={"Fecha"}
                   design={"inputDesign"}
                   type={"datetime-local"}
@@ -179,12 +192,11 @@ const Modal = ({ isOpen, onClose, appointment }) => {
                   placeholder={""}
                   value={appointmentData.date}
                   functionProp={functionHandler}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  functionBlur={errorCheck}
+                  helperText={appointmentDataError.dateError}
                 />
                 <CustomInput
-                  disabled={!isEnabled}
+                  disabled={isEnabled}
                   label={"Número de participantes"}
                   design={"inputDesign"}
                   type={"number"}
@@ -193,9 +205,8 @@ const Modal = ({ isOpen, onClose, appointment }) => {
                   value={appointmentData.participants}
                   max={"12"}
                   functionProp={functionHandler}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  functionBlur={errorCheck}
+                  helperText={appointmentDataError.participantsError}
                 />
                 </div>
                 <div className="modalPrice"><h4>Total: {total} €</h4></div>

@@ -125,7 +125,8 @@ export const ActivityById = () => {
 
   return (
     <div className="activityDesign">
-      <div className="center">
+      <div className="containActivityDesign">
+      {activityDetails ? ( <h1>{activityDetails.data.activity.title}</h1>) : null}
         <div className="detailsAppointmentActivity">
           <CustomInput
             design={"inputDesign"}
@@ -171,9 +172,10 @@ export const ActivityById = () => {
         </div>
         {activityDetails ? (
           <>
-            <h1>{activityDetails.data.activity.title}</h1>
+          <div className="descriptionActivity">
+            <h3>{activityDetails.data.activity.title} al detalle</h3>
             <p>{activityDetails.data.activity.description}</p>
-
+            </div>
             {activityDetails.data.activityDetails.length === 0 ? (
               <h1>Ponte en contacto con nosotros para más información</h1>
             ) : (
