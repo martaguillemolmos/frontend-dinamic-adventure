@@ -27,7 +27,7 @@ export const Appointment = () => {
 
   const [tabValue1, setTabValue] = useState("null");
   const [appointments, setAppointments] = useState([]);
-  const [msgError, setMsgError] = useState("");
+  const [msgError] = useState("");
   const [allAppointments, setAllAppointments] = useState([]);
   const [uniqueActivities, setUniqueActivities] = useState([]);
   const [selectedActivity, setSelectedActivity] = useState(null);
@@ -193,7 +193,7 @@ export const Appointment = () => {
       <div className="containerAppointment">
         <div className="newAppointmentButton">
           {rdxToken.credentials.token &&
-          jwtDecode(rdxToken.credentials.token).user_token == "" ? (
+         ( jwtDecode(rdxToken.credentials.token).user_token == "" || jwtDecode(rdxToken.credentials.token).user_token.id == jwtDecode(rdxToken.credentials.token).id )  ? (
             <Button
               variant="contained"
               className="buttonSend"
