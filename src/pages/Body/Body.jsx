@@ -1,7 +1,6 @@
 import {Routes, Route, Navigate} from 'react-router-dom'
 import { Home } from '../Home/Home'
 import { Register } from '../Register/Register'
-import { Contact } from '../Contact/Contact'
 import { Login } from '../Login/Login'
 import { Profile } from '../Profile/Profile'
 import { Aquatic_Activities } from '../Aquatic Activity/Aquatic Activity'
