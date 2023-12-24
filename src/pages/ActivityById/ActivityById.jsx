@@ -20,36 +20,36 @@ export const ActivityById = () => {
   const [is_active, setIsActive] = useState(false);
 
   const [activityDetails, setActivityDetails] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(date ? date : "");
-  const [participants, setParticipants] = useState("");
-  const [acceptRequirements, setAcceptRequirements] = useState(false);
-  const [dateError, setDateError] = useState("");
-  const [participantsError, setParticipantsError] = useState("");
+
+  const [dateAppointments, setDateAppointments] = useState({
+    date: (date ? date : ""),
+    participants: "",
+    accept_requirements: true,
+  })
+
+  console.log(dateAppointments, "esre es el date")
+
+  const [dateAppointmentsError, setDateAppointmentsError] = useState({
+    dateError: "",
+    participantsError: "",
+    accept_requirementsError: "",
+  });
 
 
-  const handleDateChange = (e) => {
-    setSelectedDate(e.target.value);
+  const functionHandler = (e) => {
+    setDateAppointments((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleParticipantsChange = (e) => {
-    setParticipants(e.target.value);
-  };
-
-  const handleAcceptRequirementsChange = (e) => {
-    setAcceptRequirements(e.target.checked);
-  };
-
-  const handleBlur = (e) => {
-    switch (e.target.name) {
-      case "date":
-        setDateError(validator(selectedDate));
-        break;
-      case "participants":
-        setParticipantsError(validator(participants));
-        break;
-      default:
-        break;
-    }
+  const errorCheck = (e) => {
+    let error = "";
+    error = validator(e.target.name, e.target.value);
+    setDateAppointmentsError((prevState) => ({
+      ...prevState,
+      [e.target.name + "Error"]: error,
+    }));
   };
 
   useEffect(() => {
@@ -83,33 +83,16 @@ export const ActivityById = () => {
 
   const checkAvailability = async () => {
     try {
-      // Verifica si la fecha está vacía
-      if (!selectedDate) {
-        console.log("Fecha vacía");
-        return;
-      }
-
-      // Verifica si el número de participantes está vacío
-      if (!participants) {
-        console.log("Número de participantes vacío");
-        return;
-      }
-
-      // Verifica si no se aceptan las condiciones
-      if (!acceptRequirements) {
-        console.log("Debe aceptar las condiciones");
-        return;
-      }
-
+ 
       // Formatea la fecha
-      const formatDate = dayjs(selectedDate).toISOString();
+      const formatDate = dayjs(date).toISOString();
 
       // Crea el cuerpo de la solicitud
       const body = {
         activity: activityId,
-        participants: parseInt(participants),
+        participants: dateAppointments.participants,
         date_activity: formatDate,
-        accept_requirements: acceptRequirements,
+        accept_requirements: dateAppointments.accept_requirements,
       };
 
       const token = rdxToken.credentials.token;
@@ -134,10 +117,10 @@ export const ActivityById = () => {
           design={"inputDesign"}
           type={"datetime-local"}
           name={"date"}
-          value={selectedDate}
-          functionProp={handleDateChange}
-          functionBlur={handleBlur}
-          helperText={dateError}
+          value={dateAppointments.date}
+          functionProp={functionHandler}
+          functionBlur={errorCheck}
+          helperText={dateAppointmentsError.dateError}
         />
 
         <CustomInput
@@ -146,12 +129,12 @@ export const ActivityById = () => {
           design={"inputDesign"}
           type={"number"}
           name={"participants"}
-          value={participants}
+          value={""}
           min={1}
           max={12}
-          functionProp={handleParticipantsChange}
-          functionBlur={handleBlur}
-          helperText={participantsError}
+          functionProp={functionHandler}
+          functionBlur={errorCheck}
+          helperText={dateAppointmentsError.participantsError}
         />
       
         <CustomInput
@@ -160,9 +143,10 @@ export const ActivityById = () => {
           design={"inputDesign"}
           type={"checkbox"}
           name={"accept_requirements"}
-          checked={acceptRequirements}
-          functionProp={handleAcceptRequirementsChange}
-          functionBlur={handleBlur}
+          checked={""}
+          functionProp={functionHandler}
+          functionBlur={errorCheck}
+          helperText={dateAppointmentsError.accept_requirementsError}
         />
           <Button
             variant="contained"

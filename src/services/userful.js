@@ -77,7 +77,9 @@ export const validator = (type, value) => {
 
     // Validación de fecha
     case "date":
-    case "date_activity": {
+    case "date_activity":
+
+       {
       const dateBody = dayjs(value, "'{AAAA} MM-DDTHH:mm:ss SSS [Z] A'");
       const dateNow = dayjs();
 
@@ -94,6 +96,7 @@ export const validator = (type, value) => {
 
     // Validación de un boolean
     case "is_active":
+    case "accept_requirements":
       if (value !== true && value !== false) {
         error = "El valor debe ser true o false.";
       }
