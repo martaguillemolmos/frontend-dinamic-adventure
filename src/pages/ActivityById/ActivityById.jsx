@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../userSlice";
 import dayjs from "dayjs";
 import { validator } from "../../services/userful";
+import { jwtDecode } from "jwt-decode";
 
 export const ActivityById = () => {
   const navigate = useNavigate();
@@ -16,13 +17,16 @@ export const ActivityById = () => {
   const { activityId, date } = location.state || {};
 
   const rdxToken = useSelector(userData);
+  const [is_active, setIsActive] = useState(false);
+
   const [activityDetails, setActivityDetails] = useState(null);
   const [selectedDate, setSelectedDate] = useState(date ? date : "");
   const [participants, setParticipants] = useState("");
   const [acceptRequirements, setAcceptRequirements] = useState(false);
   const [dateError, setDateError] = useState("");
   const [participantsError, setParticipantsError] = useState("");
-  
+
+
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
   };
@@ -38,14 +42,11 @@ export const ActivityById = () => {
   const handleBlur = (e) => {
     switch (e.target.name) {
       case "date":
-        // Lógica para validar la fecha y establecer el error correspondiente
         setDateError(validator(selectedDate));
         break;
       case "participants":
-        // Lógica para validar el número de participantes y establecer el error correspondiente
         setParticipantsError(validator(participants));
         break;
-      // Agrega más casos según sea necesario
       default:
         break;
     }
@@ -54,15 +55,6 @@ export const ActivityById = () => {
   useEffect(() => {
     const fetchActivityDetails = async () => {
       try {
-        console.log(activityDetails, "soy activityDetails");
-        if (activityId) {
-          console.log(activityId, "soy activityID");
-        }
-
-        if (date) {
-          console.log(date, "soy date");
-        }
-
         const response = await getActivityById(activityId);
         const data = response.data;
         console.log(response, "soy activityDetails");
@@ -72,13 +64,22 @@ export const ActivityById = () => {
         } else {
           console.error("La respuesta de la API no tiene el formato esperado");
         }
+
+        if (rdxToken.credentials !== "") {
+          const token = rdxToken.credentials?.token;
+          const decoredToken = jwtDecode(token);
+          const activeStatus = decoredToken.is_active;
+          setIsActive(activeStatus);
+        } else {
+          console.log("No se encontró token");
+        }
       } catch (error) {
         console.error("Error al obtener los detalles de la actividad", error);
       }
     };
 
     fetchActivityDetails();
-  }, [activityId]);
+  }, [activityId, rdxToken.credentials]);
 
   const checkAvailability = async () => {
     try {
@@ -127,40 +128,42 @@ export const ActivityById = () => {
     <div className="activityDesign">
       <div className="containActivityDesign">
       {activityDetails ? ( <h1>{activityDetails.data.activity.title}</h1>) : null}
+      { rdxToken.credentials !== "" && is_active ? (
         <div className="detailsAppointmentActivity">
-          <CustomInput
-            design={"inputDesign"}
-            type={"datetime-local"}
-            name={"date"}
-            value={selectedDate}
-            functionProp={handleDateChange}
-            onBlur={handleBlur}
-            helperText={dateError}
-          />
+        <CustomInput
+          design={"inputDesign"}
+          type={"datetime-local"}
+          name={"date"}
+          value={selectedDate}
+          functionProp={handleDateChange}
+          functionBlur={handleBlur}
+          helperText={dateError}
+        />
 
-          <CustomInput
-            required
-            label={"Número de participantes"}
-            design={"inputDesign"}
-            type={"number"}
-            name={"participants"}
-            value={participants}
-            min={1}
-            max={12}
-            functionProp={handleParticipantsChange}
-            onBlur={handleBlur}
-            helperText={participantsError}
-          />
-
-          <CustomInput
-            required
-            label={"Condiciones"}
-            design={"inputDesign"}
-            type={"checkbox"}
-            name={"accept_requirements"}
-            checked={acceptRequirements}
-            functionProp={handleAcceptRequirementsChange}
-          />
+        <CustomInput
+          required
+          label={"Número de participantes"}
+          design={"inputDesign"}
+          type={"number"}
+          name={"participants"}
+          value={participants}
+          min={1}
+          max={12}
+          functionProp={handleParticipantsChange}
+          functionBlur={handleBlur}
+          helperText={participantsError}
+        />
+      
+        <CustomInput
+          required
+          label={"Condiciones"}
+          design={"inputDesign"}
+          type={"checkbox"}
+          name={"accept_requirements"}
+          checked={acceptRequirements}
+          functionProp={handleAcceptRequirementsChange}
+          functionBlur={handleBlur}
+        />
           <Button
             variant="contained"
             className="buttonSend"
@@ -170,6 +173,20 @@ export const ActivityById = () => {
             Comprobar disponibilidad
           </Button>
         </div>
+      ): (
+        <div>
+            <Button
+            variant="contained"
+            className="buttonSend"
+            onClick={() => navigate("/login")}
+            style={{ textTransform: "none", fontFamily: "" }}
+          >
+            Comprobar disponibilidad
+          </Button>
+        </div>
+      )}
+        
+      
         {activityDetails ? (
           <>
           <div className="descriptionActivity">
