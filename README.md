@@ -4,7 +4,7 @@ __<p align="center">Proyecto Final: Frontend - Full Stack Developer Bootcamp en 
 
 <p>
    <div align="center">
-      <img src="./src/img/cabecera.jpg" width="90%">
+      <img src="./src/img/cabecera.jpg" width="60%">
    </div>    
 </p>
 
@@ -12,21 +12,29 @@ __<p align="center">Proyecto Final: Frontend - Full Stack Developer Bootcamp en 
 <br></p>
 
 
-## 📋 Contenido del Readme
+## 📋 Contenidos del Readme
 
-- <a href="#🚀-descripción"><h4>🚀 Descripción</h4></a>
-- <a href="#🎯-objetivo"><h4>🎯 Objetivo</h4></a>
-- <a href="#🛠️-tecnologías-utilizadas"><h4>🛠️ Tecnologías utilizadas</h4></a>
-- <a href="#📉-diagrama-de-la-base-de-datos"><h4>📉 Diagrama de la base de datos</h4></a>
-- <a href="#💡-funcionalidades"><h4>💡 Funcionalidades</h4></a>
-- <a href="#⚙️-instrucciones-de-uso"><h4>⚙️ Instrucciones de uso</h4></a>
-- <a href="#📅-organización"><h4>📅 Organización</h4></a>
-- <a href="#👏-agradecimientos"><h4>👏 Agradecimientos</h4></a>
-- <a href="#🌟-mejoras"><h4>🌟 Mejoras</h4></a>
-- <a href="#📧-contacto"><h4>📧 Contacto</h4></a>
+   <details>
+   <summary>Apartados</summary>
+
+   - <a href="#🚀-descripción"><h4>🚀 Descripción</h4></a>
+   - <a href="#🎯-objetivo"><h4>🎯 Objetivo</h4></a>
+   - <a href="#🛠️-tecnologías-utilizadas"><h4>🛠️ Tecnologías utilizadas</h4></a>
+   - <a href="#📉-diagrama-de-la-base-de-datos"><h4>📉 Diagrama de la base de datos</h4></a>
+   - <a href="#💡-funcionalidades"><h4>💡 Funcionalidades</h4></a>
+   - <a href="#⚙️-instrucciones-de-uso"><h4>⚙️ Instrucciones de uso</h4></a>
+   - <a href="#⚙️-media-query"><h4>📱 Media Query</h4></a>
+   - <a href="#📅-organización"><h4>📅 Organización</h4></a>
+   - <a href="#👏-agradecimientos"><h4>👏 Agradecimientos</h4></a>
+   - <a href="#🌟-mejoras"><h4>🌟 Mejoras</h4></a>
+   - <a href="#📧-contacto"><h4>📧 Contacto</h4></a>
+
+   </details>
+
+
 
 ## 🚀 Descripción 
-¡Bienvenido a Dinamic Adventure! En este repositorio desarrollamos el frontend para una empresa de deportes de aventura, creando una plataforma atractiva e intuitiva para los usuarios. Si quieres saber más a cerca de este proyecto, te recomiendo que sigas en este repositorio.
+¡Bienvenido a Dinamic Adventure! En este repositorio desarrollamos el frontend para una empresa de deportes de aventura, creando una plataforma atractiva e intuitiva para los usuarios. Si quieres saber más a cerca de este proyecto, sigue en este repositorio.
 
 ## 🎯 Objetivo
 
@@ -49,9 +57,11 @@ En este proyecto, nos proponemos hacer que la plataforma sea tan atractiva como 
 
 ## 🛠️ Tecnologias utilizadas:
 Las tecnologías que hemos utilizado para desarrollar el proyecto son las siguientes:
-- Javascript
-- React
-- Mui
+
+[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white&labelColor=101010)]()
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white&labelColor=101010)]()
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white&labelColor=101010)]()
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white&labelColor=101010)]()
 
 ---
 
@@ -69,10 +79,14 @@ Las tecnologías que hemos utilizado para desarrollar el proyecto son las siguie
 >[!IMPORTANT]
 >Si quieres información más detallada, accede al repositorio: https://github.com/martaguillemolmos/backend-dinamic-adventure/
 
+---
+
+
 ## 💡 Funcionalidades
 A continuación desarrollaremos la funcionalidad del fronted.
+
 #### Registro y Autenticación de Usuarios
-Permite a los usuarios registrarse e iniciar sesión de manera segura.
+Permite a los usuarios registrarse e iniciar sesión de manera sencilla.
 
 <p>
    <div align="center">
@@ -93,16 +107,16 @@ Permite a los usuarios registrarse e iniciar sesión de manera segura.
 </p>
 
 #### Perfil de Usuario
-Cada usuario podrá visualizar y editar sus datos personales.
+Cada usuario puede visualizar y editar sus datos personales para una experiencia más personalizada. Incluye una sección de seguridad para cambiar la contraseña y desactivar la cuenta.
 <p>
    <div align="center">
-      <img src="./src/img/perfil-datos.png" style="max-width: 100%">
+      <img src="./src/img/perfil-datos.png" style="max-width: 60%">
    </div>    
    <div align="center">
    <em> Datos generales </em>
     </div>  
      <div align="center">
-      <img src="./src/img/perfil-seguridad.png" style="max-width: 100%">
+      <img src="./src/img/perfil-seguridad.png" style="max-width: 60%">
    </div>    
    <div align="center">
    <em> Seguridad: Cambio de contraseña y desactivar cuenta </em>
@@ -110,7 +124,8 @@ Cada usuario podrá visualizar y editar sus datos personales.
 </p>
 
 #### Historial de Citas
-Los clientes tendrán acceso a una vista que mostrará su historial de citas pasadas y futuras. He implementamos el filtrado para facilitar la exploración del historial, tanto por actividad como por su estado.
+Los clientes tendrán acceso a una vista que mostrará su historial de citas. 
+Implementamos filtrado para facilitar la exploración del historial, permitiendo buscar por actividad o estado de la cita.
 
 <p>
    <div align="center">
@@ -118,8 +133,24 @@ Los clientes tendrán acceso a una vista que mostrará su historial de citas pas
    </div>    
 </p>
 
+#### Filtrado de actividades
+Los usuarios podrán visualizar todas las actividades en la pestaña de reservas o bien, filtrar la búsqueda en actividades acuáticas y terrestres.
+
 #### Agendar Nueva Cita
-Implementaremos una interfaz intuitiva que permitirá a los clientes agendar nuevas citas de manera sencilla y rápida.
+Implementaremos una interfaz intuitiva que permitirá a los clientes agendar nuevas citas de manera sencilla y rápida. 
+Para ello, el usuario podrá contar con dos vistas:
+- **Vista Previa a la Reserva**: Antes de realizar la reserva, los usuarios tienen acceso a una vista previa que les permite filtrar la disponibilidad por fecha. Esto les brinda la oportunidad de explorar las fechas disponibles y seleccionar la que mejor se adapte a sus preferencias.
+
+- **Información Detallada y Reserva**: Accedemos a la información detallada de la actividad y realizamos la reserva de la misma. 
+
+>[!NOTE]
+>Para garantizar una experiencia óptima, hemos establecido algunas pautas importantes:
+> **1. Ratio de Participantes**: *Hemos fijado un límite de 12 participantes por fecha y actividad, asegurando que cada experiencia sea manejable y personalizada.*
+> **2. Grupo Mínimo**: *Para cada actividad y turno, hemos establecido un grupo mínimo de 4 participantes. Esto garantiza que la actividad tenga la participación necesaria para llevarse a cabo.*
+>**3. Flexibilidad en el Grupo Mínimo**: *En el caso de que una actividad alcance el grupo mínimo necesario antes de la fecha programada, no será obligatorio que el grupo sea superior a 4 participantes. Esto permite adaptarse a las dinámicas y demandas de cada actividad en particular.*
+
+#### Modificar una Cita
+El usuario podrá modificar una cita, siempre que esta esté en estado pendiente. En este momento, volverá a realizar las comprobaciones para validar si cuenta con disponibilidad.
 
 #### Panel de administración
 El administrador contará con una vista que proporcionará acceso al perfil del usuario: información y citas agendadas.
@@ -139,15 +170,41 @@ Acceso a todos los usuarios y las citas registradas en la aplicación
 
 ### Implementación de validaciones y manejo de errores.
 
+Estas funcionalidades no solo proporcionan una experiencia fluida para los usuarios, sino que también se ha prestado especial atención a la implementación de validaciones y manejo de errores para garantizar la integridad y seguridad del sistema.
 <p>
    <div align="center">
-      <img src="./src/img/Manejo Errores, Inicio sesión.gif" style="max-width: 100%">
+      <img src="./src/img/manejo-errores.gif" style="max-width: 100%">
    </div>    
    <div align="center">
     <em>Manejo de errores.</em>
     </div>  
 </p>
 
+---
+## ⚙️ Instrucciones de uso
+
+<details>
+<summary> Instrucciones</summary>
+
+1. Clona este repositorio en tu máquina local usando el siguiente comando: `git clone [URL del repositorio]`.
+2. A continuación instala todas las dependencias con el comando ` $ npm install `
+3. Por último, ponemos el marcha el proyecto con ` $ npm run dev `
+
+</details>
+
+---
+
+## 📱 Media Query
+Este proyecto utiliza consultas de medios para garantizar que la página web se vea y funcione correctamente en diferentes tamaños de pantalla.
+Este es el resultado desde un dispositivo móvil.
+
+<p>
+   <div align="center">
+      <img src="./src/img/responsive.png">
+   </div>    
+</p>
+
+---
 
 ## 📅 Organización
 Para llevar a cabo este proyecto he utilizado las siguientes herramientas:
@@ -178,6 +235,7 @@ Este proyecto es el reflejo de todos los conocimientos que hemos adquirido hasta
 
 ## 🌟 Mejoras
 
+Para mejorar la eficiencia y flexibilidad en la gestión de actividades, proponemos la implementación de una tabla que permita al administrador establecer y modificar la disponibilidad. Esta funcionalidad proporcionará un mayor control sobre la programación de actividades y adaptabilidad.
 
 ## 📧 Contacto
 Contacta conmigo por correo electrónico [martaguillem@outlook.es](mailto:martaguillem@outlook.es). Además, puedes seguirme en:
