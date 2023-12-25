@@ -11,6 +11,37 @@ __<p align="center">Proyecto Final: Frontend - Full Stack Developer Bootcamp en 
 <p align="center">Frontend de Dinamic Adventure, por Marta Guillem Olmos.
 <br></p>
 
+## ¿Qué es Dinamic Adventure?
+
+Este proyecto ha sido cuidadosamente desarrollado para satisfacer las necesidades específicas de Dinamic Adventure, la empresa de de turismo activo. Hemos aprovechado esta oportunidad para personalizar el diseño y la funcionalidad del sistema, garantizando una integración perfecta con la identidad visual de la empresa.
+
+<p>
+   <div align="center">
+      <img src="./src/img/dinamic_adventure.gif" width="60%">
+   </div>    
+</p>
+
+<details>
+<summary>Características Destacadas</summary>
+<br>
+
+1. Diseño Personalizado: Cada aspecto del proyecto se ha diseñado para reflejar la esencia vibrante y aventurera de Dinamic Adventure. Desde la paleta de colores hasta la disposición de la interfaz, todo se alinea con la identidad visual de la empresa.
+
+2. Nuevo Logo Corporativo: En el marco de esta puesta a punto, hemos creado un nuevo logo que encapsula la energía y la emoción que define a Dinamic Adventure. Este logo se integra armoniosamente en el proyecto, reforzando la conexión visual con la marca.
+
+<p>
+   <div align="center">
+      <img src="./src/img/nuevo-logo.png" width="40%">
+   </div>    
+</p>
+
+3. Funcionalidades Adaptadas: Cada funcionalidad del sistema ha sido adaptada para satisfacer las necesidades específicas de la empresa. Desde la gestión de reservas hasta la visualización de actividades, todo ha sido diseñado pensando en la experiencia única que Dinamic Adventure ofrece a sus clientes.
+
+</details>
+
+<br>
+¡Listos para la Aventura!
+Con este proyecto, nos esforzamos por proporcionar una plataforma que no solo cumple con los requisitos operativos de Dinamic Adventure, sino que también realza la identidad y la emoción que caracterizan a la empresa. Estamos emocionados de llevar la experiencia de aventura a nuevos horizontes con esta colaboración única. ¡Bienvenidos a la emocionante aventura que es Dinamic Adventure! 🌄🚀
 
 ## 📋 Contenidos del Readme
 
@@ -62,7 +93,7 @@ Las tecnologías que hemos utilizado para desarrollar el proyecto son las siguie
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white&labelColor=101010)]()
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white&labelColor=101010)]()
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white&labelColor=101010)]()
- <img src="./src/img/material-mui.png" style="max-width: 50%">
+ <img src="./src/img/material-mui.png" style="max-width: 8%">
 
 ---
 
@@ -146,8 +177,11 @@ Para ello, el usuario podrá contar con dos vistas:
 
 >[!NOTE]
 >Para garantizar una experiencia óptima, hemos establecido algunas pautas importantes:
+
 > **1. Ratio de Participantes**: *Hemos fijado un límite de 12 participantes por fecha y actividad, asegurando que cada experiencia sea manejable y personalizada.*
+
 > **2. Grupo Mínimo**: *Para cada actividad y turno, hemos establecido un grupo mínimo de 4 participantes. Esto garantiza que la actividad tenga la participación necesaria para llevarse a cabo.*
+
 >**3. Flexibilidad en el Grupo Mínimo**: *En el caso de que una actividad alcance el grupo mínimo necesario antes de la fecha programada, no será obligatorio que el grupo sea superior a 4 participantes. Esto permite adaptarse a las dinámicas y demandas de cada actividad en particular.*
 
 #### Modificar una Cita
