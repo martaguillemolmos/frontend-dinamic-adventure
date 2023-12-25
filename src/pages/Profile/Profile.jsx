@@ -234,7 +234,7 @@ export const Profile = () => {
             
             {rdxToken.credentials.token &&
             ( jwtDecode(rdxToken.credentials.token).role == "super_admin") ? (
-              <div>
+              <div className="panelAdministracion">
               <Button
               variant="contained"
               className="button"
