@@ -42,7 +42,7 @@ const CardAppointments = ({
     });
   };
 
-
+  
   return (
     <div className="cardAppointment" id={`card${getStatusColor()}`} onClick={handleCardClick}>
         <div className="infoValue">{id}</div>
@@ -50,7 +50,6 @@ const CardAppointments = ({
         <div className="infoValue">{date}</div>
         <div className="infoValue">{participants}</div>
         <div className="infoValue">{price}</div>
-        <div className="infoValue">Total : {price}*{participants} €</div>
     </div>
   );
 };

@@ -11,12 +11,13 @@ import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { userData } from "../userSlice";
 import { validator } from "../../services/userful";
+import { CustomAlert } from "../../common/Alert/Alert";
 
 export const Activity = () => {
   const navigate = useNavigate();
   // Instanciamos Redux en lectura
   const rdxToken = useSelector(userData);
-  
+
   const [allActivities, setAllActivities] = useState([]);
 
   //Recuperamos la fecha
@@ -38,7 +39,6 @@ export const Activity = () => {
     }));
   };
 
-
   const functionHandler = (e) => {
     setDate((prevState) => ({
       ...prevState,
@@ -46,9 +46,30 @@ export const Activity = () => {
     }));
   };
 
+  //Alert
+  const [alert, setAlert] = useState({
+    show: false,
+    title: "",
+    message: "",
+  });
+
+  const alertHandler = (e) => {
+    setAlert(e);
+  };
+
+  const handleAlertClose = () => {
+    setAlert({
+      show: false,
+      title: "",
+      message: "",
+    });
+  };
+
+  const alertClasses = alert.show ? "alert show" : "alert";
+
   const checkAvailability = async () => {
     try {
-      console.log(rdxToken)
+      console.log(rdxToken);
       if (rdxToken.credentials == "") {
         navigate("/login");
       }
@@ -57,20 +78,25 @@ export const Activity = () => {
       const decoredToken = jwtDecode(token);
 
       if (!decoredToken.is_active) {
-        console.log("Usuario inactivo, redirigiendo a /login");
         navigate("/login");
       }
 
       if (!date.date) {
-        console.log("Fecha vacía");
+        setTimeout(
+          alertHandler({
+            show: true,
+            title: `error`,
+            message: `Fecha vacía`,
+          }),
+          100
+        ),
+          setTimeout(handleAlertClose, 2000);
         return;
       }
- 
+
       const formatDate = dayjs(date.date).toISOString();
 
       const body = { date: formatDate };
-      console.log(body, "soy el body")
-
       const results = await disponibilityDate(body, token);
       const participants = results.data.data;
 
@@ -85,25 +111,57 @@ export const Activity = () => {
             availability: participantInfo ? participantInfo.allParticipants : 0,
           };
         });
+        setTimeout(
+          alertHandler({
+            show: true,
+            title: `success`,
+            message: `Todas las actividades disponibles.`,
+          },
+        ), 100)      
+        setTimeout(handleAlertClose, 2000);
         setAllActivities(updatedActivities);
       } else {
-        console.log("Toda la disponibilidad");
+        setTimeout(
+          alertHandler({
+            show: true,
+            title: `success`,
+            message: `Todas las actividades disponibles.`,
+          },
+        ), 100)  
+        setTimeout(handleAlertClose, 2000);
       }
     } catch (error) {
-      console.error("Error al comprobar la disponibilidad", error);
+      setTimeout(
+        alertHandler({
+          show: true,
+          title: `error`,
+          message: `Error al consultar la disponibilidad.`,
+        },
+      ), 100),       
+      setTimeout(handleAlertClose, 2000);
     }
   };
 
   const handleReserve = (activityId) => {
     try {
-      console.log(activityId, "soy el activityId")
-      if(activityId !== isNaN){
-        navigate(`/infor_actividad`, { state: { activityId, date: date.date }});
-
-      } 
-  
+      console.log(activityId, "soy el activityId");
+      if (activityId !== isNaN) {
+        navigate(`/infor_actividad`, {
+          state: { activityId, date: date.date },
+        });
+      }
     } catch (error) {
-      console.error("Aquí quiero recuperar el error de la base de datos.", error);
+      if (error.response.status !== 200) {
+        setTimeout(
+          alertHandler({
+            show: true,
+            title: `error`,
+            message: `Error al procesar la solicitud.`,
+          }),
+          100
+        ),
+          setTimeout(handleAlertClose, 2000);
+      }
     }
   };
 
@@ -111,7 +169,6 @@ export const Activity = () => {
     if (allActivities.length === 0) {
       getAllActivities()
         .then((results) => {
-          console.log(results, "soy results");
           if (Array.isArray(results.data.data)) {
             const parseImage = results.data.data.map((activity) => {
               return {
@@ -119,10 +176,17 @@ export const Activity = () => {
                 ...activity,
               };
             });
+            setTimeout(
+              alertHandler({
+                show: true,
+                title: `sucess`,
+                message: `${results.data.message}`,
+              },
+            ), 100),       
+            setTimeout(handleAlertClose, 2000);
             setAllActivities(parseImage);
           } else {
-            console.error(
-            );
+            console.error();
           }
         })
         .catch((error) => console.log(error));
@@ -135,25 +199,31 @@ export const Activity = () => {
 
   return (
     <div className="activityDesign">
-      <div className="selectDay">
-      <CustomInput
-        design={"inputDesign"}
-        type={"datetime-local"}
-        name={"date"}
-        placeholder={""}
-        value={date.date}
-        functionProp={functionHandler}
-        functionBlur={errorCheck}
-        helperText={dateError.dateError}
+      <CustomAlert
+        className={alertClasses}
+        type={alert.title}
+        content={alert.message}
+        showAlert={alert.show}
       />
-      <Button
-        variant="contained"
-        className="buttonSend"
-        onClick={checkAvailability}
-        style={{ textTransform: "none", fontFamily: "" }}
-      >
-        Comprobar disponibilidad
-      </Button>
+      <div className="selectDay">
+        <CustomInput
+          design={"inputDesign"}
+          type={"datetime-local"}
+          name={"date"}
+          placeholder={""}
+          value={date.date}
+          functionProp={functionHandler}
+          functionBlur={errorCheck}
+          helperText={dateError.dateError}
+        />
+        <Button
+          variant="contained"
+          className="buttonSend"
+          onClick={checkAvailability}
+          style={{ textTransform: "none", fontFamily: "" }}
+        >
+          Comprobar disponibilidad
+        </Button>
       </div>
       {allActivities.length > 0 ? (
         <div className="activityCard">
