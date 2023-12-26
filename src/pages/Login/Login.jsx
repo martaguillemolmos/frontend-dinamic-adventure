@@ -93,7 +93,6 @@ export const Login = () => {
         })
         .catch((error) => {
           if (error.response.status !== 200) {
-            console.log(error, "este es el error");
             setTimeout(
               alertHandler({
                 show: true,

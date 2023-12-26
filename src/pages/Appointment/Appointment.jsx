@@ -14,6 +14,7 @@ import CardAppointments from "../../common/CardAppointments/CardAppointments";
 import Modal from "../../common/Modal/Modal";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { CustomAlert } from "../../common/Alert/Alert";
 
 export const Appointment = () => {
   const navigate = useNavigate();
@@ -59,6 +60,28 @@ export const Appointment = () => {
     setSelectedAppointment(null);
     setIsModalOpen(false);
   };
+
+  //Alert
+  const [alert, setAlert] = useState({
+    show: false,
+    title: "",
+    message: "",
+  });
+
+  const alertHandler = (e) => {
+    setAlert(e);
+  };
+
+  const handleAlertClose = () => {
+    setAlert({
+      show: false,
+      title: "",
+      message: "",
+    });
+  };
+
+  const alertClasses = alert.show ? "alert show" : "alert";
+
 
   const customTabs1 = [
     { label: "Todos", value: "null" },
@@ -175,7 +198,12 @@ export const Appointment = () => {
         }
       } catch (error) {
         if (error.response && error.response.data) {
-          console.log(error.response.data);
+          alertHandler({
+            show: true,
+            title: "error",
+            message: error.response.data,
+          });
+          setTimeout(handleAlertClose, 3000);
         } else {
           console.log("Hubo un error al cargar las citas.", error);
         }
@@ -189,6 +217,12 @@ export const Appointment = () => {
 
   return (
     <div className="AppointmentDesign">
+      <CustomAlert
+        className={alertClasses}
+        type={alert.title}
+        content={alert.message}
+        showAlert={alert.show}
+      />
       <div className="containerAppointment">
         <div className="newAppointmentButton">
           {rdxToken.credentials.token &&

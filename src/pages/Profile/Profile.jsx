@@ -19,6 +19,7 @@ import { TabBar } from "../../common/CustomTabs/CustomTabs";
 import LetterAvatars from "../../common/Avatar/LetterAvatars";
 import { dateFormat } from "../../common/functions";
 import { validator } from "../../services/userful";
+import { CustomAlert } from "../../common/Alert/Alert";
 
 export const Profile = () => {
   //Declaramos esta constante para que nos permita dirigirnos desde esta vista a otras.
@@ -72,6 +73,28 @@ export const Profile = () => {
       [e.target.name + "Error"]: error,
     }));
   };
+
+  //Alert
+  const [alert, setAlert] = useState({
+    show: false,
+    title: "",
+    message: "",
+  });
+
+  const alertHandler = (e) => {
+    setAlert(e);
+  };
+
+  const handleAlertClose = () => {
+    setAlert({
+      show: false,
+      title: "",
+      message: "",
+    });
+  };
+
+  const alertClasses = alert.show ? "alert show" : "alert";
+
   const [isEnabled, setIsEnabled] = useState(true);
 
   const [originalProfile, setOriginalProfile] = useState(false);
@@ -106,12 +129,12 @@ export const Profile = () => {
         })
         .catch((error) => {
           if (error.response.status !== 200) {
-            console.log(error.response);
-            return json({
+            alertHandler({
               show: true,
-              title: `Error ${error.response.status}`,
-              message: `${error.response.data}`,
+              title: "error",
+              message: `Usuario no actualizado.`,
             });
+            setTimeout(handleAlertClose, 3000);
           }
         });
     }
@@ -218,6 +241,12 @@ export const Profile = () => {
   };
   return (
     <div className="profileDesign">
+         <CustomAlert
+        className={alertClasses}
+        type={alert.title}
+        content={alert.message}
+        showAlert={alert.show}
+      />
       <div className="contentProfile">
         <div className="summaryProfile">
           <div className="infoCabecera">

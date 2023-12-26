@@ -58,17 +58,16 @@ export const Register = () => {
 
   useEffect(() => {
     if (rdxCredentials?.credentials.token) {
-      console.log("Token:", rdxCredentials.credentials.token);
-      navigate("/perfil");
+      navigate("/reservas");
     }
   }, [rdxCredentials?.credentials.token]);
 
   useEffect(() => {
     updateErrorState();
-  }, [registerData, registerDataError])
+  }, [registerData, registerDataError]);
 
-   //Alert
-   const [alert, setAlert] = useState({
+  //Alert
+  const [alert, setAlert] = useState({
     show: false,
     title: "",
     message: "",
@@ -108,9 +107,14 @@ export const Register = () => {
 
     createUser(data)
       .then((resultado) => {
-        dispatch(login({ credentials: resultado.data }));
+        alertHandler({
+          show: true,
+          title: `success`,
+          message: `${resultado.data.message}`,
+        });
         setTimeout(() => {
-          navigate("/perfil");
+          dispatch(login({ credentials: resultado.data }));
+          navigate("/reservas");
         }, 2000);
       })
       .catch((error) => {
@@ -216,7 +220,8 @@ export const Register = () => {
             variant="contained"
             className="buttonSend"
             onClick={registerUser}
-            style={{ textTransform: "none", fontFamily: "" }}>
+            style={{ textTransform: "none", fontFamily: "" }}
+          >
             Registarme
           </Button>
         </div>
