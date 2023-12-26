@@ -168,7 +168,7 @@ export const ActivityById = () => {
               functionBlur={errorCheck}
               helperText={dateAppointmentsError.participantsError}
             />
-            ** Al realizar la reserva, aceptas los términos y condiciones.
+            <div className="conditionsAppointment">
             <Button
               variant="contained"
               className="buttonSend"
@@ -177,6 +177,8 @@ export const ActivityById = () => {
             >
               Reservar
             </Button>
+            ** Al realizar la reserva, aceptas los términos y condiciones.
+            </div>
           </div>
         ) : (
           <div>
