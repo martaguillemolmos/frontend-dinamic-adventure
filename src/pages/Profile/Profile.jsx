@@ -1,8 +1,8 @@
 import "./Profile.css";
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, userData } from "../userSlice";
@@ -26,9 +26,8 @@ export const Profile = () => {
   const navigate = useNavigate();
   // Instanciamos Redux en lectura
   const rdxToken = useSelector(userData);
-  console.log(rdxToken, "dime que tienes tokennn");
   const dispatch = useDispatch();
-  
+
   // Creamos un Hook con las propiedades que queremos mostrar en pantalla del perfil
   const [profile, setProfile] = useState({
     name: "",
@@ -74,6 +73,10 @@ export const Profile = () => {
     }));
   };
 
+  const validateError = () => {
+    return Object.values(profileError).some((value) => value !== "");
+  }
+
   //Alert
   const [alert, setAlert] = useState({
     show: false,
@@ -115,17 +118,22 @@ export const Profile = () => {
 
   const Update = () => {
     if (
-      newPassword.password !== "" &&
-      newPassword.passwordOld !== "" &&
-      newPassword.password !== newPassword.passwordOld
+      newPassword.password.trim() !== "" &&
+      newPassword.passwordOld.trim() !== "" &&
+      newPassword.password.trim() !== newPassword.passwordOld.trim()
     ) {
       const token = rdxToken.credentials.token;
-      console.log(token, "soy el token");
       updatePassword(token, newPassword)
-        .then(() => {
-          //Añadir control Snackbar
-          dispatch(logout({ credentials: "" }));
-          navigate("/");
+        .then((resultado) => {
+          alertHandler({
+            show: true,
+            title: `success`,
+            message: `${resultado.data.message}`,
+          });
+          setTimeout(() => {
+            dispatch(logout({ credentials: "" }));
+            navigate("/");
+          }, 2000);
         })
         .catch((error) => {
           if (error.response.status !== 200) {
@@ -137,9 +145,15 @@ export const Profile = () => {
             setTimeout(handleAlertClose, 3000);
           }
         });
+    } else {
+      alertHandler({
+        show: true,
+        title: "warning",
+        message: "Contraseña no modificada.",
+      });
+      setTimeout(handleAlertClose, 2000);
     }
   };
-  console.log(newPassword);
 
   const profileChange = () => {
     return (
@@ -153,8 +167,8 @@ export const Profile = () => {
   const [tabValue, setTabValue] = useState("null");
 
   const customTabs = [
-    { icon: <AccountCircleIcon /> , label: "Perfil", value: "null"},    
-    { icon: < VpnKeyIcon/>, label: "Seguridad", value: "cuenta" },
+    { icon: <AccountCircleIcon />, label: "Perfil", value: "null" },
+    { icon: <VpnKeyIcon />, label: "Seguridad", value: "cuenta" },
   ];
 
   const handlerTab = (event, newValue) => {
@@ -171,19 +185,27 @@ export const Profile = () => {
 
   useEffect(() => {
     if (rdxToken.credentials !== "") {
-      console.log("estas son las credentials")
       const token = rdxToken.credentials.token;
       const decoredToken = jwtDecode(token);
-      console.log(decoredToken, "soy el token descr")
       profileUser(token)
         .then((results) => {
-          console.log("aquí results", results);
-          results.data.data.created_at = dateFormat(results.data.data.created_at);
+          results.data.data.created_at = dateFormat(
+            results.data.data.created_at
+          );
           setProfile(results.data.data);
           setOriginalProfile(results.data.data);
         })
         .catch((error) => {
-          console.error(error);
+          if (error.response.status !== 200) {
+            setTimeout(
+              alertHandler({
+                show: true,
+                title: `error`,
+                message: `${error.response.data.message}`,
+              },
+            ), 100),       
+            setTimeout(handleAlertClose, 2000);
+          }
         });
       if (decoredToken.is_active !== true) {
         navigate("/");
@@ -195,26 +217,43 @@ export const Profile = () => {
   }, [rdxToken]);
 
   const sendData = async () => {
-    if (profileChange()) {
+    const err = validateError()
+    if (profileChange() && !err) {
       await updateUser(rdxToken.credentials.token, profile)
         .then(() => {
-          return json(
-            `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`
-          );
-        })
+          setOriginalProfile(profile);
+          alertHandler({
+            show: true,
+            title: `success`,
+            message: `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`,
+          },
+        )
+    })
         .catch((error) => {
-          console.log(
-            "Aquí quiero recuperar el error de la base de datos.",
-            error
-          );
+          if (error.response.status !== 200) {
+            setTimeout(
+              alertHandler({
+                show: true,
+                title: `error`,
+                message: `${error.response.data.message}`,
+              },
+            ), 100),       
+            setTimeout(handleAlertClose, 2000);
+          }
         });
       setTimeout(() => {
         setIsEnabled(true);
       }, 1000);
     } else {
-      console.log(
-        `${profile.name}, no se han actualizado los campos porque no se ha modificado ningún campo.`
-      );
+        setTimeout(
+          alertHandler({
+            show: true,
+            title: `error`,
+            message: `${profile.name}, no se han actualizado los campos.`,
+          },
+        ), 100),       
+        setTimeout(handleAlertClose, 2000);
+        setProfile(originalProfile);
       profileChange(false);
     }
     setIsEnabled(true);
@@ -226,22 +265,35 @@ export const Profile = () => {
         await deactivateAccount(rdxToken.credentials.token, {
           is_active: "false",
         });
+          
+           alertHandler({
+            show: true,
+            title: `success`,
+            message: `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`,
+          },
+        )
+      setTimeout(() => {
         dispatch(logout({ credentials: "" }));
         navigate("/");
-        console.log(
-          `Enhorabuena, ${profile.name}, los cambios se han realizado con éxito.`
-        );
+      }, 2000);
       } catch (error) {
-        console.log(
-          "Aquí quiero recuperar el error de la base de datos.",
-          error
-        );
-      }
+          if (error.response.status !== 200) {
+            setTimeout(
+              alertHandler({
+                show: true,
+                title: `error`,
+                message: `${error.response.data.message}`,
+              },
+            ), 100),       
+            setTimeout(handleAlertClose, 2000);
+          }
+        }
     }
   };
+
   return (
     <div className="profileDesign">
-         <CustomAlert
+      <CustomAlert
         className={alertClasses}
         type={alert.title}
         content={alert.message}
@@ -252,29 +304,37 @@ export const Profile = () => {
           <div className="infoCabecera">
             <div className="nameUser">
               <p className="nameProfile">
-              <strong>{profile.name} {profile.surname}</strong></p>
+                <strong>
+                  {profile.name} {profile.surname}
+                </strong>
+              </p>
             </div>
             <div className="roleUser">
               <strong>{profile.role}</strong>: {profile.email}
             </div>
             <div className="avatarUser">
-            <LetterAvatars className="letterInProfile" initial={profile.name.charAt(0)} />
+              <LetterAvatars
+                className="letterInProfile"
+                initial={profile.name.charAt(0)}
+              />
             </div>
-            
+
             {rdxToken.credentials.token &&
-            ( jwtDecode(rdxToken.credentials.token).role == "super_admin") ? (
+            jwtDecode(rdxToken.credentials.token).role == "super_admin" ? (
               <div className="panelAdministracion">
-              <Button
-              variant="contained"
-              className="button"
-              onClick={() => navigate ("/usuarios")}
-              style={{ textTransform: "none", fontFamily: "" }}
-            >
-              Panel de administración
-            </Button>
+                <Button
+                  variant="contained"
+                  className="button"
+                  onClick={() => navigate("/usuarios")}
+                  style={{ textTransform: "none", fontFamily: "" }}
+                >
+                  Panel de administración
+                </Button>
               </div>
-            ) : null }
-            <div className="userSince">Miembro desde: <strong>{profile.created_at}</strong></div>
+            ) : null}
+            <div className="userSince">
+              Miembro desde: <strong>{profile.created_at}</strong>
+            </div>
           </div>
         </div>
 
@@ -366,31 +426,31 @@ export const Profile = () => {
             <div className="inforUser">
               <div className="titleProfile">Modificar contraseña</div>
               <div className="passwordContent">
-              <CustomInput
-                label={"Contraseña actual"}
-                design={"inputDesign"}
-                type={"password"}
-                name={"passwordOld"}
-                placeholder={""}
-                value={""}
-                maxLength={"12"}
-                functionProp={functionHandlerPassword}
-                functionBlur={errorPassword}
-                helperText={newPasswordError.passwordOldError}
-              />
-              <CustomInput
-                label={"Nueva contraseña"}
-                design={"inputDesign"}
-                type={"password"}
-                name={"password"}
-                pattern={passwordPattern}
-                placeholder={""}
-                value={""}
-                maxLength={"12"}
-                functionProp={functionHandlerPassword}
-                functionBlur={errorPassword}
-                helperText={newPasswordError.passwordError}
-              />
+                <CustomInput
+                  label={"Contraseña actual"}
+                  design={"inputDesign"}
+                  type={"password"}
+                  name={"passwordOld"}
+                  placeholder={""}
+                  value={""}
+                  maxLength={"12"}
+                  functionProp={functionHandlerPassword}
+                  functionBlur={errorPassword}
+                  helperText={newPasswordError.passwordOldError}
+                />
+                <CustomInput
+                  label={"Nueva contraseña"}
+                  design={"inputDesign"}
+                  type={"password"}
+                  name={"password"}
+                  pattern={passwordPattern}
+                  placeholder={""}
+                  value={""}
+                  maxLength={"12"}
+                  functionProp={functionHandlerPassword}
+                  functionBlur={errorPassword}
+                  helperText={newPasswordError.passwordError}
+                />
               </div>
               <Button
                 variant="contained"
